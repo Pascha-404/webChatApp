@@ -8,6 +8,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Grid } from '@mui/material';
 
 import useInputState from '../../../hooks/useInputState';
 
@@ -18,7 +19,6 @@ function Navbar() {
 
 	const styles = {
 		height: '100%',
-		width: '10%',
 		backgroundColor: '#181C2F',
 		display: 'flex',
 		flexDirection: 'column',
@@ -27,28 +27,30 @@ function Navbar() {
 	};
 
 	return (
-		<nav style={styles}>
-			<UserAvatar />
-			<Tabs
-				indicatorColor='secondary'
-				textColor='secondary'
-				orientation='vertical'
-				value={state}
-				onChange={handleExplChange}
-				aria-label='Navbar options'>
-				<Tab icon={<HomeIcon />} aria-label='Home' value={'home'} />
-				<Tab icon={<SendIcon />} aria-label='Send' value={'send'} />
-				<Tab icon={<InboxIcon />} aria-label='Inbox' value={'inbox'} />
-				<Tab icon={<GroupIcon />} aria-label='Users' value={'users'} />
-				<Tab
-					icon={<NotificationsIcon />}
-					aria-label='Notifications'
-					value={'notifications'}
-				/>
-				<Tab icon={<MoreHorizIcon />} aria-label='Options' value={'options'} />
-				<Tab icon={<SettingsIcon />} aria-label='Settings' value={'settings'} />
-			</Tabs>
-		</nav>
+		<Grid item sm={2} md={1} lg={1}>
+			<nav style={styles}>
+				<UserAvatar />
+				<Tabs
+					indicatorColor='secondary'
+					textColor='secondary'
+					orientation='vertical'
+					value={state}
+					onChange={handleExplChange}
+					aria-label='Navbar options'>
+					<Tab icon={<HomeIcon />} aria-label='Home' value={'home'} />
+					<Tab icon={<SendIcon />} aria-label='Send' value={'send'} />
+					<Tab icon={<InboxIcon />} aria-label='Inbox' value={'inbox'} />
+					<Tab icon={<GroupIcon />} aria-label='Users' value={'users'} />
+					<Tab
+						icon={<NotificationsIcon />}
+						aria-label='Notifications'
+						value={'notifications'}
+					/>
+					<Tab icon={<MoreHorizIcon />} aria-label='Options' value={'options'} />
+					<Tab icon={<SettingsIcon />} aria-label='Settings' value={'settings'} />
+				</Tabs>
+			</nav>
+		</Grid>
 	);
 }
 
