@@ -1,11 +1,12 @@
 import React from 'react'
-import Navbar from '../../layout/Navbar'
+import Navbar from '../layout/Navbar'
+import PageContent from '../layout/PageContent'
 
 function WebChatApp() {
     return (
-        <div>
+        <PageContent>
             <Navbar />
-        </div>
+        </PageContent>
     )
 }
 
