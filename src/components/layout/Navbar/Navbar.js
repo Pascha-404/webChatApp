@@ -9,10 +9,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
 
+import useInputState from '../../../hooks/useInputState';
+
 import UserAvatar from '../../UserAvatar';
 
 function Navbar() {
-	const [value, setValue] = React.useState("home");
+	const { state, handleExplChange } = useInputState('home');
 
 	const styles = {
 		height: '100%',
@@ -23,9 +25,7 @@ function Navbar() {
 		alignItems: 'center',
 		justifyContent: 'space-around',
 	};
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
+
 	return (
 		<nav style={styles}>
 			<UserAvatar />
@@ -33,15 +33,20 @@ function Navbar() {
 				indicatorColor='secondary'
 				textColor='secondary'
 				orientation='vertical'
-				value={value}
-				onChange={handleChange}
-				aria-label='icon tabs example'>
+				value={state}
+				onChange={handleExplChange}
+				aria-label='Navbar options'>
 				<Tab icon={<HomeIcon />} aria-label='Home' value={'home'} />
 				<Tab icon={<SendIcon />} aria-label='Send' value={'send'} />
 				<Tab icon={<InboxIcon />} aria-label='Inbox' value={'inbox'} />
 				<Tab icon={<GroupIcon />} aria-label='Users' value={'users'} />
-				<Tab icon={<NotificationsIcon />} aria-label='Notifications' value={'notifications'} />
-				<Tab icon={<MoreHorizIcon />} aria-label='Options' value={'options'} /><Tab icon={<SettingsIcon />} aria-label='Settings' value={'settings'} />
+				<Tab
+					icon={<NotificationsIcon />}
+					aria-label='Notifications'
+					value={'notifications'}
+				/>
+				<Tab icon={<MoreHorizIcon />} aria-label='Options' value={'options'} />
+				<Tab icon={<SettingsIcon />} aria-label='Settings' value={'settings'} />
 			</Tabs>
 		</nav>
 	);
