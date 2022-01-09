@@ -14,25 +14,18 @@ import useInputState from '../../../hooks/useInputState';
 
 import UserAvatar from '../../UserAvatar';
 
+import useStyles from './Navbar.style';
+
 function Navbar() {
 	const { state, handleExplChange } = useInputState('home');
 
-	const styles = {
-		height: '100%',
-		backgroundColor: '#181C2F',
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		justifyContent: 'space-around',
-	};
+	const classes = useStyles();
 
 	return (
 		<Grid item sm={2} md={1} lg={1}>
-			<nav style={styles}>
+			<nav className={classes.navbar}>
 				<UserAvatar />
-				<Tabs
-					indicatorColor='secondary'
-					textColor='secondary'
+				<Tabs className={classes.menuIcons}
 					orientation='vertical'
 					value={state}
 					onChange={handleExplChange}
