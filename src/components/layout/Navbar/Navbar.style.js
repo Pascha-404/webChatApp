@@ -10,12 +10,14 @@ const useStyles = createUseStyles({
 		justifyContent: 'space-around',
 	},
 	menuIcons: {
+		width: '100%',
 		'& .MuiTab-root': {
 			color: '#fff',
             opacity: '0.3',
 			'&:last-of-type': {
 				marginTop: '4rem',
 			},
+			"& .MuiSvgIcon-root": { fontSize: "30px"},
 		},
 		'& .Mui-selected': { opacity: '1' },
 		'& .MuiTabs-indicator': {
