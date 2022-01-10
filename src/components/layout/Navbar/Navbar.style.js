@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
 			right: null,
 			left: 0,
 			width: '26px',
-			background: 'rgb(255,0,0)',
+			
 			background: 'linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(41,47,76,0.1) 100%)',
 		},
     },

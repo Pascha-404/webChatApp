@@ -22,7 +22,7 @@ function Inbox() {
 			let randNmbr = Math.floor(Math.random() * array.length);
 			createdMessages.push(
 				<MessageCard
-					key={array[randNmbr].userId}
+					key={array[randNmbr].userId + Math.random()}
 					userId={array[randNmbr].userId}
 					msg={array[randNmbr].chatMessages[0].msg}
 					time={array[randNmbr].chatMessages[0].time}
