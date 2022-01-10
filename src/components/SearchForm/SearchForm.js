@@ -3,20 +3,19 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-
+import useStyles from './SearchForm.style';
 
 function SearchForm() {
+	const classes = useStyles();
 	return (
-		<>
+		<div className={classes.searchForm}>
+			<SearchIcon className={classes.searchIcon}/>
 			<InputBase
-				sx={{ ml: 1, flex: 1 }}
-				placeholder='Search...'
+				className={classes.searchInput}
+				placeholder={'Enter for Search...'}
 				inputProps={{ 'aria-label': 'Search' }}
 			/>
-			<IconButton type='submit' sx={{ p: '10px' }} aria-label='search'>
-				<SearchIcon />
-			</IconButton>
-		</>
+		</div>
 	);
 }
 
