@@ -18,7 +18,8 @@ const useStyles = createUseStyles({
 		},
 	},
 	sortLabel: {
-		display: 'none',
+		'&.MuiInputLabel-root': {display: 'none',}
+		
 	},
 });
 

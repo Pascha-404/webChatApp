@@ -9,16 +9,16 @@ function SortForm() {
 		<div className={classes.sortForm}>
 			<Typography paragraph={true}>Sort By:</Typography>
 			<FormControl>
-				<InputLabel id='demo-simple-select-label' className={classes.sortLabel}>Sort</InputLabel>
+				<InputLabel id='sort-label' className={classes.sortLabel}>Sort</InputLabel>
 				<Select
 					variant='standard'
-					labelId='demo-simple-select-label'
-					id='demo-simple-select'
-					value={10}
-					label='Age'>
-					<MenuItem value={10}>Latest First</MenuItem>
-					<MenuItem value={20}>Name</MenuItem>
-					<MenuItem value={30}>Oldest first</MenuItem>
+					labelId='sort-label'
+					id='sort-select'
+					value={"latest"}
+					label='Sort'>
+					<MenuItem value={"latest"}>Latest First</MenuItem>
+					<MenuItem value={"name"}>Name</MenuItem>
+					<MenuItem value={"oldest"}>Oldest first</MenuItem>
 				</Select>
 			</FormControl>
 		</div>
