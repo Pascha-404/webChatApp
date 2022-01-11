@@ -1,11 +1,18 @@
-import React from 'react'
+import React from 'react';
+import useStyles from './ChatBubble.style';
 
-function ChatBubble() {
-    return (
-        <div>
-            
-        </div>
-    )
+function ChatBubble(props) {
+    const classes = useStyles(props);
+    const { msg, time } = props;
+	return (
+		<React.Fragment>
+            <div className={classes.chatBubble}>
+                <p>{msg}</p>
+                <p>{time}</p>
+                    </div>
+            <div className={classes.clear}/>
+        </React.Fragment>
+	);
 }
 
-export default ChatBubble
+export default ChatBubble;
