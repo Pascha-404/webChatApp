@@ -2,16 +2,12 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
 
+import useStyles from './PageContent.style';
+
 function PageContent({ children }) {
-	const styles = {
-		height: '100vh',
-		width: '100vw',
-		backgroundColor: '#979797',
-		display: 'flex',
-		flexGrow: 1,
-	};
+	const classes = useStyles();
 	return (
-		<Box sx={styles}>
+		<Box className={classes.pageContent}>
 			<Grid container spacing={2}>
 				{children}
 			</Grid>
