@@ -9,10 +9,16 @@ const useStyles = createUseStyles({
 		backgroundColor: '#EFECE8',
 	},
 	msgWrapper: {
+		display: 'inline flex',
+		flexDirection: 'column',
 		width: '93%',
 		height: '80%',
 		padding: '0 1rem',
 		overflow: 'scroll',
+		'& #scrollTargetChatBox': {
+			clear: 'both',
+			float: 'left',
+		},
 		'&::-webkit-scrollbar': {
 			width: 0,
 			height: 0,
