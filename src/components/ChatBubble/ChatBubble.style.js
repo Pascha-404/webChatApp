@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
 	chatBubble: {
 		position: 'relative',
-		marginBottom: '1.2rem',
+		marginBottom: '2rem',
 		padding: '10px 20px',
 		color: props => (props.isMe ? 'white' : 'black'),
 		background: props => (props.isMe ? '#F44A4A' : '#FFFF'),
@@ -40,6 +40,16 @@ const useStyles = createUseStyles({
 	},
 	clear: {
 		clear: 'both',
+	},
+	timeSend: {
+		color: '#1A2028',
+		opacity: '0.3',
+		position: 'absolute',
+		fontSize: '12px',
+		right: props => props.isMe && '1.1rem',
+		left: props => !props.isMe && '1.1rem',
+		bottom: '-1.8rem',
+		lineHeight: '12px',
 	},
 });
 

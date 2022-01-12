@@ -9,7 +9,7 @@ function ChatBubble(props) {
 		<React.Fragment>
 			<div className={classes.chatBubble}>
 				<p>{msg}</p>
-				<p>{time}</p>
+				<p className={classes.timeSend}>{time}</p>
 			</div>
 			<div className={classes.clear} />
 		</React.Fragment>
