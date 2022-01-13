@@ -9,11 +9,10 @@ const useStyles = createUseStyles({
 		backgroundColor: '#EFECE8',
 	},
 	msgWrapper: {
-		display: 'inline flex',
 		flexDirection: 'column',
-		width: '93%',
-		height: '74%',
-		padding: '0 1rem',
+		height: '72%',
+		padding: '1rem 1rem 0',
+		marginRight: '0',
 		overflow: 'scroll',
 		'& #scrollTargetChatBox': {
 			clear: 'both',

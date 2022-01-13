@@ -30,7 +30,7 @@ const useStyles = createUseStyles({
 		},
 	},
 	textInput: {
-		width: '60%',
+		width: '65%',
 		height: '100%',
 		backgroundColor: '#F1EDED',
 		paddingLeft: '1rem',
@@ -40,7 +40,7 @@ const useStyles = createUseStyles({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		height: '100%',
-		width: '20%',
+		width: '6rem',
 		backgroundColor: '#F1EDED',
 		borderRadius: '0 24px 24px 0',
 	},

@@ -5,6 +5,7 @@ const useStyles = createUseStyles({
 		position: 'relative',
 		marginBottom: '2rem',
 		padding: '10px 20px',
+		textAlign: props => (props.isMe ? 'right' : 'left'),
 		color: props => (props.isMe ? 'white' : 'black'),
 		background: props => (props.isMe ? '#F44A4A' : '#FFFF'),
 		borderRadius: '25px',
