@@ -12,7 +12,7 @@ const useStyles = createUseStyles({
 		display: 'inline flex',
 		flexDirection: 'column',
 		width: '93%',
-		height: '80%',
+		height: '74%',
 		padding: '0 1rem',
 		overflow: 'scroll',
 		'& #scrollTargetChatBox': {
