@@ -1,5 +1,6 @@
 import React from 'react';
-import {CardContent,Card, Typography } from '@mui/material';
+import { CardContent, Card, Typography, CardHeader, IconButton } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import UserAvatar from '../UserAvatar';
 import useStyles from './MessageCard.style';
 
@@ -8,25 +9,23 @@ import useStyles from './MessageCard.style';
 function MessageCard({ userId, date, time, msg }) {
 	const classes = useStyles();
 	return (
-		<Card>
-			<CardContent className={classes.messageCard}>
-				<div className={classes.dataBlock}>
-					<UserAvatar />
-					<div>
-						<Typography sx={{ fontSize: 18 }} color='text.secondary' gutterBottom>
-							{userId}
-						</Typography>
-						<Typography sx={{ fontSize: 14 }} color='text.secondary'>
-							Online Status
-						</Typography>
-					</div>
-					<Typography variant='body2'>{time}</Typography>
-				</div>
+		<Card className={classes.messageCard}>
+			<CardHeader
+				avatar={<UserAvatar />}
+				title={'Bjoern Bjoernsen'}
+				subheader={msg}
+				action={
+					<IconButton>
+						<ExpandMoreIcon />
+					</IconButton>
+				}
+			/>
+			{/* <CardContent>
 				<div className={classes.dataBlock}>
 					<Typography variant='body2'>{msg}</Typography>
 					<Typography variant='body2'>5</Typography>
 				</div>
-			</CardContent>
+			</CardContent> */}
 		</Card>
 	);
 }
