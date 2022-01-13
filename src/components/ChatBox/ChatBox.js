@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Grid } from '@mui/material';
 import ChatBoxInput from '../ChatBoxInput';
+import ChatBoxHeader from '../ChatBoxHeader/ChatBoxHeader';
 import ChatBubble from '../ChatBubble/ChatBubble';
 
 import { MessagesContext } from '../../contexts/messages.context';
@@ -14,7 +15,8 @@ function ChatBox() {
 	const messages = allMessages[0].chatMessages;
 	const [scrollTargetRef] = useScrollIntoView('instant');
 	return (
-		<Grid item sm={5} className={classes.chatBox}>
+		<Grid item xs={5.7} sm={6.5} md={7} className={classes.chatBox}>
+			<ChatBoxHeader />
 			<section className={classes.msgWrapper}>
 				{messages.map(msg => {
 					return (

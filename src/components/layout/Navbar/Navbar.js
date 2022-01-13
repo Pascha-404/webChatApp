@@ -22,10 +22,11 @@ function Navbar() {
 	const classes = useStyles();
 
 	return (
-		<Grid item sm={2} md={1} lg={1}>
+		<Grid item xs={2} sm={1.5} md={1} lg={1}>
 			<nav className={classes.navbar}>
 				<UserAvatar />
-				<Tabs className={classes.menuIcons}
+				<Tabs
+					className={classes.menuIcons}
 					orientation='vertical'
 					value={state}
 					onChange={handleExplChange}

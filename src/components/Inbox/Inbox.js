@@ -33,8 +33,8 @@ function Inbox() {
 	};
 	const messages = createMessages(savedMessages);
 	return (
-		<Grid item sm={4} className={classes.inbox}>
-			<SearchForm className={classes.inboxSearchForm}/>
+		<Grid item sm={4} md={4} className={classes.inbox}>
+			<SearchForm className={classes.inboxSearchForm} />
 			<SortForm />
 			<div className={classes.inboxMessages}>{messages}</div>
 			{/* {messages.map(msg => (
