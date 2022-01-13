@@ -11,6 +11,8 @@ const useStyles = createUseStyles({
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: '#FFF',
+		boxShadow: '0px -8px 30px rgba(0, 0, 0, 0.05)',
+		zIndex: '10',
 	},
 	contentWrapper: {
 		display: 'flex',
@@ -46,12 +48,11 @@ const useStyles = createUseStyles({
 		'&.MuiButtonBase-root': {
 			transform: 'scale(1.4) rotate(0deg)',
 			color: '#fff',
-            backgroundColor: 'red',
-            transition: 'transform 200ms ease-out',
+			backgroundColor: 'red',
+			transition: 'transform 200ms ease-out',
 			'&:hover': {
-                backgroundColor: 'red',
-                transform: 'scale(1.4) rotate(-40deg)'
-                
+				backgroundColor: 'red',
+				transform: 'scale(1.4) rotate(-40deg)',
 			},
 		},
 	},
