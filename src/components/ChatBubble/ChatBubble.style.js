@@ -2,6 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
 	chatBubble: {
+		maxWidth: '50%',
 		position: 'relative',
 		marginBottom: '2rem',
 		padding: '10px 20px',

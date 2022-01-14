@@ -34,6 +34,7 @@ const useStyles = createUseStyles({
 		height: '100%',
 		backgroundColor: '#F1EDED',
 		paddingLeft: '1rem',
+		'& .MuiInputBase-root': { height: '100%' },
 	},
 	iconWrapper: {
 		display: 'flex',
@@ -44,7 +45,11 @@ const useStyles = createUseStyles({
 		backgroundColor: '#F1EDED',
 		borderRadius: '0 24px 24px 0',
 	},
-	sendIcon: {
+	emojiIcon: {
+		color: props => props.showPicker && '#F44A4A',
+		transform: 'color 200ms ease-in',
+	},
+	sendIconWrapper: {
 		'&.MuiButtonBase-root': {
 			transform: 'scale(1.4) rotate(0deg)',
 			color: '#fff',
@@ -55,6 +60,12 @@ const useStyles = createUseStyles({
 				transform: 'scale(1.4) rotate(-40deg)',
 			},
 		},
+	},
+	emojiPicker: {
+		position: 'absolute',
+		bottom: '100%',
+		right: '50%',
+		transform: 'translateX(50%)',
 	},
 });
 
