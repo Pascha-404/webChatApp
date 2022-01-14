@@ -12,7 +12,7 @@ import 'emoji-mart/css/emoji-mart.css';
 import useStyles from './ChatBoxInput.style';
 
 function ChatBoxInput() {
-	const { state, handleChange, handleAddToInput, reset } = useInputState('');
+	const { state, handleChange, handleAddToState, reset } = useInputState('');
 	const [showPicker, togglePicker] = useToggleState(false);
 	const classes = useStyles({ showPicker });
 
@@ -52,7 +52,7 @@ function ChatBoxInput() {
 						set={'apple'}
 						theme='dark'
 						onSelect={emojiObj => {
-							handleAddToInput(emojiObj.native);
+							handleAddToState(emojiObj.native);
 						}}
 					/>
 				</div>
