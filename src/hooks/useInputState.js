@@ -11,11 +11,15 @@ const useInputState = initialVal => {
 		setState(newValue);
 	};
 
+	const handleAddToState = value => {
+		setState(state + value);
+	};
+
 	const reset = () => {
 		setState('');
 	};
 
-	return { state, handleChange, reset, handleExplChange };
+	return { state, handleChange, reset, handleExplChange, handleAddToState };
 };
 
 export default useInputState;
