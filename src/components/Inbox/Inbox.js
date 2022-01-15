@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Grid } from '@mui/material';
 
+import { UsersContext } from '../../contexts/users.context';
 import { MessagesContext } from '../../contexts/messages.context';
 
 import SearchForm from '../SearchForm';
@@ -13,25 +14,28 @@ import useStyles from './Inbox.style';
 
 function Inbox() {
 	const savedMessages = useContext(MessagesContext);
+	const userFetch = useContext(UsersContext);
 	const classes = useStyles();
 
 	const createMessages = array => {
 		let createdMessages = [];
 
-		for (let i = 0; i < 15; i++) {
+		for (let user of userFetch.results) {
 			let randNmbr = Math.floor(Math.random() * array.length);
+			const name = user.name.first + ' ' + user.name.last
 			createdMessages.push(
 				<MessageCard
 					key={array[randNmbr].userId + Math.random()}
-					userId={array[randNmbr].userId}
+					userName={name}
 					msg={array[randNmbr].chatMessages[0].msg}
 					time={array[randNmbr].chatMessages[0].time}
+					imgUrl={user.picture.thumbnail}
 				/>
 			);
 		}
 		return createdMessages;
 	};
-	const messages = createMessages(savedMessages);
+	const messages = userFetch && createMessages(savedMessages);
 	return (
 		<Grid item sm={4} md={4} className={classes.inbox}>
 			<SearchForm className={classes.inboxSearchForm} />
