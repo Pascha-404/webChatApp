@@ -6,13 +6,13 @@ import useStyles from './MessageCard.style';
 
 // { userId: 5, date: '2021/20/3', time: '14pm', msg: 'Hey, how are you?' }
 
-function MessageCard({ userId, date, time, msg }) {
+function MessageCard({ userName, date, time, msg, imgUrl }) {
 	const classes = useStyles();
 	return (
 		<Card className={classes.messageCard}>
 			<CardHeader
-				avatar={<UserAvatar />}
-				title={'Bjoern Bjoernsen'}
+				avatar={<UserAvatar userName={userName} imgUrl={imgUrl} />}
+				title={userName}
 				subheader={msg}
 				action={
 					<IconButton>
