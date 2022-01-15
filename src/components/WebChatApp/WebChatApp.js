@@ -1,23 +1,25 @@
-import React from 'react'
+import React from 'react';
 
-import { MessagesProvider } from '../../contexts/messages.context'
+import { UsersProvider } from '../../contexts/users.context';
+import { MessagesProvider } from '../../contexts/messages.context';
 
-import Inbox from '../Inbox'
-import Navbar from '../layout/Navbar'
-import ChatBox from '../ChatBox'
-import PageContent from '../layout/PageContent'
-
+import Inbox from '../Inbox';
+import Navbar from '../layout/Navbar';
+import ChatBox from '../ChatBox';
+import PageContent from '../layout/PageContent';
 
 function WebChatApp() {
-    return (
-        <PageContent>
-            <Navbar />
-            <MessagesProvider>
-                <Inbox />
-                <ChatBox />
-            </MessagesProvider>
-        </PageContent>
-    )
+	return (
+		<PageContent>
+			<UsersProvider>
+				<Navbar />
+				<MessagesProvider>
+					<Inbox />
+					<ChatBox />
+				</MessagesProvider>
+			</UsersProvider>
+		</PageContent>
+	);
 }
 
-export default WebChatApp
+export default WebChatApp;
