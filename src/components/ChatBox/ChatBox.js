@@ -4,21 +4,23 @@ import ChatBoxInput from '../ChatBoxInput';
 import ChatBoxHeader from '../ChatBoxHeader/ChatBoxHeader';
 import ChatBubble from '../ChatBubble/ChatBubble';
 
-import { MessagesContext } from '../../contexts/messages.context';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
+import { UserContext } from '../../contexts/user.context';
 
 import useStyles from './ChatBox.style';
 
-function ChatBox() {
+function ChatBox({chatId}) {
 	const classes = useStyles();
-	const allMessages = useContext(MessagesContext);
-	const messages = allMessages[0].chatMessages;
+	const user = useContext(UserContext);
 	const [scrollTargetRef] = useScrollIntoView('instant');
+
+let messages = []
+	
 	return (
 		<Grid item xs={5.7} sm={6.5} md={7} className={classes.chatBox}>
 			<ChatBoxHeader />
 			<section className={classes.msgWrapper}>
-				{messages.map(msg => {
+				{chatId && messages.map(msg => {
 					return (
 						<ChatBubble
 							key={Math.random() * 9999}

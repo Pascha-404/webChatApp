@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { UsersProvider } from '../../contexts/users.context';
-import { MessagesProvider } from '../../contexts/messages.context';
+import { UserProvider } from '../../contexts/user.context';
 
 import Inbox from '../Inbox';
 import Navbar from '../layout/Navbar';
@@ -11,13 +10,11 @@ import PageContent from '../layout/PageContent';
 function WebChatApp() {
 	return (
 		<PageContent>
-			<UsersProvider>
+			<UserProvider>
 				<Navbar />
-				<MessagesProvider>
-					<Inbox />
-					<ChatBox />
-				</MessagesProvider>
-			</UsersProvider>
+				<Inbox />
+				<ChatBox />
+			</UserProvider>
 		</PageContent>
 	);
 }
