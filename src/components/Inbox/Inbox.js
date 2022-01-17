@@ -23,7 +23,7 @@ function Inbox() {
 					user.chats.map(chat => (
 						<MessageCard
 							key={chat.chatId}
-							userId={chat.members.filter(member => member !== user.userId)}
+							userId={chat.members.filter(member => member !== user.userId).toString()}
 							msg={chat.messages[0].msg}
 							time={chat.messages[0].timestamp}
 						/>
