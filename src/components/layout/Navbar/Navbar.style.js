@@ -8,6 +8,7 @@ const useStyles = createUseStyles({
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'space-around',
+
 	},
 	menuIcons: {
 		width: '100%',

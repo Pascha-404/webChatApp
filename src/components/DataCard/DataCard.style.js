@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
-	messageCard: {
+	dataCard: {
 		width: '80%',
 		backgroundColor: '#fff',
 		margin: '0 auto 1.5rem',

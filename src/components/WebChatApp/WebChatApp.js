@@ -2,7 +2,7 @@ import React from 'react';
 
 import { UserProvider } from '../../contexts/user.context';
 
-import Inbox from '../Inbox';
+import DataList from '../DataList';
 import Navbar from '../layout/Navbar';
 import ChatBox from '../ChatBox';
 import PageContent from '../layout/PageContent';
@@ -12,7 +12,7 @@ function WebChatApp() {
 		<PageContent>
 			<UserProvider>
 				<Navbar />
-				<Inbox />
+				<DataList />
 				<ChatBox />
 			</UserProvider>
 		</PageContent>
