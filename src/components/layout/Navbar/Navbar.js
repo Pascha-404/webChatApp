@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import HomeIcon from '@mui/icons-material/Home';
@@ -11,13 +11,15 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Grid } from '@mui/material';
 
 import useInputState from '../../../hooks/useInputState';
+import {LayoutDispatch} from '../../../contexts/layout.context'
 
 import UserAvatar from '../../UserAvatar';
 
 import useStyles from './Navbar.style';
 
 function Navbar() {
-	const { state, handleExplChange } = useInputState('home');
+	const layoutDispatch = useContext(LayoutDispatch)
+	const { state, handleExplChange } = useInputState('inbox');
 
 	const classes = useStyles();
 
@@ -31,17 +33,27 @@ function Navbar() {
 					value={state}
 					onChange={handleExplChange}
 					aria-label='Navbar options'>
-					<Tab icon={<HomeIcon />} aria-label='Home' value={'home'} />
-					<Tab icon={<SendIcon />} aria-label='Send' value={'send'} />
-					<Tab icon={<InboxIcon />} aria-label='Inbox' value={'inbox'} />
-					<Tab icon={<GroupIcon />} aria-label='Users' value={'users'} />
+					<Tab icon={<HomeIcon />} aria-label='home' value={'home'} />
+					<Tab
+						icon={<SendIcon />}
+						aria-label='contacts'
+						value={'contacts'}
+						onClick={() => layoutDispatch({ type: 'SHOW_CONTACTS' })}
+					/>
+					<Tab
+						icon={<InboxIcon />}
+						aria-label='inbox'
+						value={'inbox'}
+						onClick={() => layoutDispatch({ type: 'SHOW_INBOX' })}
+					/>
+					<Tab icon={<GroupIcon />} aria-label='groups' value={'groups'} />
 					<Tab
 						icon={<NotificationsIcon />}
 						aria-label='Notifications'
 						value={'notifications'}
 					/>
-					<Tab icon={<MoreHorizIcon />} aria-label='Options' value={'options'} />
-					<Tab icon={<SettingsIcon />} aria-label='Settings' value={'settings'} />
+					<Tab icon={<MoreHorizIcon />} aria-label='options' value={'options'} />
+					<Tab icon={<SettingsIcon />} aria-label='settings' value={'settings'} />
 				</Tabs>
 			</nav>
 		</Grid>
