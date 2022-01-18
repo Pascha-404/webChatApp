@@ -6,7 +6,7 @@ const useStyles = createUseStyles({
 		paddingTop: '2rem',
 		height: '100%',
 	},
-	inboxMessages: {
+	dataListCards: {
 		width: '100%',
 		height: '79%',
 		overflowY: 'scroll',
