@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { UserProvider } from '../../contexts/user.context';
+import { LayoutProvider } from '../../contexts/layout.context';
 
 import DataList from '../DataList';
 import Navbar from '../layout/Navbar';
@@ -11,9 +12,11 @@ function WebChatApp() {
 	return (
 		<PageContent>
 			<UserProvider>
-				<Navbar />
-				<DataList />
-				<ChatBox />
+				<LayoutProvider>
+					<Navbar />
+					<DataList />
+					<ChatBox />
+				</LayoutProvider>
 			</UserProvider>
 		</PageContent>
 	);
