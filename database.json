@@ -1,6 +1,7 @@
 {
 	"users": {
 		"admin": {
+			"uuid": "admin",
 			"firstName": "Patrick",
 			"lastName": "Pavliuchik",
 			"nickname": "Pascha",
@@ -15,6 +16,7 @@
 			}
 		},
 		"defaultContact1": {
+			"uuid": "defaultContact1",
 			"firstName": "Alexander",
 			"lastName": "Petersen",
 			"nickname": "goldenbutterfly433",
@@ -29,6 +31,7 @@
 			}
 		},
 		"defaultContact2": {
+			"uuid": "defaultContact2",
 			"firstName": "Juliett",
 			"lastName": "Anderson",
 			"nickname": "Kilroy",
@@ -43,6 +46,7 @@
 			}
 		},
 		"defaultContact3": {
+			"uuid": "defaultContact3",
 			"firstName": "Milla",
 			"lastName": "Koivisto",
 			"nickname": "sadgorilla207",
@@ -57,6 +61,7 @@
 			}
 		},
 		"defaultContact4": {
+			"uuid": "defaultContact4",
 			"firstName": "Annick",
 			"lastName": "Pul",
 			"nickname": "orangecat859",
@@ -72,13 +77,26 @@
 		}
 	},
 	"groupChats": { "altf4": true, "techpirates": true },
-	"userChats": { "id1": true, "id2": true, "id3": true },
+	"userChats": {
+		"id1": {
+			"members": ["admin", "defaultContact3"],
+			"lastMsg": { "admin": "Thats my first database message" },
+			"MsgTimestamp": 1459361875666,
+			"ChatTimestamp": 1459361875666
+		},
+		"id2": { "members": ["admin", "defaultContact3"] },
+		"id3": { "members": ["admin", "defaultContact3"] }
+	},
 	"messages": {
-		"msg1": {
-			"chatId": "id1",
-			"timestamp": 1642696950292,
-			"msg": "Thats my first database message",
-			"sentBy": "admin"
-		}
+		"id1": [
+			{
+				"msg1": {
+					"chatId": "id1",
+					"timestamp": 1642696950292,
+					"msg": "Thats my first database message",
+					"sentBy": "admin"
+				}
+			}
+		]
 	}
 }
