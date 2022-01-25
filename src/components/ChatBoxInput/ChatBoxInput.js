@@ -22,23 +22,34 @@ function ChatBoxInput() {
 				<IconButton className={classes.attachIcon}>
 					<AttachFileIcon />
 				</IconButton>
-
-				<FormControl className={classes.textInput}>
-					<InputBase
-						placeholder={'Type a Message here...'}
-						inputProps={{ 'aria-label': 'Search' }}
-						value={state}
-						onChange={handleChange}
-						autoFocus
-					/>
-				</FormControl>
+				<form
+					id='chatBoxForm'
+					className={classes.chatBoxForm}
+					onSubmit={e => {
+						e.preventDefault();
+						console.log('FORM SEND');
+					}}>
+					<FormControl className={classes.textInput}>
+						<InputBase
+							placeholder={'Type a Message here...'}
+							inputProps={{ 'aria-label': 'Search' }}
+							value={state}
+							onChange={handleChange}
+							autoFocus
+							onSubmit={() => console.log('SEND MSG')}
+						/>
+					</FormControl>
+				</form>
 
 				<div className={classes.iconWrapper}>
 					<IconButton onClick={togglePicker}>
 						<EmojiEmotionsIcon className={classes.emojiIcon} />
 					</IconButton>
 
-					<IconButton className={classes.sendIconWrapper}>
+					<IconButton
+						className={classes.sendIconWrapper}
+						type='submit'
+						form='chatBoxForm'>
 						<SendIcon />
 					</IconButton>
 				</div>
