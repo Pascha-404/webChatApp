@@ -29,8 +29,9 @@ const useStyles = createUseStyles({
 			'& svg': { transform: 'rotate(45deg)' },
 		},
 	},
+	chatBoxForm: { width: '65%', height: '100%' },
 	textInput: {
-		width: '65%',
+		width: '100%',
 		height: '100%',
 		backgroundColor: '#F1EDED',
 		paddingLeft: '1rem',
