@@ -7,20 +7,13 @@ import fetchDatabase from '../utilities/fetchDatabase';
 import Loading from '../components/Loading';
 
 const UserContext = createContext();
-const ChatContext = createContext();
-const ChatDispatch = createContext();
 
 function UserProvider({ children }) {
 	const [fetchedUser, isFetching] = useFetchDatabase('/users/admin');
-	const [chats, chatDispatch] = useChatReducer(chatReducer);
 
 	return (
 		<UserContext.Provider value={fetchedUser}>
-			<ChatContext.Provider value={chats}>
-				<ChatDispatch.Provider value={chatDispatch}>
-					{!isFetching && children} {isFetching && <Loading />}
-				</ChatDispatch.Provider>
-			</ChatContext.Provider>
+			{!isFetching && children} {isFetching && <Loading />}
 		</UserContext.Provider>
 	);
 }
@@ -32,4 +25,4 @@ function useUser() {
 	}
 	return context;
 }
-export { useUser, UserProvider, ChatDispatch };
+export { useUser, UserProvider };
