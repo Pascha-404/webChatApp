@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 
-import { UserContext } from '../../contexts/user.context';
+import { useUser } from '../../contexts/user.context';
+import { useChatsContext } from '../../contexts/chats.context';
 import { LayoutContext } from '../../contexts/layout.context';
+import fetchDatabase from '../../utilities/fetchDatabase';
 
 import SearchForm from '../SearchForm';
 import SortForm from '../SortForm/SortForm';
@@ -11,41 +13,39 @@ import DataCard from '../DataCard';
 import useStyles from './DataList.style';
 
 function DataList() {
-	const user = useContext(UserContext);
+	const user = useUser();
+	const chats = useChatsContext();
 	const { dataListContent } = useContext(LayoutContext);
 	const classes = useStyles();
-	const hasData = user && dataListContent ? true : false;
+	const [generatedContent, setGeneratedContent] = useState();
+
+	useEffect(() => {
+		if (dataListContent === 'inbox') {
+			const generatedChats = chats.map(async (chat, idx) => {
+				const contact = chat.members.filter(member => user.uuid !== member);
+				const contactFetch = await fetchDatabase(`users/${contact}`);
+				const chatId = Object.keys(chats)[idx];
+				return (
+					<DataCard
+						key={chatId}
+						chatId={chatId}
+						user={contactFetch}
+						msg={chat.lastMsg && chat.lastMsg}
+						time={chat.timestamp && chat.timestamp}
+					/>
+				);
+			});
+			Promise.all(generatedChats)
+				.then(results => setGeneratedContent(results))
+				.catch(error => console.log(error));
+		}
+	}, [dataListContent, chats, user.uuid]);
 
 	return (
 		<Grid item sm={4} md={4} className={classes.dataList}>
 			<SearchForm className={classes.dataListSearchForm} />
 			{dataListContent === 'inbox' && <SortForm />}
-
-			{hasData && (
-				<div className={classes.dataListCards}>
-					{dataListContent === 'inbox'
-						? user.chats.map(chat => (
-								<DataCard
-									key={chat.chatId}
-									chatId={chat.chatId}
-									userId={chat.members
-										.filter(member => member !== user.userId)
-										.toString()}
-									msg={chat.messages[0].msg}
-									time={chat.messages[0].timestamp}
-								/>
-						  ))
-						: dataListContent === 'contacts'
-						? user.contacts.map(contact => (
-								<DataCard
-									key={contact.login.uuid}
-									userId={contact.login.uuid}
-									msg={'Offline'}
-								/>
-						  ))
-						: null}
-				</div>
-			)}
+			{generatedContent}
 		</Grid>
 	);
 }
