@@ -4,24 +4,21 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
-import { UserContext } from '../../contexts/user.context';
-import { LayoutDispatch } from '../../contexts/layout.context'
+import { LayoutDispatch } from '../../contexts/layout.context';
 
-function DataCard({ userId, time, msg, chatId }) {
+function DataCard({ user, time, msg, chatId }) {
 	const classes = useStyles();
-	const { contacts } = useContext(UserContext);
 	const layoutDispatch = useContext(LayoutDispatch);
-	const chatPartner = contacts.filter(contact => contact.login.uuid === userId);
-	const userName = contacts && chatPartner[0].name.first + ' ' + chatPartner[0].name.last;
+	const userName = user.firstName + ' ' + user.lastName;
 
 	return (
-		<Card className={classes.dataCard} onClick={() => layoutDispatch({type: 'SET_CHATBOX', id: chatId})}>
+		<Card
+			className={classes.dataCard}
+			onClick={() => layoutDispatch({ type: 'SET_CHATBOX', id: chatId })}>
 			<CardHeader
-				avatar={
-					<UserAvatar userName={userName} imgUrl={chatPartner[0].picture.thumbnail} />
-				}
+				avatar={<UserAvatar userName={userName} imgUrl={user.pictureLink} />}
 				title={userName}
-				subheader={msg}
+				subheader={msg && Object.values(msg)[0]}
 				action={
 					<IconButton>
 						<ExpandMoreIcon />
