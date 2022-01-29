@@ -8,30 +8,6 @@ import fetchDatabase from '../utilities/fetchDatabase';
 const ChatsContext = createContext();
 const ChatsDispatch = createContext();
 
-function ChatsProvider({ children }) {
-	const user = useUser();
-	const [chats, dispatch] = useChatReducer(chatReducer, user.userChats);
-	const [isFetching, setIsFetching] = useState(true);
-
-	useEffect(() => {
-		const fetchedChats = Object.keys(chats).map(async chat => {
-	return await fetchDatabase(`/userChats/${chat}`);
-			
-		});
-		Promise.all(fetchedChats)
-			.then(results => console.log(results))
-			.catch(error => console.log(error));
-	}, []);
-
-	return (
-		<ChatsContext.Provider value={chats}>
-			<ChatsDispatch.Provider value={dispatch}>
-				{!isFetching && children} {isFetching && <Loading />}
-			</ChatsDispatch.Provider>
-		</ChatsContext.Provider>
-	);
-}
-
 function useChatsContext() {
 	const context = useContext(ChatsContext);
 	if (context === undefined) {
@@ -46,6 +22,33 @@ function useChatsDispatch() {
 		throw new Error('useChatsDispatch must be used within a ChatsProvider');
 	}
 	return dispatch;
+}
+
+function ChatsProvider({ children }) {
+	const user = useUser();
+	const [chats, dispatch] = useChatReducer(chatReducer, user.userChats);
+	const [isFetching, setIsFetching] = useState(true);
+
+	useEffect(() => {
+		const fetchedChats = Object.keys(chats).map(async chat => {
+			const getChat = await fetchDatabase(`/userChats/${chat}`);
+			return getChat;
+		});
+		Promise.all(fetchedChats)
+			.then(results => {
+				dispatch({ type: 'SET_STATE', state: results });
+				setIsFetching(false);
+			})
+			.catch(error => console.log(error));
+	}, []);
+
+	return (
+		<ChatsContext.Provider value={chats}>
+			<ChatsDispatch.Provider value={dispatch}>
+				{!isFetching && children} {isFetching && <Loading />}
+			</ChatsDispatch.Provider>
+		</ChatsContext.Provider>
+	);
 }
 
 export { ChatsProvider, useChatsContext, useChatsDispatch };
