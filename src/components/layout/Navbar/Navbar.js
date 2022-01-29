@@ -1,4 +1,4 @@
-import React, {useContext } from 'react';
+import React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import HomeIcon from '@mui/icons-material/Home';
@@ -11,14 +11,14 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Grid } from '@mui/material';
 
 import useInputState from '../../../hooks/useInputState';
-import {LayoutDispatch} from '../../../contexts/layout.context'
+import { useLayoutDispatch } from '../../../contexts/layout.context';
 
 import UserAvatar from '../../UserAvatar';
 
 import useStyles from './Navbar.style';
 
 function Navbar() {
-	const layoutDispatch = useContext(LayoutDispatch)
+	const layoutDispatch = useLayoutDispatch();
 	const { state, handleExplChange } = useInputState('inbox');
 
 	const classes = useStyles();

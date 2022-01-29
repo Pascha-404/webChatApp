@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card, CardHeader, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
-import { LayoutDispatch } from '../../contexts/layout.context';
+import { useLayoutDispatch } from '../../contexts/layout.context';
+import useLayoutReducer from '../../hooks/useLayoutReducer';
 
 function DataCard({ user, time, msg, chatId }) {
 	const classes = useStyles();
-	const layoutDispatch = useContext(LayoutDispatch);
+	const layoutDispatch = useLayoutReducer();
 	const userName = user.firstName + ' ' + user.lastName;
 
 	return (

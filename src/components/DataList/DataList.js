@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 
 import { useUser } from '../../contexts/user.context';
 import { useChatsContext } from '../../contexts/chats.context';
-import { LayoutContext } from '../../contexts/layout.context';
+import { useLayoutContext } from '../../contexts/layout.context';
 import fetchDatabase from '../../utilities/fetchDatabase';
 
 import SearchForm from '../SearchForm';
@@ -15,7 +15,7 @@ import useStyles from './DataList.style';
 function DataList() {
 	const user = useUser();
 	const chats = useChatsContext();
-	const { dataListContent } = useContext(LayoutContext);
+	const { dataListContent } = useLayoutContext();
 	const classes = useStyles();
 	const [generatedContent, setGeneratedContent] = useState();
 
