@@ -1,15 +1,20 @@
 import database from '../firebase.config';
-import { ref, onValue } from 'firebase/database';
+import { ref, child, get } from 'firebase/database';
 
-const fetchDatabase = (path) => {
-    const fetchRef = ref(database, path);
-    let dataFetch
+const fetchDatabase = path => {
+	const dbRef = ref(database);
 
-	onValue(fetchRef, snapshot => {
-		const data = snapshot.val();
-        dataFetch = data
-    });
-    return dataFetch
+	return get(child(dbRef, path))
+		.then(snap => {
+			if (snap.exists()) {
+				return snap.val();
+			} else {
+				console.log('No data available');
+			}
+		})
+		.catch(error => {
+			console.log(error);
+		});
 };
 
 export default fetchDatabase;
