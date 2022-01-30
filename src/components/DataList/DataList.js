@@ -24,11 +24,10 @@ function DataList() {
 			const generatedChats = chats.map(async (chat, idx) => {
 				const contact = chat.members.filter(member => user.uuid !== member);
 				const contactFetch = await fetchDatabase(`users/${contact}`);
-				const chatId = Object.keys(chats)[idx];
 				return (
 					<DataCard
-						key={chatId}
-						chatId={chatId}
+						key={chat.chatId}
+						chatId={chat.chatId}
 						user={contactFetch}
 						msg={chat.lastMsg && chat.lastMsg}
 						time={chat.timestamp && chat.timestamp}
