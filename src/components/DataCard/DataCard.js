@@ -5,11 +5,10 @@ import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
 import { useLayoutDispatch } from '../../contexts/layout.context';
-import useLayoutReducer from '../../hooks/useLayoutReducer';
 
 function DataCard({ user, time, msg, chatId }) {
 	const classes = useStyles();
-	const layoutDispatch = useLayoutReducer();
+	const layoutDispatch = useLayoutDispatch();
 	const userName = user.firstName + ' ' + user.lastName;
 
 	return (
