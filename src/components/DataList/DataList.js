@@ -28,7 +28,7 @@ function DataList() {
 					<DataCard
 						key={chat.chatId}
 						chatId={chat.chatId}
-						user={contactFetch}
+						target={contactFetch}
 						msg={chat.lastMsg && chat.lastMsg}
 						time={chat.timestamp && chat.timestamp}
 					/>
