@@ -22,7 +22,7 @@ function useLayoutDispatch() {
 
 const defaultLayout = {
 	dataListContent: 'inbox',
-	chatBoxId: '',
+	chatBox: { id: '', target: ''},
 };
 
 function LayoutProvider({ children }) {

@@ -7,7 +7,7 @@ const reducer = (state, action) => {
 		case 'SHOW_GROUPS':
 			return { ...state, dataListContent: 'groups' };
 		case 'SET_CHATBOX':
-			return { ...state, chatBoxId: action.id };
+			return { ...state, chatBox: { id: action.id, target: action.target } };
 		default:
 			return state;
 	}
