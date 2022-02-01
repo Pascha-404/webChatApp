@@ -6,18 +6,18 @@ import useStyles from './DataCard.style';
 
 import { useLayoutDispatch } from '../../contexts/layout.context';
 
-function DataCard({ user, time, msg, chatId }) {
+function DataCard({ target, time, msg, chatId }) {
 	const classes = useStyles();
 	const layoutDispatch = useLayoutDispatch();
-	const userName = user.firstName + ' ' + user.lastName;
+	const targetName = target.firstName + ' ' + target.lastName;
 
 	return (
 		<Card
 			className={classes.dataCard}
-			onClick={() => layoutDispatch({ type: 'SET_CHATBOX', id: chatId })}>
+			onClick={() => layoutDispatch({ type: 'SET_CHATBOX', id: chatId, target: {name: targetName, pictureLink: target.pictureLink} })}>
 			<CardHeader
-				avatar={<UserAvatar userName={userName} imgUrl={user.pictureLink} />}
-				title={userName}
+				avatar={<UserAvatar userName={targetName} imgUrl={target.pictureLink} />}
+				title={targetName}
 				subheader={msg && Object.values(msg)[0]}
 				action={
 					<IconButton>
