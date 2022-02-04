@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import layoutReducer from '../reducers/layout.reducer';
-import useLayoutReducer from '../hooks/useLayoutReducer';
+import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
 
 const LayoutContext = createContext();
 const LayoutDispatch = createContext();
@@ -26,7 +26,7 @@ const defaultLayout = {
 };
 
 function LayoutProvider({ children }) {
-	const [state, dispatch] = useLayoutReducer(layoutReducer, defaultLayout);
+	const [state, dispatch] = useLocalStorageReducer(layoutReducer, defaultLayout, 'webChat_layout');
 	return (
 		<LayoutContext.Provider value={state}>
 			<LayoutDispatch.Provider value={dispatch}>{children}</LayoutDispatch.Provider>
