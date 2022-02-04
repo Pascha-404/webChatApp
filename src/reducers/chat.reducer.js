@@ -17,17 +17,6 @@ const reducer = (state, action) => {
 					lastMsgSend: Date.now(),
 				},
 			];
-		case 'ADD_MSG':
-			const msg = {
-				msg: action.msg,
-				msgId: uuid(),
-				timestamp: Date.now,
-				userId: action.userId,
-			};
-			const chat = state.filter(chat => action.chatId === chat.chatId);
-			chat.messages.push(msg);
-			return [state.filter(chat => action.chatId !== chat.chatId), chat];
-
 		default:
 			return state;
 	}

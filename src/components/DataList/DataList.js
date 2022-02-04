@@ -18,10 +18,9 @@ function DataList() {
 	const { dataListContent } = useLayoutContext();
 	const classes = useStyles();
 	const [generatedContent, setGeneratedContent] = useState();
-
 	useEffect(() => {
 		if (dataListContent === 'inbox') {
-			const generatedChats = chats.map(async (chat, idx) => {
+			const generatedChats = chats.map(async (chat) => {
 				const contact = chat.members.filter(member => user.uuid !== member);
 				const contactFetch = await fetchDatabase(`users/${contact}`);
 				return (
@@ -38,7 +37,7 @@ function DataList() {
 				.then(results => setGeneratedContent(results))
 				.catch(error => console.log(error));
 		}
-	}, [dataListContent, chats, user.uuid]);
+	}, [chats, dataListContent, user.uuid]);
 
 	return (
 		<Grid item sm={4} md={4} className={classes.dataList}>

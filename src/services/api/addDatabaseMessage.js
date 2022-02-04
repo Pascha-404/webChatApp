@@ -13,7 +13,7 @@ function addDatabaseMessage(paramsObj) {
 		msgId: newMsgKey,
 	};
 
-	// Write the new post's data simultaneously in the posts list and the user's post list.
+	// Write the nmessage data simultaneously in the messages of the userChat list and the user's post list.
 	const updates = {};
 	updates[`/messages/${paramsObj.chatId}/${newMsgKey}`] = messageData;
 	updates[`/userChats/${paramsObj.chatId}/MsgTimestamp`] =
@@ -21,8 +21,8 @@ function addDatabaseMessage(paramsObj) {
 	updates[`/userChats/${paramsObj.chatId}/lastMsg`] = {
 		[messageData.sentBy]: messageData.msg,
 	};
-
-	return update(ref(database), updates);
+update(ref(database), updates);
+	return messageData
 }
 
 export default addDatabaseMessage;
