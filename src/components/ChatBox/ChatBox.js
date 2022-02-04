@@ -4,26 +4,23 @@ import ChatBoxInput from '../ChatBoxInput';
 import ChatBoxHeader from '../ChatBoxHeader/ChatBoxHeader';
 import ChatBubble from '../ChatBubble/ChatBubble';
 
-import useFetchDatabase from '../../services/api/useFetchDatabase';
-
 import useScrollIntoView from '../../hooks/useScrollIntoView';
 import { useUser } from '../../contexts/user.context';
-import { useLayoutContext } from '../../contexts/layout.context';
 
 import useStyles from './ChatBox.style';
+import { useMessages } from '../../contexts/messages.context';
 
 function ChatBox() {
 	const classes = useStyles();
 	const { uuid } = useUser();
-	const { chatBox } = useLayoutContext();
-	const [fetchedMessages, isFetching] = useFetchDatabase(`/messages/${chatBox.id}`);
+	const messages = useMessages();
 	const [scrollTargetRef] = useScrollIntoView('instant');
 	const [generatedContent, setGeneratedContent] = useState();
 
 	useEffect(() => {
-		if (!isFetching && fetchedMessages !== null) {
-			const msgBubbles = fetchedMessages.map(msgObject => {
-				const { msgId, msg, sentBy, timestamp } = msgObject[Object.keys(msgObject)[0]];
+		if (messages !== null) {
+			const msgBubbles = Object.keys(messages).map(msgObject => {
+				const { msgId, msg, sentBy, timestamp } = messages[msgObject];
 				return (
 					<ChatBubble
 						key={msgId}
@@ -34,10 +31,10 @@ function ChatBox() {
 				);
 			});
 			setGeneratedContent(msgBubbles);
-		} else if (!isFetching && fetchedMessages === null) {
+		} else if (messages === null) {
 			setGeneratedContent('');
 		}
-	}, [fetchedMessages]);
+	}, [messages, uuid]);
 
 	return (
 		<Grid item xs={5.7} sm={6.5} md={7} className={classes.chatBox}>

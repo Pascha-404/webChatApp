@@ -3,6 +3,7 @@ import React from 'react';
 import { UserProvider } from '../../contexts/user.context';
 import { LayoutProvider } from '../../contexts/layout.context';
 import { ChatsProvider } from '../../contexts/chats.context';
+import { MessagesProvider } from '../../contexts/messages.context';
 
 import DataList from '../DataList';
 import Navbar from '../layout/Navbar';
@@ -16,8 +17,10 @@ function WebChatApp() {
 				<LayoutProvider>
 					<Navbar />
 					<ChatsProvider>
-						<DataList />
-						<ChatBox />
+						<MessagesProvider>
+							<DataList />
+							<ChatBox />
+						</MessagesProvider>
 					</ChatsProvider>
 				</LayoutProvider>
 			</UserProvider>

@@ -1,10 +1,13 @@
 import React from 'react';
-import { InputBase, IconButton, FormConrol, FormControl } from '@mui/material';
+import { InputBase, IconButton, FormControl } from '@mui/material';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import SendIcon from '@mui/icons-material/Send';
 import { Picker } from 'emoji-mart';
 
+import { useMessagesDispatch } from '../../contexts/messages.context';
+import { useLayoutContext } from '../../contexts/layout.context';
+import { useUser } from '../../contexts/user.context';
 import useToggleState from '../../hooks/useToggleState';
 import useInputState from '../../hooks/useInputState';
 
@@ -15,6 +18,9 @@ function ChatBoxInput() {
 	const { state, handleChange, handleAddToState, reset } = useInputState('');
 	const [showPicker, togglePicker] = useToggleState(false);
 	const classes = useStyles({ showPicker });
+	const messagesDispatch = useMessagesDispatch();
+	const { uuid } = useUser();
+	const { chatBox } = useLayoutContext();
 
 	return (
 		<section className={classes.chatBoxInput}>
@@ -27,7 +33,13 @@ function ChatBoxInput() {
 					className={classes.chatBoxForm}
 					onSubmit={e => {
 						e.preventDefault();
-						console.log('FORM SEND');
+						messagesDispatch({
+							type: 'ADD_MSG',
+							msg: state,
+							chatId: chatBox.id,
+							userId: uuid,
+						});
+						reset();
 					}}>
 					<FormControl className={classes.textInput}>
 						<InputBase
