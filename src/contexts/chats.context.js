@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Loading from '../components/Loading';
 import { useUser } from './user.context';
 import useChatReducer from '../hooks/useChatReducer';
@@ -27,10 +27,11 @@ function useChatsDispatch() {
 function ChatsProvider({ children }) {
 	const user = useUser();
 	const [chats, dispatch] = useChatReducer(chatReducer, user.userChats);
+	const chatsRef = useRef(chats);
 	const [isFetching, setIsFetching] = useState(true);
 
 	useEffect(() => {
-		const fetchedChats = Object.keys(chats).map(async chat => {
+		const fetchedChats = Object.keys(chatsRef.current).map(async chat => {
 			const getChat = await fetchDatabase(`/userChats/${chat}`);
 			return getChat;
 		});
@@ -40,7 +41,7 @@ function ChatsProvider({ children }) {
 				setIsFetching(false);
 			})
 			.catch(error => console.log(error));
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<ChatsContext.Provider value={chats}>
