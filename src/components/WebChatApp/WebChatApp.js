@@ -4,6 +4,7 @@ import { UserProvider } from '../../contexts/user.context';
 import { LayoutProvider } from '../../contexts/layout.context';
 import { ChatsProvider } from '../../contexts/chats.context';
 import { MessagesProvider } from '../../contexts/messages.context';
+import { ContactsProvider } from '../../contexts/contacts.context';
 
 import DataList from '../DataList';
 import Navbar from '../layout/Navbar';
@@ -16,12 +17,14 @@ function WebChatApp() {
 			<UserProvider>
 				<LayoutProvider>
 					<Navbar />
-					<ChatsProvider>
-						<MessagesProvider>
-							<DataList />
-							<ChatBox />
-						</MessagesProvider>
-					</ChatsProvider>
+					<ContactsProvider>
+						<ChatsProvider>
+							<MessagesProvider>
+								<DataList />
+								<ChatBox />
+							</MessagesProvider>
+						</ChatsProvider>
+					</ContactsProvider>
 				</LayoutProvider>
 			</UserProvider>
 		</PageContent>
