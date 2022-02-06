@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import useMessageReducer from '../hooks/useMessageReducer';
 import { useLayout } from './layout.context';
 import messageReducer from '../reducers/message.reducer';
-import fetchDatabase from '../utilities/fetchDatabase';
+import fetchDatabase from '../services/api/fetchDatabase';
 
 import Loading from '../components/Loading';
 

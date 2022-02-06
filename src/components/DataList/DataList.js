@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import { useUser } from '../../contexts/user.context';
 import { useChats } from '../../contexts/chats.context';
 import { useLayout } from '../../contexts/layout.context';
-import fetchDatabase from '../../utilities/fetchDatabase';
+import fetchDatabase from '../../services/api/fetchDatabase';
 
 import SearchForm from '../SearchForm';
 import SortForm from '../SortForm/SortForm';

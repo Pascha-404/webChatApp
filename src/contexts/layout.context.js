@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import layoutReducer from '../reducers/layout.reducer';
-import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
+import useLocalStorageReducer from '../services/localStorage/useLocalStorageReducer';
 
 const LayoutContext = createContext();
 const LayoutDispatch = createContext();
