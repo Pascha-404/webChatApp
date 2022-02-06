@@ -5,6 +5,7 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import SendIcon from '@mui/icons-material/Send';
 import { Picker } from 'emoji-mart';
 
+import { useChatsDispatch } from '../../contexts/chats.context';
 import { useMessagesDispatch } from '../../contexts/messages.context';
 import { useLayoutContext } from '../../contexts/layout.context';
 import { useUser } from '../../contexts/user.context';
@@ -19,6 +20,7 @@ function ChatBoxInput() {
 	const [showPicker, togglePicker] = useToggleState(false);
 	const classes = useStyles({ showPicker });
 	const messagesDispatch = useMessagesDispatch();
+	const chatsDispatch = useChatsDispatch();
 	const { uuid } = useUser();
 	const { chatBox } = useLayoutContext();
 
@@ -38,6 +40,12 @@ function ChatBoxInput() {
 							msg: state,
 							chatId: chatBox.id,
 							userId: uuid,
+						});
+						chatsDispatch({
+							type: 'UPDATE_CHAT',
+							chatId: chatBox.id,
+							sentBy: uuid,
+							msg: state,
 						});
 						reset();
 					}}>
