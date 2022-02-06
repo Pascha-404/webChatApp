@@ -1,4 +1,4 @@
-import database from '../firebase.config';
+import database from '../../firebase.config';
 import { ref, child, get } from 'firebase/database';
 
 const fetchDatabase = path => {
