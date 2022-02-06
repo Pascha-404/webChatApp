@@ -3,7 +3,7 @@ import Loading from '../components/Loading';
 import { useUser } from './user.context';
 import useChatReducer from '../hooks/useChatReducer';
 import chatReducer from '../reducers/chat.reducer';
-import fetchDatabase from '../utilities/fetchDatabase';
+import fetchDatabase from '../services/api/fetchDatabase';
 
 const ChatsContext = createContext();
 const ChatsDispatch = createContext();
