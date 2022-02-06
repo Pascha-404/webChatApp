@@ -4,10 +4,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import UserAvatar from '../UserAvatar';
 
 import useStyles from './ChatBoxHeader.styles';
-import { useLayoutContext } from '../../contexts/layout.context';
+import { useLayout } from '../../contexts/layout.context';
 
 function ChatBoxHeader() {
-	const { chatBox } = useLayoutContext();
+	const { chatBox } = useLayout();
 	const classes = useStyles();
 	return (
 		<Card className={classes.chatBoxHeader}>

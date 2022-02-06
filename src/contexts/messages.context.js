@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import useMessageReducer from '../hooks/useMessageReducer';
-import { useLayoutContext } from './layout.context';
+import { useLayout } from './layout.context';
 import messageReducer from '../reducers/message.reducer';
 import fetchDatabase from '../utilities/fetchDatabase';
 
@@ -26,7 +26,7 @@ function useMessagesDispatch() {
 }
 
 function MessagesProvider({ children }) {
-	const { chatBox } = useLayoutContext();
+	const { chatBox } = useLayout();
 	const [messages, dispatch] = useMessageReducer(messageReducer, {});
 	const [isFetching, setIsFetching] = useState(true);
 
@@ -34,6 +34,9 @@ function MessagesProvider({ children }) {
 		setIsFetching(true);
 		fetchDatabase(`/messages/${chatBox.id}`)
 			.then(data => {
+				if (!data) {
+					data = {};
+				}
 				dispatch({ type: 'SET_STATE', payload: data });
 			})
 			.catch(error => console.log(error));

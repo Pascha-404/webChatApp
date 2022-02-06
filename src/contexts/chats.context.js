@@ -8,7 +8,7 @@ import fetchDatabase from '../utilities/fetchDatabase';
 const ChatsContext = createContext();
 const ChatsDispatch = createContext();
 
-function useChatsContext() {
+function useChats() {
 	const context = useContext(ChatsContext);
 	if (context === undefined) {
 		throw new Error('useChatsContext must be used within a ChatsProvider');
@@ -52,4 +52,4 @@ function ChatsProvider({ children }) {
 	);
 }
 
-export { ChatsProvider, useChatsContext, useChatsDispatch };
+export { ChatsProvider, useChats, useChatsDispatch };

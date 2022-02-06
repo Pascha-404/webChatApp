@@ -7,7 +7,7 @@ import { Picker } from 'emoji-mart';
 
 import { useChatsDispatch } from '../../contexts/chats.context';
 import { useMessagesDispatch } from '../../contexts/messages.context';
-import { useLayoutContext } from '../../contexts/layout.context';
+import { useLayout } from '../../contexts/layout.context';
 import { useUser } from '../../contexts/user.context';
 import useToggleState from '../../hooks/useToggleState';
 import useInputState from '../../hooks/useInputState';
@@ -22,7 +22,7 @@ function ChatBoxInput() {
 	const messagesDispatch = useMessagesDispatch();
 	const chatsDispatch = useChatsDispatch();
 	const { uuid } = useUser();
-	const { chatBox } = useLayoutContext();
+	const { chatBox } = useLayout();
 
 	return (
 		<section className={classes.chatBoxInput}>

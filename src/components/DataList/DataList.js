@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 
 import { useUser } from '../../contexts/user.context';
-import { useChatsContext } from '../../contexts/chats.context';
-import { useLayoutContext } from '../../contexts/layout.context';
+import { useChats } from '../../contexts/chats.context';
+import { useLayout } from '../../contexts/layout.context';
 import fetchDatabase from '../../utilities/fetchDatabase';
 
 import SearchForm from '../SearchForm';
@@ -14,13 +14,13 @@ import useStyles from './DataList.style';
 
 function DataList() {
 	const user = useUser();
-	const chats = useChatsContext();
-	const { dataListContent } = useLayoutContext();
+	const chats = useChats();
+	const { dataListContent } = useLayout();
 	const classes = useStyles();
 	const [generatedContent, setGeneratedContent] = useState();
 	useEffect(() => {
 		if (dataListContent === 'inbox') {
-			const generatedChats = chats.map(async (chat) => {
+			const generatedChats = chats.map(async chat => {
 				const contact = chat.members.filter(member => user.uuid !== member);
 				const contactFetch = await fetchDatabase(`users/${contact}`);
 				return (
