@@ -11,7 +11,7 @@ const ChatsDispatch = createContext();
 function useChats() {
 	const context = useContext(ChatsContext);
 	if (context === undefined) {
-		throw new Error('useChatsContext must be used within a ChatsProvider');
+		throw new Error('useChats must be used within a ChatsProvider');
 	}
 	return context;
 }
