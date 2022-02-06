@@ -10,10 +10,13 @@ function DataCard({ target, time, msg, chatId }) {
 	const classes = useStyles();
 	const layoutDispatch = useLayoutDispatch();
 	const targetName = target.firstName + ' ' + target.lastName;
+	
 	return (
 		<Card
 			className={classes.dataCard}
-			onClick={() => layoutDispatch({ type: 'SET_CHATBOX', id: chatId, target: target.uuid })}>
+			onClick={() =>
+				layoutDispatch({ type: 'SET_CHATBOX', id: chatId, target: target.uuid })
+			}>
 			<CardHeader
 				avatar={<UserAvatar userName={targetName} imgUrl={target.pictureLink} />}
 				title={targetName}
