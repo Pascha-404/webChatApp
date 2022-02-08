@@ -1,102 +1,130 @@
 {
+	"groupChats": {
+		"altf4": true,
+		"techpirates": true
+	},
+	"userChats": {
+		"id1": {
+			"chatTimestamp": 1459361875666,
+			"msgTimestamp": 1644338555557,
+			"chatId": "id1",
+			"lastMsg": {
+				"admin": "5"
+			},
+			"members": ["admin", "defaultContact3"]
+		},
+		"id2": {
+			"msgTimestamp": 1644331854571,
+			"chatId": "id2",
+			"lastMsg": {
+				"admin": "Testing......"
+			},
+			"members": ["admin", "defaultContact2"]
+		},
+		"id3": {
+			"msgTimestamp": 1644339162457,
+			"chatId": "id3",
+			"lastMsg": {
+				"admin": "alex boy!"
+			},
+			"members": ["admin", "defaultContact1"]
+		}
+	},
 	"users": {
 		"admin": {
-			"uuid": "admin",
+			"contacts": {
+				"defaultContact1": true,
+				"defaultContact2": true,
+				"defaultContact3": true,
+				"defaultContact4": true
+			},
 			"firstName": "Patrick",
+			"groupChats": {
+				"altf4": true,
+				"techpirates": true
+			},
 			"lastName": "Pavliuchik",
 			"nickname": "Pascha",
 			"pictureLink": "https://avatars.githubusercontent.com/u/73493957?v=4",
-			"groupChats": { "altf4": true, "techpirates": true },
-			"userChats": { "id1": true, "id2": true, "id3": true },
+			"userChats": {
+				"id1": true,
+				"id2": true,
+				"id3": true
+			},
+			"uuid": "admin"
+		},
+		"defaultContact1": {
 			"contacts": {
-				"defaultContact1": true,
+				"admin": true,
 				"defaultContact2": true,
 				"defaultContact3": true,
 				"defaultContact4": true
-			}
-		},
-		"defaultContact1": {
-			"uuid": "defaultContact1",
+			},
 			"firstName": "Alexander",
+			"groupChats": {
+				"altf4": true,
+				"techpirates": true
+			},
 			"lastName": "Petersen",
 			"nickname": "goldenbutterfly433",
 			"pictureLink": "https://randomuser.me/api/portraits/thumb/men/59.jpg",
-			"groupChats": { "altf4": true, "techpirates": true },
-			"userChats": {},
-			"contacts": {
-				"admin": true,
-				"defaultContact2": true,
-				"defaultContact3": true,
-				"defaultContact4": true
-			}
+			"uuid": "defaultContact1"
 		},
 		"defaultContact2": {
-			"uuid": "defaultContact2",
+			"contacts": {
+				"admin": true,
+				"defaultContact1": true,
+				"defaultContact3": true,
+				"defaultContact4": true
+			},
 			"firstName": "Juliett",
+			"groupChats": {
+				"altf4": true,
+				"techpirates": true
+			},
 			"lastName": "Anderson",
 			"nickname": "Kilroy",
 			"pictureLink": "https://randomuser.me/api/portraits/thumb/women/84.jpg",
-			"groupChats": { "altf4": true, "techpirates": true },
-			"userChats": {},
-			"contacts": {
-				"defaultContact1": true,
-				"admin": true,
-				"defaultContact3": true,
-				"defaultContact4": true
-			}
+			"uuid": "defaultContact2"
 		},
 		"defaultContact3": {
-			"uuid": "defaultContact3",
+			"contacts": {
+				"admin": true,
+				"defaultContact1": true,
+				"defaultContact2": true,
+				"defaultContact4": true
+			},
 			"firstName": "Milla",
+			"groupChats": {
+				"altf4": true,
+				"techpirates": true
+			},
 			"lastName": "Koivisto",
 			"nickname": "sadgorilla207",
 			"pictureLink": "https://randomuser.me/api/portraits/thumb/women/44.jpg",
-			"groupChats": { "altf4": true, "techpirates": true },
-			"userChats": { "id1": true, "id2": true, "id3": true },
-			"contacts": {
-				"defaultContact1": true,
-				"defaultContact2": true,
-				"admin": true,
-				"defaultContact4": true
-			}
+			"userChats": {
+				"id1": true,
+				"id2": true,
+				"id3": true
+			},
+			"uuid": "defaultContact3"
 		},
 		"defaultContact4": {
-			"uuid": "defaultContact4",
+			"contacts": {
+				"admin": true,
+				"defaultContact1": true,
+				"defaultContact2": true,
+				"defaultContact3": true
+			},
 			"firstName": "Annick",
+			"groupChats": {
+				"altf4": true,
+				"techpirates": true
+			},
 			"lastName": "Pul",
 			"nickname": "orangecat859",
 			"pictureLink": "https://randomuser.me/api/portraits/thumb/women/75.jpg",
-			"groupChats": { "altf4": true, "techpirates": true },
-			"userChats": {},
-			"contacts": {
-				"defaultContact1": true,
-				"defaultContact2": true,
-				"defaultContact3": true,
-				"admin": true
-			}
+			"uuid": "defaultContact4"
 		}
-	},
-	"groupChats": { "altf4": true, "techpirates": true },
-	"userChats": {
-		"id1": {
-			"members": ["admin", "defaultContact3"],
-			"lastMsg": { "admin": "Thats my first database message" },
-			"MsgTimestamp": 1459361875666,
-			"ChatTimestamp": 1459361875666
-		},
-		"id2": { "members": ["admin", "defaultContact3"] },
-		"id3": { "members": ["admin", "defaultContact3"] }
-	},
-	"messages": {
-		"id1": [
-			{
-				"msg1": {
-					"chatId": "id1",
-					"timestamp": 1642696950292,
-					"msg": "Thats my first database message",
-					"sentBy": "admin"
-				}
-			}
-		]
 	}
 }

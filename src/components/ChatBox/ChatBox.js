@@ -4,6 +4,7 @@ import ChatBoxInput from '../ChatBoxInput';
 import ChatBoxHeader from '../ChatBoxHeader/ChatBoxHeader';
 import ChatBubble from '../ChatBubble/ChatBubble';
 
+import sortByTimestamp from '../../utilities/sortByTimestamp';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
 import { useUser } from '../../contexts/user.context';
 
@@ -19,17 +20,20 @@ function ChatBox() {
 
 	useEffect(() => {
 		if (messages !== null) {
-			const msgBubbles = Object.keys(messages).map(msgObject => {
-				const { msgId, msg, sentBy, timestamp } = messages[msgObject];
-				return (
-					<ChatBubble
-						key={msgId}
-						msg={msg}
-						isMe={sentBy === uuid && true}
-						time={timestamp}
-					/>
-				);
-			});
+			console.log(messages);
+			const msgBubbles = Object.keys(messages)
+				.sort((x, y) => messages[x].timestamp - messages[y].timestamp)
+				.map(msgObject => {
+					const { msgId, msg, sentBy, timestamp } = messages[msgObject];
+					return (
+						<ChatBubble
+							key={msgId}
+							msg={msg}
+							isMe={sentBy === uuid && true}
+							time={timestamp}
+						/>
+					);
+				});
 			setGeneratedContent(msgBubbles);
 		} else if (messages === null) {
 			setGeneratedContent('');
