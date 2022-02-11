@@ -3,31 +3,32 @@
 		"altf4": true,
 		"techpirates": true
 	},
+	"messages": { "0": { "value": 0 } },
 	"userChats": {
 		"id1": {
-			"chatTimestamp": 1459361875666,
-			"msgTimestamp": 1644338555557,
 			"chatId": "id1",
+			"chatTimestamp": 1459361875666,
 			"lastMsg": {
 				"admin": "5"
 			},
-			"members": ["admin", "defaultContact3"]
+			"members": ["admin", "defaultContact3"],
+			"msgTimestamp": 1644338555557
 		},
 		"id2": {
-			"msgTimestamp": 1644331854571,
 			"chatId": "id2",
 			"lastMsg": {
 				"admin": "Testing......"
 			},
-			"members": ["admin", "defaultContact2"]
+			"members": ["admin", "defaultContact2"],
+			"msgTimestamp": 1644331854571
 		},
 		"id3": {
-			"msgTimestamp": 1644339162457,
 			"chatId": "id3",
 			"lastMsg": {
 				"admin": "alex boy!"
 			},
-			"members": ["admin", "defaultContact1"]
+			"members": ["admin", "defaultContact1"],
+			"msgTimestamp": 1644339162457
 		}
 	},
 	"users": {
