@@ -20,7 +20,7 @@ const reducer = (state, action) => {
 		case 'UPDATE_CHAT':
 			const updatedChat = state.filter(chat => action.chatId === chat.chatId);
 			updatedChat[0].lastMsg = { [action.sentBy]: action.msg };
-			updatedChat[0].MsgTimestamp = Date.now();
+			updatedChat[0].msgTimestamp = Date.now();
 
 			const otherChats = state.filter(chat => action.chatId !== chat.chatId);
 
