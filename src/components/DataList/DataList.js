@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 
+import sortByTimestamp from '../../utilities/sortByTimestamp';
 import { useContacts } from '../../contexts/contacts.context';
 import { useUser } from '../../contexts/user.context';
 import { useChats } from '../../contexts/chats.context';
@@ -22,7 +23,7 @@ function DataList() {
 
 	useEffect(() => {
 		if (dataListContent === 'inbox') {
-			const generatedChats = chats.map(chat => {
+			const generatedChats = chats.sort(sortByTimestamp).map(chat => {
 				const chatPartner = chat.members.filter(member => user.uuid !== member);
 				const contactData = contacts.filter(
 					contact => String(chatPartner) === contact.uuid
