@@ -23,7 +23,7 @@ function DataList() {
 
 	useEffect(() => {
 		if (dataListContent === 'inbox') {
-			const generatedChats = chats.sort(sortByTimestamp).map(chat => {
+			const generatedChats = sortByTimestamp(chats, "descending").map(chat => {
 				const chatPartner = chat.members.filter(member => user.uuid !== member);
 				const contactData = contacts.filter(
 					contact => String(chatPartner) === contact.uuid
