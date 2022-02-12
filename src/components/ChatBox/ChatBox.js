@@ -7,11 +7,13 @@ import ChatBubble from '../ChatBubble/ChatBubble';
 import sortByTimestamp from '../../utilities/sortByTimestamp';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
 import { useUser } from '../../contexts/user.context';
+import { useLayout } from '../../contexts/layout.context';
 
 import useStyles from './ChatBox.style';
 import { useMessages } from '../../contexts/messages.context';
 
 function ChatBox() {
+	const { chatBox } = useLayout();
 	const classes = useStyles();
 	const { uuid } = useUser();
 	const messages = useMessages();
@@ -20,7 +22,6 @@ function ChatBox() {
 
 	useEffect(() => {
 		if (messages !== null) {
-			console.log(messages);
 			const msgBubbles = Object.keys(messages)
 				.sort((x, y) => messages[x].timestamp - messages[y].timestamp)
 				.map(msgObject => {
@@ -40,17 +41,20 @@ function ChatBox() {
 		}
 	}, [messages, uuid]);
 
-	return (
-		<Grid item xs={5.7} sm={6.5} md={7} className={classes.chatBox}>
-			<ChatBoxHeader />
-			<section className={classes.msgWrapper}>
-				{generatedContent}
-				<div ref={scrollTargetRef} id='scrollTargetChatBox' />
-			</section>
+	if (chatBox.id) {
+		return (
+			<Grid item xs={5.7} sm={6.5} md={7} className={classes.chatBox}>
+				<ChatBoxHeader />
+				<section className={classes.msgWrapper}>
+					{generatedContent}
+					<div ref={scrollTargetRef} id='scrollTargetChatBox' />
+				</section>
 
-			<ChatBoxInput />
-		</Grid>
-	);
+				<ChatBoxInput />
+			</Grid>
+		);
+	}
+	return null;
 }
 
 export default ChatBox;

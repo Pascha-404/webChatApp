@@ -28,20 +28,22 @@ function useMessagesDispatch() {
 function MessagesProvider({ children }) {
 	const { chatBox } = useLayout();
 	const [messages, dispatch] = useMessageReducer(messageReducer, {});
-	const [isFetching, setIsFetching] = useState(true);
+	const [isFetching, setIsFetching] = useState(false);
 
 	useEffect(() => {
-		setIsFetching(true);
-		fetchDatabase(`/messages/${chatBox.id}`)
-			.then(data => {
-				if (!data) {
-					data = {};
-				}
-				dispatch({ type: 'SET_STATE', payload: data });
-			})
-			.catch(error => console.log(error));
+		if (chatBox.id) {
+			setIsFetching(true);
+			fetchDatabase(`/messages/${chatBox.id}`)
+				.then(data => {
+					if (!data) {
+						data = {};
+					}
+					dispatch({ type: 'SET_STATE', payload: data });
+				})
+				.catch(error => console.log(error));
 
-		setIsFetching(false);
+			setIsFetching(false);
+		}
 	}, [chatBox.id, dispatch]);
 
 	return (

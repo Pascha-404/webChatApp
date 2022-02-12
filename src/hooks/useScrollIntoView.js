@@ -17,8 +17,13 @@ const useScrollIntoView = (scrollBehavior = 'instant') => {
 	};
 
 	useEffect(() => {
-		scrollToTarget();
-	});
+		if (localStorage.hasOwnProperty('webChat_layout')) {
+			const layoutLocalStore = JSON.parse(localStorage.getItem('webChat_layout'));
+			if (layoutLocalStore.chatBox.id !== '') {
+				scrollToTarget();
+			}
+		
+		}});
 
 	return [elementRef];
 };
