@@ -5,12 +5,12 @@ const reducer = (state, action) => {
 		case 'SET_STATE':
 			return action.payload;
 		case 'ADD_MSG':
-			const message = addDatabaseMessage({
+			const {messageData, newMsgKey} = addDatabaseMessage({
 				chatId: action.chatId,
 				sentBy: action.userId,
 				msg: action.msg,
 			});
-			return { ...state, message };
+			return { ...state, [newMsgKey]: {...messageData} };
 		default:
 			return state;
 	}

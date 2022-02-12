@@ -21,7 +21,7 @@ function addDatabaseMessage(paramsObj) {
 		[messageData.sentBy]: messageData.msg,
 	};
 	update(ref(database), updates);
-	return messageData;
+	return { messageData, newMsgKey };
 }
 
 export default addDatabaseMessage;
