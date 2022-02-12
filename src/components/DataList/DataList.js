@@ -39,6 +39,16 @@ function DataList() {
 				);
 			});
 			setGeneratedContent(generatedChats);
+		}else if (dataListContent === 'contacts') {
+			const generatedChats = contacts.map(contact => {
+				return (
+					<DataCard
+						key={contact.uuid}
+						target={contact}
+					/>
+				);
+			});
+			setGeneratedContent(generatedChats);
 		}
 	}, [chats, dataListContent, user.uuid, contacts]);
 
