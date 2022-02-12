@@ -56,7 +56,6 @@ function ChatBoxInput() {
 							value={state}
 							onChange={handleChange}
 							autoFocus
-							onSubmit={() => console.log('SEND MSG')}
 						/>
 					</FormControl>
 				</form>
