@@ -35,6 +35,7 @@ function DataList() {
 						target={contactData[0]}
 						msg={chat.lastMsg && chat.lastMsg}
 						time={chat.timestamp && chat.timestamp}
+						type={"chat"}
 					/>
 				);
 			});
@@ -43,6 +44,7 @@ function DataList() {
 			const generatedChats = contacts.map(contact => {
 				return (
 					<DataCard
+						type={"contact"}
 						key={contact.uuid}
 						target={contact}
 					/>
