@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import addDatabaseChat from '../services/api/addDatabaseChat';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -7,16 +8,8 @@ const reducer = (state, action) => {
 		case 'DELETE_CHAT':
 			return [state.filter(chat => action.chatId !== chat.chatId)];
 		case 'CREATE_CHAT':
-			return [
-				...state,
-				{
-					chatId: uuid(),
-					members: [action.userId, action.contactId],
-					messages: [],
-					chatCreated: Date.now(),
-					lastMsgSend: Date.now(),
-				},
-			];
+			const { chatData } = addDatabaseChat({user: action.user, target: action.target})
+			return [chatData, ...state]
 		case 'UPDATE_CHAT':
 			const updatedChat = state.filter(chat => action.chatId === chat.chatId);
 			updatedChat[0].lastMsg = { [action.sentBy]: action.msg };
