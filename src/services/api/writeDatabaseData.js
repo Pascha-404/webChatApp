@@ -5,4 +5,4 @@ function writeDatabaseData(path, paramsObject) {
 	set(ref(database, path), paramsObject);
 }
 
-export default writeMessageData;
+export default writeDatabaseData;
