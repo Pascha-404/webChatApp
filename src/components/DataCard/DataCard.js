@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, CardHeader, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import { Card, CardHeader, IconButton, Menu, MenuItem } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
@@ -14,6 +14,8 @@ function DataCard({ target, time, msg, chatId, type }) {
 	const chats = useChats();
 	const chatsDispatch = useChatsDispatch();
 	const layoutDispatch = useLayoutDispatch();
+	const [anchorEl, setAnchorEl] = useState(null);
+	const open = Boolean(anchorEl);
 	const targetName = target.firstName + ' ' + target.lastName;
 
 	function handleClick() {
@@ -22,12 +24,27 @@ function DataCard({ target, time, msg, chatId, type }) {
 		} else if (type === 'contact') {
 			const checkChats = chats.filter(chat => chat.members.includes(target.uuid));
 			if (checkChats.length === 1) {
-				layoutDispatch({ type: 'SET_CHATBOX', id: checkChats[0].chatId, target: target.uuid });
+				layoutDispatch({
+					type: 'SET_CHATBOX',
+					id: checkChats[0].chatId,
+					target: target.uuid,
+				});
+				layoutDispatch({type: 'SHOW_INBOX'})
 			} else if (checkChats.length === 0) {
 				chatsDispatch({ type: 'CREATE_CHAT', user: user.uuid, target: target.uuid });
-				
+				layoutDispatch({ type: 'SHOW_INBOX' });
 			}
 		}
+	}
+
+	function handleShowOptions(e) {
+		e.stopPropagation();
+		setAnchorEl(e.currentTarget);
+	}
+
+	function handleCloseOptions(e) {
+		e.stopPropagation();
+		setAnchorEl(null);
 	}
 
 	return (
@@ -37,11 +54,26 @@ function DataCard({ target, time, msg, chatId, type }) {
 				title={targetName}
 				subheader={msg && Object.values(msg)[0]}
 				action={
-					<IconButton>
+					<IconButton onClick={handleShowOptions}>
 						<ExpandMoreIcon />
 					</IconButton>
 				}
 			/>
+			<Menu open={open} anchorEl={anchorEl} onClose={handleCloseOptions}>
+				<MenuItem
+					onClick={e => {
+						e.stopPropagation();
+						chatsDispatch({
+							type: 'DELETE_CHAT',
+							user: user.uuid,
+							chatPartner: target.uuid,
+							chatId: chatId,
+						});
+						setAnchorEl(null)
+					}}>
+					Delete Chat
+				</MenuItem>
+			</Menu>
 		</Card>
 	);
 }
