@@ -1,15 +1,20 @@
-import { v4 as uuid } from 'uuid';
 import addDatabaseChat from '../services/api/addDatabaseChat';
+import deleteDatabaseChat from '../services/api/deleteDatabaseChat';
 
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'SET_STATE':
 			return action.state;
 		case 'DELETE_CHAT':
-			return [state.filter(chat => action.chatId !== chat.chatId)];
+			deleteDatabaseChat({
+				chatId: action.chatId,
+				user: action.user,
+				chatPartner: action.chatPartner,
+			});
+			return state.filter(chat => action.chatId !== chat.chatId);
 		case 'CREATE_CHAT':
-			const { chatData } = addDatabaseChat({user: action.user, target: action.target})
-			return [chatData, ...state]
+			const { chatData } = addDatabaseChat({ user: action.user, target: action.target });
+			return [chatData, ...state];
 		case 'UPDATE_CHAT':
 			const updatedChat = state.filter(chat => action.chatId === chat.chatId);
 			updatedChat[0].lastMsg = { [action.sentBy]: action.msg };
@@ -18,7 +23,7 @@ const reducer = (state, action) => {
 			const otherChats = state.filter(chat => action.chatId !== chat.chatId);
 
 			return [...updatedChat, ...otherChats];
-		
+
 		default:
 			return state;
 	}
