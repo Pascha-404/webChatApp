@@ -17,6 +17,7 @@ function addDatabaseChat(paramsObj) {
 	const updates = {};
     updates[`/userChats/${newChatKey}`] = chatData;
     updates[`/users/${paramsObj.user}/userChats/${newChatKey}`] = true;
+    updates[`/users/${paramsObj.target}/userChats/${newChatKey}`] = true;
 	
 	update(ref(database), updates);
 	return { chatData, newChatKey };
