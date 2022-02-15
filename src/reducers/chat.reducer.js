@@ -15,6 +15,7 @@ const reducer = (state, action) => {
 		case 'CREATE_CHAT':
 			const { chatData } = addDatabaseChat({ user: action.user, target: action.target });
 			return [chatData, ...state];
+		
 		case 'UPDATE_CHAT':
 			const updatedChat = state.filter(chat => action.chatId === chat.chatId);
 			updatedChat[0].lastMsg = { [action.sentBy]: action.msg };
