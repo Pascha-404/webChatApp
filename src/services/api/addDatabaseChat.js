@@ -20,7 +20,7 @@ function addDatabaseChat(paramsObj) {
     updates[`/users/${paramsObj.target}/userChats/${newChatKey}`] = true;
 	
 	update(ref(database), updates);
-	return { chatData, newChatKey };
+	return chatData;
 }
 
 export default addDatabaseChat;

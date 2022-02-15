@@ -29,7 +29,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 					id: checkChats[0].chatId,
 					target: target.uuid,
 				});
-				layoutDispatch({type: 'SHOW_INBOX'})
+				layoutDispatch({ type: 'SHOW_INBOX' });
 			} else if (checkChats.length === 0) {
 				chatsDispatch({ type: 'CREATE_CHAT', user: user.uuid, target: target.uuid });
 				layoutDispatch({ type: 'SHOW_INBOX' });
@@ -69,7 +69,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 							chatPartner: target.uuid,
 							chatId: chatId,
 						});
-						setAnchorEl(null)
+						setAnchorEl(null);
 					}}>
 					Delete Chat
 				</MenuItem>

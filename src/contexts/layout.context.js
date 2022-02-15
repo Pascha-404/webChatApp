@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import layoutReducer from '../reducers/layout.reducer';
 import useLocalStorageReducer from '../services/localStorage/useLocalStorageReducer';
 
@@ -31,6 +31,7 @@ function LayoutProvider({ children }) {
 		defaultLayout,
 		'webChat_layout'
 	);
+
 	return (
 		<LayoutContext.Provider value={state}>
 			<LayoutDispatch.Provider value={dispatch}>{children}</LayoutDispatch.Provider>

@@ -23,7 +23,7 @@ function DataList() {
 
 	useEffect(() => {
 		if (dataListContent === 'inbox') {
-			const generatedChats = sortByTimestamp(chats, "descending").map(chat => {
+			const generatedChats = sortByTimestamp(chats, 'descending').map(chat => {
 				const chatPartner = chat.members.filter(member => user.uuid !== member);
 				const contactData = contacts.filter(
 					contact => String(chatPartner) === contact.uuid
@@ -35,20 +35,14 @@ function DataList() {
 						target={contactData[0]}
 						msg={chat.lastMsg && chat.lastMsg}
 						time={chat.timestamp && chat.timestamp}
-						type={"chat"}
+						type={'chat'}
 					/>
 				);
 			});
 			setGeneratedContent(generatedChats);
-		}else if (dataListContent === 'contacts') {
+		} else if (dataListContent === 'contacts') {
 			const generatedChats = contacts.map(contact => {
-				return (
-					<DataCard
-						type={"contact"}
-						key={contact.uuid}
-						target={contact}
-					/>
-				);
+				return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
 			});
 			setGeneratedContent(generatedChats);
 		}
