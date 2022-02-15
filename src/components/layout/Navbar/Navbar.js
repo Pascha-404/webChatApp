@@ -11,7 +11,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Grid } from '@mui/material';
 
 import useInputState from '../../../hooks/useInputState';
-import { useLayoutDispatch } from '../../../contexts/layout.context';
+import { useLayout, useLayoutDispatch } from '../../../contexts/layout.context';
 
 import UserAvatar from '../../UserAvatar';
 
@@ -19,7 +19,7 @@ import useStyles from './Navbar.style';
 
 function Navbar() {
 	const layoutDispatch = useLayoutDispatch();
-	const { state, handleExplChange } = useInputState('inbox');
+	const layout = useLayout();
 
 	const classes = useStyles();
 
@@ -30,8 +30,10 @@ function Navbar() {
 				<Tabs
 					className={classes.menuIcons}
 					orientation='vertical'
-					value={state}
-					onChange={handleExplChange}
+					value={layout.dataListContent}
+					onChange={(e, newValue) =>
+						layoutDispatch({ type: 'SET_DATALISTCONTENT', newValue: newValue })
+					}
 					aria-label='Navbar options'>
 					<Tab icon={<HomeIcon />} aria-label='home' value={'home'} />
 					<Tab
