@@ -29,7 +29,6 @@ function MessagesProvider({ children }) {
 	const { chatBox } = useLayout();
 	const [messages, dispatch] = useMessageReducer(messageReducer, {});
 	const [isFetching, setIsFetching] = useState(false);
-
 	useEffect(() => {
 		if (chatBox.id) {
 			setIsFetching(true);
