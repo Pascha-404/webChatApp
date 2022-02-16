@@ -10,10 +10,11 @@ import { useUser } from '../../contexts/user.context';
 import addDatabaseChat from '../../services/api/addDatabaseChat';
 
 function DataCard({ target, time, msg, chatId, type }) {
-	const classes = useStyles();
+	const { chatBox } = useLayout();
+	const isActive = chatId === chatBox.id;
+	const classes = useStyles({ isActive });
 	const user = useUser();
 	const chats = useChats();
-	const { chatBox } = useLayout();
 	const chatsDispatch = useChatsDispatch();
 	const layoutDispatch = useLayoutDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -33,10 +34,17 @@ function DataCard({ target, time, msg, chatId, type }) {
 				});
 				layoutDispatch({ type: 'SHOW_INBOX' });
 			} else if (checkChats.length === 0) {
-				const createdChat = await addDatabaseChat({user: user.uuid, target: target.uuid})
+				const createdChat = await addDatabaseChat({
+					user: user.uuid,
+					target: target.uuid,
+				});
 				chatsDispatch({ type: 'CREATE_CHAT', newChat: createdChat });
 				layoutDispatch({ type: 'SHOW_INBOX' });
-				layoutDispatch({ type: 'SET_CHATBOX', id: createdChat.chatId, target: target.uuid})
+				layoutDispatch({
+					type: 'SET_CHATBOX',
+					id: createdChat.chatId,
+					target: target.uuid,
+				});
 			}
 		}
 	}
@@ -73,11 +81,13 @@ function DataCard({ target, time, msg, chatId, type }) {
 							chatPartner: target.uuid,
 							chatId: chatId,
 						});
-						if(chatBox.id === chatId){layoutDispatch({
-							type: 'SET_CHATBOX',
-							id: '',
-							target: '',
-						});}
+						if (chatBox.id === chatId) {
+							layoutDispatch({
+								type: 'SET_CHATBOX',
+								id: '',
+								target: '',
+							});
+						}
 						setAnchorEl(null);
 					}}>
 					Delete Chat
