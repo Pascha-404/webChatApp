@@ -13,8 +13,7 @@ const reducer = (state, action) => {
 			});
 			return state.filter(chat => action.chatId !== chat.chatId);
 		case 'CREATE_CHAT':
-			const chatData = addDatabaseChat({ user: action.user, target: action.target });
-			return [chatData, ...state];
+			return [action.newChat, ...state];
 		
 		case 'UPDATE_CHAT':
 			const updatedChat = state.filter(chat => action.chatId === chat.chatId);

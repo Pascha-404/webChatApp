@@ -7,6 +7,7 @@ import useStyles from './DataCard.style';
 import { useLayoutDispatch } from '../../contexts/layout.context';
 import { useChats, useChatsDispatch } from '../../contexts/chats.context';
 import { useUser } from '../../contexts/user.context';
+import addDatabaseChat from '../../services/api/addDatabaseChat';
 
 function DataCard({ target, time, msg, chatId, type }) {
 	const classes = useStyles();
@@ -18,7 +19,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 	const open = Boolean(anchorEl);
 	const targetName = target.firstName + ' ' + target.lastName;
 
-	function handleClick() {
+	async function handleClick() {
 		if (type === 'chat') {
 			layoutDispatch({ type: 'SET_CHATBOX', id: chatId, target: target.uuid });
 		} else if (type === 'contact') {
@@ -31,8 +32,10 @@ function DataCard({ target, time, msg, chatId, type }) {
 				});
 				layoutDispatch({ type: 'SHOW_INBOX' });
 			} else if (checkChats.length === 0) {
-				chatsDispatch({ type: 'CREATE_CHAT', user: user.uuid, target: target.uuid });
+				const createdChat = await addDatabaseChat({user: user.uuid, target: target.uuid})
+				chatsDispatch({ type: 'CREATE_CHAT', newChat: createdChat });
 				layoutDispatch({ type: 'SHOW_INBOX' });
+				layoutDispatch({ type: 'SET_CHATBOX', id: createdChat.chatId, target: target.uuid})
 			}
 		}
 	}
