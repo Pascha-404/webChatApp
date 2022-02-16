@@ -19,8 +19,8 @@ function WebChatApp() {
 					<Navbar />
 					<ContactsProvider>
 						<ChatsProvider>
+							<DataList />
 							<MessagesProvider>
-								<DataList />
 								<ChatBox />
 							</MessagesProvider>
 						</ChatsProvider>

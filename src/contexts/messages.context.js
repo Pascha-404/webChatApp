@@ -45,14 +45,16 @@ function MessagesProvider({ children }) {
 		}
 	}, [chatBox.id, dispatch]);
 
-	return (
-		<MessagesContext.Provider value={messages}>
-			<MessagesDispatch.Provider value={dispatch}>
-				{!isFetching && children}
-				{isFetching && <Loading />}
-			</MessagesDispatch.Provider>
-		</MessagesContext.Provider>
-	);
+	if (chatBox.id) {
+		return (
+			<MessagesContext.Provider value={messages}>
+				<MessagesDispatch.Provider value={dispatch}>
+					{!isFetching && children}
+					{isFetching && <Loading />}
+				</MessagesDispatch.Provider>
+			</MessagesContext.Provider>
+		);
+	} return null
 }
 
 export { MessagesProvider, useMessages, useMessagesDispatch };
