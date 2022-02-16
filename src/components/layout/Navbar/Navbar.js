@@ -10,8 +10,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Grid } from '@mui/material';
 
-import useInputState from '../../../hooks/useInputState';
 import { useLayout, useLayoutDispatch } from '../../../contexts/layout.context';
+import { useUser } from '../../../contexts/user.context';
 
 import UserAvatar from '../../UserAvatar';
 
@@ -20,13 +20,13 @@ import useStyles from './Navbar.style';
 function Navbar() {
 	const layoutDispatch = useLayoutDispatch();
 	const layout = useLayout();
-
+	const user = useUser();
 	const classes = useStyles();
 
 	return (
 		<Grid item xs={2} sm={1.5} md={1} lg={1}>
 			<nav className={classes.navbar}>
-				<UserAvatar />
+				<UserAvatar userName={`${user.firstName} ${user.lastName}`} imgUrl={user.pictureLink} />
 				<Tabs
 					className={classes.menuIcons}
 					orientation='vertical'
