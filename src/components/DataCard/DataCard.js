@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
-import { useLayoutDispatch } from '../../contexts/layout.context';
+import { useLayout, useLayoutDispatch } from '../../contexts/layout.context';
 import { useChats, useChatsDispatch } from '../../contexts/chats.context';
 import { useUser } from '../../contexts/user.context';
 import addDatabaseChat from '../../services/api/addDatabaseChat';
@@ -13,6 +13,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 	const classes = useStyles();
 	const user = useUser();
 	const chats = useChats();
+	const { chatBox } = useLayout();
 	const chatsDispatch = useChatsDispatch();
 	const layoutDispatch = useLayoutDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -72,6 +73,11 @@ function DataCard({ target, time, msg, chatId, type }) {
 							chatPartner: target.uuid,
 							chatId: chatId,
 						});
+						if(chatBox.id === chatId){layoutDispatch({
+							type: 'SET_CHATBOX',
+							id: '',
+							target: '',
+						});}
 						setAnchorEl(null);
 					}}>
 					Delete Chat
