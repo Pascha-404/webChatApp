@@ -4,7 +4,6 @@ import ChatBoxInput from '../ChatBoxInput';
 import ChatBoxHeader from '../ChatBoxHeader/ChatBoxHeader';
 import ChatBubble from '../ChatBubble/ChatBubble';
 
-import sortByTimestamp from '../../utilities/sortByTimestamp';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
 import { useUser } from '../../contexts/user.context';
 import { useLayout } from '../../contexts/layout.context';
