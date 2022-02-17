@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, IconButton, Menu, MenuItem } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
@@ -19,6 +20,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 	const layoutDispatch = useLayoutDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
+	const isUser = Object.keys(msg)[0] === user.uuid
 	const targetName = target.firstName + ' ' + target.lastName;
 
 	async function handleClick() {
@@ -64,7 +66,9 @@ function DataCard({ target, time, msg, chatId, type }) {
 			<CardHeader
 				avatar={<UserAvatar userName={targetName} imgUrl={target.pictureLink} />}
 				title={targetName}
-				subheader={msg && Object.values(msg)[0]}
+				subheader={
+					msg && isUser ? `\u27A5 ${Object.values(msg)[0]}` : Object.values(msg)[0]
+				}
 				action={
 					<IconButton onClick={handleShowOptions}>
 						<ExpandMoreIcon />
