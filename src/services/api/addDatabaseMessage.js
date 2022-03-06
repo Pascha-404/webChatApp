@@ -1,4 +1,4 @@
-import database from '../../firebase.config';
+import { database } from '../../firebase.config';
 import { ref, push, update, child } from 'firebase/database';
 
 function addDatabaseMessage(paramsObj) {

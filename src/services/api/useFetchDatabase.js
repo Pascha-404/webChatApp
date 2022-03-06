@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import database from '../../firebase.config';
+import { database } from '../../firebase.config';
 import { ref, onValue } from 'firebase/database';
 
 const useFetchDatabase = path => {
@@ -7,17 +7,16 @@ const useFetchDatabase = path => {
 	const [isFetching, setIsFetching] = useState(true);
 	useEffect(() => {
 		const fetchData = () => {
-			setIsFetching(true)
+			setIsFetching(true);
 			const fetchRef = ref(database, path);
 
 			onValue(fetchRef, snapshot => {
 				const data = snapshot.val();
 				setState(data);
-				setIsFetching(false)
+				setIsFetching(false);
 			});
-			
-        };
-        fetchData()
+		};
+		fetchData();
 	}, [path]);
 
 	return [state, isFetching];
