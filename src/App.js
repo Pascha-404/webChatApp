@@ -1,9 +1,9 @@
-import WebChatApp from './components/WebChatApp';
+import Routes from './Routes';
 
 function App() {
 	return (
 		<div className='App'>
-			<WebChatApp />
+			<Routes />
 		</div>
 	);
 }
