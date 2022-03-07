@@ -8,7 +8,7 @@ function PageContent({ children }) {
 	const classes = useStyles();
 	return (
 		<Box className={classes.pageContent}>
-			<Grid container spacing={2}>
+			<Grid container justifyContent={'center'} alignItems={"center"} spacing={2}>
 				{children}
 			</Grid>
 		</Box>
