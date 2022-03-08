@@ -39,31 +39,37 @@ function LoginForm() {
 
 	const handleMouseDownPassword = event => {
 		event.preventDefault();
-	};
+    };
+    
+    const handleSigninMethod = e => {
+        const { value } = e.currentTarget.dataset
+        setValues({...values, signInType: value, formState: 'loginForm'})
+   };
+    
 	return (
 		<Paper sx={{ width: 320, maxWidth: '100%' }}>
 			<h1>LoginForm</h1>
 			{values.formState === 'loginType' && (
-				<MenuList value={'google'} onClick={handleChange('signInType')}>
-					<MenuItem divider={true}>
+				<MenuList>
+					<MenuItem divider={true} data-value={'google'} onClick={handleSigninMethod}>
 						<ListItemIcon>
 							<GoogleIcon fontSize={'large'} />
 						</ListItemIcon>
 						<ListItemText>Sign in with Google</ListItemText>
 					</MenuItem>
-					<MenuItem divider={true}>
+					<MenuItem divider={true} data-value={'github'} onClick={handleSigninMethod}>
 						<ListItemIcon>
 							<GitHubIcon fontSize={'large'} />
 						</ListItemIcon>
 						<ListItemText>Sign in with GitHub</ListItemText>
 					</MenuItem>
-					<MenuItem divider={true}>
+					<MenuItem divider={true} data-value={'email'} onClick={handleSigninMethod}>
 						<ListItemIcon>
 							<EmailIcon fontSize={'large'} />
 						</ListItemIcon>
 						<ListItemText>Sign in with Email</ListItemText>
 					</MenuItem>
-					<MenuItem>
+					<MenuItem data-value={'anonymus'} onClick={handleSigninMethod}>
 						<ListItemIcon>
 							<VisibilityOffIcon fontSize={'large'} />
 						</ListItemIcon>
