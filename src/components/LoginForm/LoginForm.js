@@ -11,16 +11,19 @@ import {
 	InputAdornment,
 	IconButton,
 	TextField,
+	Button,
 } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import EmailIcon from '@mui/icons-material/Email';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function LoginForm() {
 	const [values, setValues] = useState({
 		formState: 'loginType',
+		lastFormState: '',
 		signInType: '',
 		password: '',
 		showPassword: false,
@@ -39,16 +42,34 @@ function LoginForm() {
 
 	const handleMouseDownPassword = event => {
 		event.preventDefault();
-    };
-    
-    const handleSigninMethod = e => {
-        const { value } = e.currentTarget.dataset
-        setValues({...values, signInType: value, formState: 'loginForm'})
-   };
-    
+	};
+
+	const handleSigninMethod = e => {
+		const { value } = e.currentTarget.dataset;
+		setValues({
+			...values,
+			signInType: value,
+			formState: 'loginForm',
+			lastFormState: values.formState,
+		});
+	};
+
+	const handleGoBack = e => {
+		setValues({
+			...values,
+			formState: values.lastFormState,
+			lastFormState: values.formState,
+		});
+	};
+
 	return (
 		<Paper sx={{ width: 320, maxWidth: '100%' }}>
 			<h1>LoginForm</h1>
+			{values.formState !== "loginType" && (
+				<IconButton aria-label='go back' onClick={handleGoBack}>
+					<ArrowBackIcon />
+				</IconButton>
+			)}
 			{values.formState === 'loginType' && (
 				<MenuList>
 					<MenuItem divider={true} data-value={'google'} onClick={handleSigninMethod}>
@@ -106,6 +127,7 @@ function LoginForm() {
 							label='Password'
 						/>
 					</FormControl>
+					<Button variant='contained'>Sign In</Button>
 				</React.Fragment>
 			)}
 		</Paper>
