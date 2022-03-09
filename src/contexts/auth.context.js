@@ -1,14 +1,24 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-const AuthContext = useContext();
-const AuthDispatch = useContext();
+const AuthContext = createContext();
+const AuthDispatch = createContext();
+
+function useAuth() {
+	const context = useContext(AuthContext);
+	return context;
+}
+function useAuthDispatch() {
+	const dispatch = useContext(AuthDispatch);
+	return dispatch;
+}
 
 function AuthProvider({ children }) {
+	let [user, setUser] = useState();
 	return (
-		<AuthContext.Provider>
-			<AuthDispatch.Provider>{children}</AuthDispatch.Provider>
+		<AuthContext.Provider value={user}>
+			<AuthDispatch.Provider value="dispatch">{children}</AuthDispatch.Provider>
 		</AuthContext.Provider>
 	);
 }
 
-export default AuthProvider;
+export { AuthProvider, useAuth, useAuthDispatch };
