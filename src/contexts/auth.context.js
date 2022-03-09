@@ -4,11 +4,17 @@ const AuthContext = createContext();
 const AuthDispatch = createContext();
 
 function useAuth() {
-	const context = useContext(AuthContext);
+    const context = useContext(AuthContext);
+    if (context === undefined) {
+        throw new Error('useAuth must be used within a AuthProvider')
+    }
 	return context;
 }
 function useAuthDispatch() {
-	const dispatch = useContext(AuthDispatch);
+    const dispatch = useContext(AuthDispatch);
+    if (dispatch === undefined) {
+        throw new Error('useAuthDispatch must be used within a AuthProvider')
+    }
 	return dispatch;
 }
 
