@@ -19,7 +19,7 @@ function useAuthDispatch() {
 }
 
 function AuthProvider({ children }) {
-	let [user, setUser] = useState();
+	let [user, setUser] = useState('');
 	return (
 		<AuthContext.Provider value={user}>
 			<AuthDispatch.Provider value="dispatch">{children}</AuthDispatch.Provider>
