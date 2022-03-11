@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
 import {
-	Paper,
-	MenuList,
-	MenuItem,
-	ListItemIcon,
-	ListItemText,
 	FormControl,
 	InputLabel,
 	OutlinedInput,
@@ -12,15 +7,20 @@ import {
 	IconButton,
 	TextField,
 	Button,
+	Typography,
 } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import EmailIcon from '@mui/icons-material/Email';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {
+	Google,
+	GitHub,
+	Email,
+	VisibilityOff,
+	Visibility,
+	ArrowBack,
+} from '@mui/icons-material';
+import useStyles from './LoginForm.style';
 
 function LoginForm() {
+	const classes = useStyles();
 	const [values, setValues] = useState({
 		formState: 'loginType',
 		lastFormState: '',
@@ -63,40 +63,51 @@ function LoginForm() {
 	};
 
 	return (
-		<Paper sx={{ width: 320, maxWidth: '100%' }}>
-			<h1>LoginForm</h1>
-			{values.formState !== "loginType" && (
+		<section className={classes.loginForm}>
+			{values.formState !== 'loginType' && (
 				<IconButton aria-label='go back' onClick={handleGoBack}>
-					<ArrowBackIcon />
+					<ArrowBack />
 				</IconButton>
 			)}
 			{values.formState === 'loginType' && (
-				<MenuList>
-					<MenuItem divider={true} data-value={'google'} onClick={handleSigninMethod}>
-						<ListItemIcon>
-							<GoogleIcon fontSize={'large'} />
-						</ListItemIcon>
-						<ListItemText>Sign in with Google</ListItemText>
-					</MenuItem>
-					<MenuItem divider={true} data-value={'github'} onClick={handleSigninMethod}>
-						<ListItemIcon>
-							<GitHubIcon fontSize={'large'} />
-						</ListItemIcon>
-						<ListItemText>Sign in with GitHub</ListItemText>
-					</MenuItem>
-					<MenuItem divider={true} data-value={'email'} onClick={handleSigninMethod}>
-						<ListItemIcon>
-							<EmailIcon fontSize={'large'} />
-						</ListItemIcon>
-						<ListItemText>Sign in with Email</ListItemText>
-					</MenuItem>
-					<MenuItem data-value={'anonymus'} onClick={handleSigninMethod}>
-						<ListItemIcon>
-							<VisibilityOffIcon fontSize={'large'} />
-						</ListItemIcon>
-						<ListItemText>Sign in anonymously</ListItemText>
-					</MenuItem>
-				</MenuList>
+				<React.Fragment>
+					<h2 className={classes.heading}>Sign in to start messaging</h2>
+					<Button
+						variant='contained'
+						startIcon={<Google />}
+						data-value={'google'}
+						onClick={handleSigninMethod}
+						className={`${classes.signInBtn} googleBtn`}>
+						Sign in with Google
+					</Button>
+					<Button
+						variant='contained'
+						startIcon={<GitHub />}
+						data-value={'github'}
+						onClick={handleSigninMethod}
+						className={`${classes.signInBtn} gitHubBtn`}>
+						Sign in with GitHub
+					</Button>
+					<Button
+						variant='contained'
+						startIcon={<Email />}
+						data-value={'email'}
+						onClick={handleSigninMethod}
+						className={`${classes.signInBtn} emailBtn`}>
+						Sign in with Email
+					</Button>
+					<Button
+						variant='contained'
+						startIcon={<Visibility />}
+						data-value={'anonymously'}
+						onClick={handleSigninMethod}
+						className={`${classes.signInBtn} anonymBtn`}>
+						Sign in Anonymously
+					</Button>
+					<Typography align='center' type='caption' component='div' gutterBottom>
+						Dont have an account? Register here
+					</Typography>
+				</React.Fragment>
 			)}
 
 			{values.formState === 'loginForm' && (
@@ -120,7 +131,7 @@ function LoginForm() {
 										onClick={handleClickShowPassword}
 										onMouseDown={handleMouseDownPassword}
 										edge='end'>
-										{values.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+										{values.showPassword ? <VisibilityOff /> : <Visibility />}
 									</IconButton>
 								</InputAdornment>
 							}
@@ -128,9 +139,12 @@ function LoginForm() {
 						/>
 					</FormControl>
 					<Button variant='contained'>Sign In</Button>
+					<Typography align='center' type='caption' component='div' gutterBottom>
+						Dont have an account? Register here
+					</Typography>
 				</React.Fragment>
 			)}
-		</Paper>
+		</section>
 	);
 }
 
