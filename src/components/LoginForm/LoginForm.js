@@ -8,6 +8,8 @@ import {
 	TextField,
 	Button,
 	Typography,
+	Radio,
+	FormControlLabel,
 } from '@mui/material';
 import {
 	Google,
@@ -25,12 +27,18 @@ function LoginForm() {
 		formState: 'loginType',
 		lastFormState: '',
 		signInType: '',
+		email: '',
 		password: '',
+		rememberMe: false,
 		showPassword: false,
 	});
 
 	const handleChange = prop => event => {
-		setValues({ ...values, [prop]: event.target.value });
+		if (typeof values[prop] === 'boolean') {
+			setValues({ ...values, [prop]: !values[prop] });
+		} else {
+			setValues({ ...values, [prop]: event.target.value });
+		}
 	};
 
 	const handleClickShowPassword = () => {
@@ -65,19 +73,23 @@ function LoginForm() {
 	return (
 		<section className={classes.loginForm}>
 			{values.formState !== 'loginType' && (
-				<IconButton aria-label='go back' onClick={handleGoBack}>
-					<ArrowBack />
+				<IconButton
+					size='medium'
+					aria-label='go back'
+					onClick={handleGoBack}
+					className={classes.backBtn}>
+					<ArrowBack fontSize='inherit' />
 				</IconButton>
 			)}
 			{values.formState === 'loginType' && (
 				<React.Fragment>
-					<h2 className={classes.heading}>Sign in to start messaging</h2>
+					<Typography className={classes.heading}>Sign in to start messaging</Typography>
 					<Button
 						variant='contained'
 						startIcon={<Google />}
 						data-value={'google'}
 						onClick={handleSigninMethod}
-						className={`${classes.signInBtn} googleBtn`}>
+						className={`${classes.interactionField} googleBtn`}>
 						Sign in with Google
 					</Button>
 					<Button
@@ -85,7 +97,7 @@ function LoginForm() {
 						startIcon={<GitHub />}
 						data-value={'github'}
 						onClick={handleSigninMethod}
-						className={`${classes.signInBtn} gitHubBtn`}>
+						className={`${classes.interactionField} gitHubBtn`}>
 						Sign in with GitHub
 					</Button>
 					<Button
@@ -93,15 +105,15 @@ function LoginForm() {
 						startIcon={<Email />}
 						data-value={'email'}
 						onClick={handleSigninMethod}
-						className={`${classes.signInBtn} emailBtn`}>
+						className={`${classes.interactionField} emailBtn`}>
 						Sign in with Email
 					</Button>
 					<Button
 						variant='contained'
-						startIcon={<Visibility />}
+						startIcon={<VisibilityOff />}
 						data-value={'anonymously'}
 						onClick={handleSigninMethod}
-						className={`${classes.signInBtn} anonymBtn`}>
+						className={`${classes.interactionField} anonymBtn`}>
 						Sign in Anonymously
 					</Button>
 					<Typography align='center' type='caption' component='div' gutterBottom>
@@ -112,12 +124,15 @@ function LoginForm() {
 
 			{values.formState === 'loginForm' && (
 				<React.Fragment>
+					<Typography className={classes.heading}>Sign in with Email</Typography>
 					<TextField
 						label='E-Mail'
+						autoFocus
 						id='outlined-start-adornment'
-						sx={{ m: 1, width: '25ch' }}
+						onChange={handleChange('email')}
+						className={classes.interactionField}
 					/>
-					<FormControl sx={{ m: 1, width: '25ch' }} variant='outlined'>
+					<FormControl className={classes.interactionField} variant='outlined'>
 						<InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
 						<OutlinedInput
 							id='outlined-adornment-password'
@@ -138,7 +153,18 @@ function LoginForm() {
 							label='Password'
 						/>
 					</FormControl>
-					<Button variant='contained'>Sign In</Button>
+					<FormControlLabel className={`${classes.interactionField} radioBtn`}
+						control={
+							<Radio checked={values.rememberMe} onClick={handleChange('rememberMe')} />
+						}
+						label='Remember me'
+					/>
+					<Button
+						variant='contained'
+						className={`${classes.interactionField} confirmBtn`}>
+						Sign In
+					</Button>
+
 					<Typography align='center' type='caption' component='div' gutterBottom>
 						Dont have an account? Register here
 					</Typography>
