@@ -20,9 +20,15 @@ function Routing() {
 				/>
 				<Route path='auth' element={<AuthPage />}>
 					<Route index element={<AuthForm formState='authType' />} />
-					<Route path='email' element={<AuthForm formState='authForm' />}>
-						<Route path='register' element={<AuthForm formState='registerForm' />} />{' '}
-					</Route>
+					<Route path='email' element={<AuthForm formState='authForm' />} />
+					<Route
+						path='email/register'
+						element={<AuthForm formState='authForm' registerEmail />}
+					/>
+					<Route
+						path='anonym'
+						element={<AuthForm formState='authForm' authAnonym />}
+					/>
 				</Route>
 			</Routes>
 		</AuthProvider>
