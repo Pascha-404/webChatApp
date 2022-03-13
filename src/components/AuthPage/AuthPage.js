@@ -1,6 +1,5 @@
 import React from 'react';
-import PageContent from '../layout/PageContent';
-import LoginForm from '../LoginForm/LoginForm';
+
 import {
 	Grid,
 	Typography,
@@ -10,9 +9,11 @@ import {
 	ListItemText,
 } from '@mui/material';
 import { CircleOutlined, MailOutlined } from '@mui/icons-material';
-import useStyles from './LoginPage.style';
+import { Outlet } from 'react-router-dom';
+import PageContent from '../layout/PageContent';
+import useStyles from './AuthPage.style';
 
-function LoginPage() {
+function AuthPage() {
 	const classes = useStyles();
 	return (
 		<PageContent>
@@ -45,7 +46,7 @@ function LoginPage() {
 							</ListItemIcon>
 							<ListItemText primary='Your friends will respect youu and provide expensive presents' />
 						</ListItem>
-						
+
 						<ListItem className={classes.listItem}>
 							<ListItemIcon className={classes.listIcon}>
 								<CircleOutlined />
@@ -70,10 +71,10 @@ function LoginPage() {
 				alignItems='center'
 				sm={6}
 				className={classes.formSide}>
-				<LoginForm />
+				<Outlet />
 			</Grid>
 		</PageContent>
 	);
 }
 
-export default LoginPage;
+export default AuthPage;

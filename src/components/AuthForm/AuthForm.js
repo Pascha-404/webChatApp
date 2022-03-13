@@ -19,13 +19,13 @@ import {
 	Visibility,
 	ArrowBack,
 } from '@mui/icons-material';
-import useStyles from './LoginForm.style';
+import { Link, useNavigate } from 'react-router-dom';
+import useStyles from './AuthForm.style';
 
-function LoginForm() {
+function AuthForm({ formState }) {
 	const classes = useStyles();
+	const navigate = useNavigate();
 	const [values, setValues] = useState({
-		formState: 'loginType',
-		lastFormState: '',
 		signInType: '',
 		email: '',
 		password: '',
@@ -57,22 +57,16 @@ function LoginForm() {
 		setValues({
 			...values,
 			signInType: value,
-			formState: 'loginForm',
-			lastFormState: values.formState,
 		});
 	};
 
 	const handleGoBack = e => {
-		setValues({
-			...values,
-			formState: values.lastFormState,
-			lastFormState: values.formState,
-		});
+		navigate(-1);
 	};
 
 	return (
-		<section className={classes.loginForm}>
-			{values.formState !== 'loginType' && (
+		<section className={classes.authForm}>
+			{formState !== 'authType' && (
 				<IconButton
 					size='medium'
 					aria-label='go back'
@@ -81,7 +75,7 @@ function LoginForm() {
 					<ArrowBack fontSize='inherit' />
 				</IconButton>
 			)}
-			{values.formState === 'loginType' && (
+			{formState === 'authType' && (
 				<React.Fragment>
 					<Typography className={classes.heading}>Sign in to start messaging</Typography>
 					<Button
@@ -100,14 +94,16 @@ function LoginForm() {
 						className={`${classes.interactionField} gitHubBtn`}>
 						Sign in with GitHub
 					</Button>
-					<Button
-						variant='contained'
-						startIcon={<Email />}
-						data-value={'email'}
-						onClick={handleSigninMethod}
-						className={`${classes.interactionField} emailBtn`}>
-						Sign in with Email
-					</Button>
+					<Link to='email'>
+						<Button
+							variant='contained'
+							startIcon={<Email />}
+							data-value={'email'}
+							onClick={handleSigninMethod}
+							className={`${classes.interactionField} emailBtn`}>
+							Sign in with Email
+						</Button>
+					</Link>
 					<Button
 						variant='contained'
 						startIcon={<VisibilityOff />}
@@ -116,13 +112,10 @@ function LoginForm() {
 						className={`${classes.interactionField} anonymBtn`}>
 						Sign in Anonymously
 					</Button>
-					<Typography align='center' type='caption' component='div' gutterBottom>
-						Dont have an account? Register here
-					</Typography>
 				</React.Fragment>
 			)}
 
-			{values.formState === 'loginForm' && (
+			{formState === 'authForm' && (
 				<React.Fragment>
 					<Typography className={classes.heading}>Sign in with Email</Typography>
 					<TextField
@@ -153,7 +146,8 @@ function LoginForm() {
 							label='Password'
 						/>
 					</FormControl>
-					<FormControlLabel className={`${classes.interactionField} radioBtn`}
+					<FormControlLabel
+						className={`${classes.interactionField} radioBtn`}
 						control={
 							<Radio checked={values.rememberMe} onClick={handleChange('rememberMe')} />
 						}
@@ -166,7 +160,7 @@ function LoginForm() {
 					</Button>
 
 					<Typography align='center' type='caption' component='div' gutterBottom>
-						Dont have an account? Register here
+						Dont have an account? <Link to='register'>Register here</Link>
 					</Typography>
 				</React.Fragment>
 			)}
@@ -174,4 +168,4 @@ function LoginForm() {
 	);
 }
 
-export default LoginForm;
+export default AuthForm;
