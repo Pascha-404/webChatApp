@@ -22,11 +22,12 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import useStyles from './AuthForm.style';
 
-function AuthForm({ formState }) {
-	const classes = useStyles();
+function AuthForm({ formState, registerEmail, authAnonym }) {
+	const classes = useStyles({authAnonym});
 	const navigate = useNavigate();
 	const [values, setValues] = useState({
 		signInType: '',
+		userName: '',
 		email: '',
 		password: '',
 		rememberMe: false,
@@ -94,7 +95,7 @@ function AuthForm({ formState }) {
 						className={`${classes.interactionField} gitHubBtn`}>
 						Sign in with GitHub
 					</Button>
-					<Link to='email'>
+					<Link to='email' className={classes.unstyleLink}>
 						<Button
 							variant='contained'
 							startIcon={<Email />}
@@ -104,64 +105,88 @@ function AuthForm({ formState }) {
 							Sign in with Email
 						</Button>
 					</Link>
-					<Button
-						variant='contained'
-						startIcon={<VisibilityOff />}
-						data-value={'anonymously'}
-						onClick={handleSigninMethod}
-						className={`${classes.interactionField} anonymBtn`}>
-						Sign in Anonymously
-					</Button>
+					<Link to='anonym' className={classes.unstyleLink}>
+						<Button
+							variant='contained'
+							startIcon={<VisibilityOff />}
+							data-value={'anonymously'}
+							onClick={handleSigninMethod}
+							className={`${classes.interactionField} anonymBtn`}>
+							Sign in Anonymously
+						</Button>
+					</Link>
 				</React.Fragment>
 			)}
 
 			{formState === 'authForm' && (
 				<React.Fragment>
-					<Typography className={classes.heading}>Sign in with Email</Typography>
-					<TextField
-						label='E-Mail'
-						autoFocus
-						id='outlined-start-adornment'
-						onChange={handleChange('email')}
-						className={classes.interactionField}
-					/>
-					<FormControl className={classes.interactionField} variant='outlined'>
-						<InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
-						<OutlinedInput
-							id='outlined-adornment-password'
-							type={values.showPassword ? 'text' : 'password'}
-							value={values.password}
-							onChange={handleChange('password')}
-							endAdornment={
-								<InputAdornment position='end'>
-									<IconButton
-										aria-label='toggle password visibility'
-										onClick={handleClickShowPassword}
-										onMouseDown={handleMouseDownPassword}
-										edge='end'>
-										{values.showPassword ? <VisibilityOff /> : <Visibility />}
-									</IconButton>
-								</InputAdornment>
-							}
-							label='Password'
+					{!registerEmail && !authAnonym && (
+						<Typography className={classes.heading}>Sign in with Email</Typography>
+					)}
+					{registerEmail && (
+						<Typography className={classes.heading}>Register with Email</Typography>
+					)}
+					{authAnonym && (
+						<Typography className={classes.heading}>Sign in Anonymously</Typography>
+					)}
+					{!authAnonym ? (
+						<TextField
+							label='E-Mail'
+							autoFocus
+							id='outlined-start-adornment'
+							onChange={handleChange('email')}
+							className={classes.interactionField}
 						/>
-					</FormControl>
-					<FormControlLabel
-						className={`${classes.interactionField} radioBtn`}
-						control={
-							<Radio checked={values.rememberMe} onClick={handleChange('rememberMe')} />
-						}
-						label='Remember me'
-					/>
+					) : (
+						<TextField
+							label='Username'
+							autoFocus
+							id='outlined-start-adornment'
+							onChange={handleChange('userName')}
+							className={classes.interactionField}
+						/>
+					)}
+					{!authAnonym && <React.Fragment>
+						<FormControl className={classes.interactionField} variant='outlined'>
+							<InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+							<OutlinedInput
+								id='outlined-adornment-password'
+								type={values.showPassword ? 'text' : 'password'}
+								value={values.password}
+								onChange={handleChange('password')}
+								endAdornment={
+									<InputAdornment position='end'>
+										<IconButton
+											aria-label='toggle password visibility'
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+											edge='end'>
+											{values.showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+								label='Password'
+							/>
+						</FormControl>
+						<FormControlLabel
+							className={`${classes.interactionField} radioBtn`}
+							control={
+								<Radio checked={values.rememberMe} onClick={handleChange('rememberMe')} />
+							}
+							label='Remember me'
+						/>
+					</React.Fragment>}
 					<Button
 						variant='contained'
 						className={`${classes.interactionField} confirmBtn`}>
-						Sign In
+						{registerEmail ? 'Register' : 'Sign In'}
 					</Button>
 
-					<Typography align='center' type='caption' component='div' gutterBottom>
-						Dont have an account? <Link to='register'>Register here</Link>
-					</Typography>
+					{!registerEmail && (
+						<Typography align='center' type='caption' component='div' gutterBottom>
+							Dont have an account? <Link to='/auth/email/register'>Register here</Link>
+						</Typography>
+					)}
 				</React.Fragment>
 			)}
 		</section>

@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
 			height: '54px',
 			borderRadius: '10px',
 			textAlign: 'center',
-			marginBottom: '1.3125rem',
+			marginBottom: props => (props.authAnonym ? '4rem' : '1.3125rem'),
 			fontSize: '20px',
 			fontWeight: 700,
 			'&.googleBtn': { backgroundColor: '#fff', color: '#000' },
@@ -44,6 +44,7 @@ const useStyles = createUseStyles({
 			marginBottom: '2rem',
 		},
 	},
+	unstyleLink: { textDecoration: 'none' },
 });
 
 export default useStyles;
