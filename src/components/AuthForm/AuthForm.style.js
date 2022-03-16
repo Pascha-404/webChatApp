@@ -25,7 +25,6 @@ const useStyles = createUseStyles({
 			marginBottom: props => (props.authAnonym ? '4rem' : '1.3125rem'),
 			fontSize: '20px',
 			fontWeight: 700,
-			'&.googleBtn': { backgroundColor: '#fff', color: '#000' },
 			'&.gitHubBtn': { backgroundColor: '#000', color: '#fff' },
 			'&.emailBtn': { backgroundColor: '#F44A4A', color: '#fff' },
 			'&.googleBtn': { backgroundColor: '#fff', color: '#000' },
