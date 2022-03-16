@@ -20,7 +20,7 @@ import {
 	ArrowBack,
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthDispatch } from '../../contexts/auth.context'
+import { useAuthDispatch } from '../../contexts/auth.context';
 import useStyles from './AuthForm.style';
 
 function AuthForm({ formState, registerEmail, authAnonym }) {
@@ -28,9 +28,7 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 	const navigate = useNavigate();
 	const authDispatch = useAuthDispatch();
 	const [values, setValues] = useState({
-		signInType: '',
-		userName: '',
-		email: '',
+		loginId: '',
 		password: '',
 		rememberMe: false,
 		showPassword: false,
@@ -68,9 +66,11 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 	};
 
 	const handleConfirm = async () => {
-		const authCase = "AUTH_" + values.signInType.toUpperCase()
-		await authDispatch({ type: authCase })
-		navigate('/')
+		const authCase = 'AUTH_' + values.signInType.toUpperCase();
+		await authDispatch({ type: authCase, loginId: values.loginId });
+		setTimeout(() => {
+			navigate('/');
+		}, 1000);
 	};
 
 	return (
@@ -137,23 +137,15 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 					{authAnonym && (
 						<Typography className={classes.heading}>Sign in Anonymously</Typography>
 					)}
-					{!authAnonym ? (
-						<TextField
-							label='E-Mail'
-							autoFocus
-							id='outlined-start-adornment'
-							onChange={handleChange('email')}
-							className={classes.interactionField}
-						/>
-					) : (
-						<TextField
-							label='Username'
-							autoFocus
-							id='outlined-start-adornment'
-							onChange={handleChange('userName')}
-							className={classes.interactionField}
-						/>
-					)}
+
+					<TextField
+						label={!authAnonym ? 'E-Mail' : 'Username'}
+						autoFocus
+						id='outlined-start-adornment'
+						onChange={handleChange('loginId')}
+						className={classes.interactionField}
+					/>
+
 					{!authAnonym && (
 						<React.Fragment>
 							<FormControl className={classes.interactionField} variant='outlined'>
@@ -192,7 +184,8 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 					<Button
 						variant='contained'
 						className={`${classes.interactionField} confirmBtn`}
-						onClick={handleConfirm}>
+						onClick={handleConfirm}
+						disabled={values.loginId === '' && true}>
 						{registerEmail ? 'Register' : 'Sign In'}
 					</Button>
 
