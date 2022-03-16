@@ -1,5 +1,5 @@
 import { firebaseAuth } from '../firebase.config';
-import { signInAnonymously } from 'firebase/auth';
+import { signInAnonymously, signOut } from 'firebase/auth';
 
 const reducer = (state, action) => {
 	const userObject = {
@@ -42,6 +42,11 @@ const reducer = (state, action) => {
 					console.log(error);
 				});
 			return userObject;
+		case 'SIGNOUT':
+			signOut(firebaseAuth).catch(error => {
+				console.error(error);
+			});
+			return {};
 		case 'SET_STATE':
 			return { ...action.state };
 		default:
