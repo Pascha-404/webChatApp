@@ -1,4 +1,4 @@
-import database from '../../firebase.config';
+import { database } from '../../firebase.config';
 import { ref, set } from 'firebase/database';
 
 function writeDatabaseData(path, paramsObject) {
