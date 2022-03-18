@@ -13,7 +13,9 @@ const useFetchDatabase = path => {
 			onValue(fetchRef, snapshot => {
 				const data = snapshot.val();
 				setState(data);
-				setIsFetching(false);
+				if (data !== null) {
+					setIsFetching(false);
+				}
 			});
 		};
 		fetchData();
