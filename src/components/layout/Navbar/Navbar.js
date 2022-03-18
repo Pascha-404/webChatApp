@@ -22,7 +22,6 @@ function Navbar() {
 	const layout = useLayout();
 	const user = useUser();
 	const classes = useStyles();
-
 	return (
 		<Grid item xs={2} sm={1.5} md={1} lg={1}>
 			<nav className={classes.navbar}>
@@ -54,8 +53,7 @@ function Navbar() {
 						aria-label='Notifications'
 						value={'notifications'}
 					/>
-					<Tab icon={<MoreHorizIcon />} aria-label='options' value={'options'} />
-					<Tab icon={<SettingsIcon />} aria-label='settings' value={'settings'} />
+					<Tab icon={<SettingsIcon />} aria-label='options' value={'options'} />
 				</Tabs>
 			</nav>
 		</Grid>
