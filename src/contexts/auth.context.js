@@ -31,7 +31,7 @@ function AuthProvider({ children }) {
 		} else {
 			console.log('NO USER');
 		}
-	}, []);
+	}, [auth.uuid]);
 
 	return (
 		<AuthContext.Provider value={auth}>

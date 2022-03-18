@@ -49,6 +49,8 @@ const reducer = (state, action) => {
 			return '';
 		case 'SET_STATE':
 			return { ...action.state };
+		case 'SET_STATE_KEY':
+			return { ...state, [action.key]: action.state };
 		default:
 			return state;
 	}
