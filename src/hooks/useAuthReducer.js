@@ -4,17 +4,18 @@ import { ref, child, get } from 'firebase/database';
 import writeDatabaseData from '../services/api/writeDatabaseData';
 
 const useAuthReducer = (reducer, initialValue) => {
-	const [state, dispatch] = useReducer(reducer, initialValue, () => {
-		let userData = '';
-		firebaseAuth.onAuthStateChanged(user => {
-			if (user) {
-				userData = { uuid: user.uid };
-			} else {
-				userData = initialValue;
-			}
-		});
-		return userData;
-	});
+	const [state, dispatch] = useReducer(reducer, initialValue);
+
+	useEffect(() => {
+		async function checkIfSignedin() {
+			await firebaseAuth.onAuthStateChanged(user => {
+				if (user) {
+					dispatch({ type: 'SET_STATE_KEY', key: 'uuid', state: user.uid });
+				}
+			});
+		}
+		checkIfSignedin();
+	}, []);
 
 	useEffect(() => {
 		if (state.uuid) {
