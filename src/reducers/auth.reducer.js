@@ -46,7 +46,7 @@ const reducer = (state, action) => {
 			signOut(firebaseAuth).catch(error => {
 				console.error(error);
 			});
-			return {};
+			return '';
 		case 'SET_STATE':
 			return { ...action.state };
 		default:

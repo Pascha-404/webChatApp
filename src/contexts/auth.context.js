@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import useAuthReducer from '../hooks/useAuthReducer';
 import authReducer from '../reducers/auth.reducer.js';
-import { firebaseAuth } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
@@ -27,14 +26,11 @@ function AuthProvider({ children }) {
 	const [auth, dispatch] = useAuthReducer(authReducer, '');
 
 	useEffect(() => {
-		firebaseAuth.onAuthStateChanged(user => {
-			if (user) {
-				dispatch({ type: 'SET_STATE', state: { uuid: user.uid } });
-				navigate('/');
-			} else {
-				console.log('NO USER');
-			}
-		});
+		if (auth.uuid) {
+			navigate('/');
+		} else {
+			console.log('NO USER');
+		}
 	}, []);
 
 	return (
