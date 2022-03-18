@@ -12,6 +12,7 @@ import SortForm from '../SortForm/SortForm';
 import DataCard from '../DataCard';
 
 import useStyles from './DataList.style';
+import Options from '../Options';
 
 function DataList() {
 	const user = useUser();
@@ -45,12 +46,16 @@ function DataList() {
 				return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
 			});
 			setGeneratedContent(generatedChats);
+		} else if (dataListContent === 'options') {
+			setGeneratedContent(<Options />);
 		}
 	}, [chats, dataListContent, user.uuid, contacts]);
 
 	return (
 		<Grid item sm={4} md={4} className={classes.dataList}>
-			<SearchForm className={classes.dataListSearchForm} />
+			{dataListContent !== 'options' && (
+				<SearchForm className={classes.dataListSearchForm} />
+			)}
 			{dataListContent === 'inbox' && <SortForm />}
 			{generatedContent}
 		</Grid>
