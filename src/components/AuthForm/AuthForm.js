@@ -28,6 +28,7 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 	const navigate = useNavigate();
 	const authDispatch = useAuthDispatch();
 	const [values, setValues] = useState({
+		signInType: '',
 		loginId: '',
 		password: '',
 		rememberMe: false,
@@ -65,9 +66,10 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 		navigate(-1);
 	};
 
-	const handleConfirm = async () => {
-		const authCase = 'AUTH_' + values.signInType.toUpperCase();
-		await authDispatch({ type: authCase, loginId: values.loginId });
+	const handleConfirm = () => {
+		if (authAnonym) {
+			authDispatch({ type: 'AUTH_ANONYM', loginId: values.loginId });
+		}
 		setTimeout(() => {
 			navigate('/');
 		}, 1000);
