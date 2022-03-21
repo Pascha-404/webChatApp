@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect } from 'react';
 import useAuthReducer from '../hooks/useAuthReducer';
 import authReducer from '../reducers/auth.reducer.js';
 import { useNavigate } from 'react-router-dom';
-import { registerAnonym } from '../firebase.config';
+import { registerAnonym, registerWithEmail } from '../firebase.config';
 
 const AuthContext = createContext();
 const AuthDispatch = createContext();
@@ -27,7 +27,9 @@ function AuthProvider({ children }) {
 	const [auth, dispatch] = useAuthReducer(authReducer, {
 		uuid: '',
 		loginId: '',
+		password: '',
 		regAnonym: false,
+		regEmail: false,
 	});
 
 	useEffect(() => {
@@ -42,8 +44,12 @@ function AuthProvider({ children }) {
 		if (auth.regAnonym === true) {
 			registerAnonym(auth.loginId)
 			dispatch({type: 'SET_STATE_KEY', key: 'regAnonym', state: false})
-		} 
-	}, [auth.regAnonym]);
+		} else if (auth.regEmail === true) {
+			registerWithEmail(auth.loginId, auth.password)
+			dispatch({type: 'SET_STATE_KEY', key: 'regEmail', state: false})
+			dispatch({type: 'SET_STATE_KEY', key: 'password', state: ''})
+		}
+	}, [auth]);
 
 	return (
 		<AuthContext.Provider value={auth}>

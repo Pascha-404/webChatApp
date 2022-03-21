@@ -69,6 +69,18 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 	const handleConfirm = () => {
 		if (authAnonym) {
 			authDispatch({ type: 'AUTH_ANONYM', loginId: values.loginId });
+		} else if (registerEmail) {
+			authDispatch({
+				type: 'AUTH_EMAIL',
+				loginId: values.loginId,
+				password: values.password,
+			});
+		} else if (values.signInType === 'email') {
+			authDispatch({
+				type: 'SIGNIN',
+				loginId: values.loginId,
+				password: values.password,
+			});
 		}
 		setTimeout(() => {
 			navigate('/');

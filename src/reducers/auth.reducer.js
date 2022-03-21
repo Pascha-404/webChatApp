@@ -1,22 +1,29 @@
 import { firebaseAuth } from '../firebase.config';
 import { signOut } from 'firebase/auth';
+import { logInWithEmail } from '../firebase.config';
 
 const reducer = (state, action) => {
-
 	switch (action.type) {
 		case 'AUTH_GOOGLE':
 			break;
 		case 'AUTH_GITHUB':
 			break;
 		case 'AUTH_EMAIL':
-			break;
+			return {
+				...state,
+				loginId: action.loginId,
+				password: action.password,
+				regEmail: true,
+			};
 		case 'AUTH_ANONYM':
-			return {...state, loginId: action.loginId, regAnonym: true};
+			return { ...state, loginId: action.loginId, regAnonym: true };
+		case 'SIGNIN':
+			logInWithEmail(action.loginId, action.password);
 		case 'SIGNOUT':
 			signOut(firebaseAuth).catch(error => {
 				console.error(error);
 			});
-			return {...state, uuid: ''};
+			return { ...state, uuid: '' };
 		case 'SET_STATE':
 			return { ...action.state };
 		case 'SET_STATE_KEY':

@@ -1,6 +1,11 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set } from 'firebase/database';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import {
+	createUserWithEmailAndPassword,
+	getAuth,
+	signInAnonymously,
+	signInWithEmailAndPassword,
+} from 'firebase/auth';
 
 const firebaseConfig = {
 	apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -24,23 +29,50 @@ const firebaseAuth = getAuth(app);
 
 async function registerAnonym(loginId) {
 	try {
-		const res = await signInAnonymously(firebaseAuth)
-		const user = res.user
+		const res = await signInAnonymously(firebaseAuth);
+		const user = res.user;
 		await set(ref(database, `/users/${user.uid}`), {
-		uuid: user.uid,
-		displayName: loginId,
-		email: false,
-		emailVerified: false,
-		photoURL: false,
-		isAnonymous: true,
-		contacts: false,
-		groupChats: false,
-		userChats: false,
-	})
-	}
-	catch (error){
-		console.log(error)
+			uuid: user.uid,
+			displayName: loginId,
+			email: false,
+			emailVerified: false,
+			photoURL: false,
+			isAnonymous: true,
+			contacts: false,
+			groupChats: false,
+			userChats: false,
+		});
+	} catch (error) {
+		console.log(error);
 	}
 }
 
-export { database, firebaseAuth, registerAnonym };
+async function registerWithEmail(loginId, password) {
+	try {
+		const res = await createUserWithEmailAndPassword(firebaseAuth, loginId, password);
+		const user = res.user;
+		await set(ref(database, `/users/${user.uid}`), {
+			uuid: user.uid,
+			displayName: loginId,
+			email: loginId,
+			emailVerified: false,
+			photoURL: false,
+			isAnonymous: false,
+			contacts: false,
+			groupChats: false,
+			userChats: false,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+async function logInWithEmail(loginId, password) {
+	try {
+		await signInWithEmailAndPassword(firebaseAuth, loginId, password);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export { database, firebaseAuth, registerAnonym, registerWithEmail, logInWithEmail };
