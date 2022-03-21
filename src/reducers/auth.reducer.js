@@ -1,18 +1,7 @@
 import { firebaseAuth } from '../firebase.config';
-import { signInAnonymously, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 
 const reducer = (state, action) => {
-	const userObject = {
-		uuid: '',
-		displayName: '',
-		email: '',
-		emailVerified: false,
-		photoURL: '',
-		isAnonymous: false,
-		contacts: true,
-		groupChats: true,
-		userChats: true,
-	};
 
 	switch (action.type) {
 		case 'AUTH_GOOGLE':
@@ -22,31 +11,12 @@ const reducer = (state, action) => {
 		case 'AUTH_EMAIL':
 			break;
 		case 'AUTH_ANONYM':
-			signInAnonymously(firebaseAuth)
-				.then(data => {
-					if (data.user.email === null) {
-						userObject.email = false;
-					} else if (data.user.email !== null) {
-						userObject.email = data.user.email;
-					} else if (data.user.photoURL === null) {
-						userObject.photoURL = false;
-					} else if (data.user.photoURL !== null) {
-						userObject.photoURL = data.user.photoURL;
-					}
-					userObject.uuid = data.user.uid;
-					userObject.displayName = action.loginId;
-					userObject.emailVerified = data.user.emailVerified;
-					userObject.isAnonymous = data.user.isAnonymous;
-				})
-				.catch(error => {
-					console.log(error);
-				});
-			return userObject;
+			return {...state, loginId: action.loginId, regAnonym: true};
 		case 'SIGNOUT':
 			signOut(firebaseAuth).catch(error => {
 				console.error(error);
 			});
-			return '';
+			return {...state, uuid: ''};
 		case 'SET_STATE':
 			return { ...action.state };
 		case 'SET_STATE_KEY':

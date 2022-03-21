@@ -17,27 +17,6 @@ const useAuthReducer = (reducer, initialValue) => {
 		checkIfSignedin();
 	}, []);
 
-	useEffect(() => {
-		if (state.uuid) {
-			function checkDbForUser() {
-				const dbRef = ref(database);
-
-				return get(child(dbRef, `/users/${state.uuid}`))
-					.then(snap => {
-						if (snap.exists()) {
-							return null;
-						} else {
-							writeDatabaseData(`/users/${state.uuid}`, state);
-						}
-					})
-					.catch(error => {
-						console.log(error);
-					});
-			}
-			checkDbForUser();
-		}
-	}, [state.uuid]);
-
 	return [state, dispatch];
 };
 
