@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
-import { getAuth } from 'firebase/auth';
+import { getDatabase, ref, set } from 'firebase/database';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const firebaseConfig = {
 	apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,4 +22,25 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const firebaseAuth = getAuth(app);
 
-export { database, firebaseAuth };
+async function registerAnonym(loginId) {
+	try {
+		const res = await signInAnonymously(firebaseAuth)
+		const user = res.user
+		await set(ref(database, `/users/${user.uid}`), {
+		uuid: user.uid,
+		displayName: loginId,
+		email: false,
+		emailVerified: false,
+		photoURL: false,
+		isAnonymous: true,
+		contacts: false,
+		groupChats: false,
+		userChats: false,
+	})
+	}
+	catch (error){
+		console.log(error)
+	}
+}
+
+export { database, firebaseAuth, registerAnonym };
