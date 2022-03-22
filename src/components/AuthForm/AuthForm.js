@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	FormControl,
 	InputLabel,
@@ -28,12 +28,12 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 	const navigate = useNavigate();
 	const authDispatch = useAuthDispatch();
 	const [values, setValues] = useState({
-		signInType: '',
 		loginId: '',
 		password: '',
 		rememberMe: false,
 		showPassword: false,
 	});
+	const [signInType, setSignInType] = useState('');
 
 	const handleChange = prop => event => {
 		if (typeof values[prop] === 'boolean') {
@@ -56,10 +56,7 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 
 	const handleSigninMethod = e => {
 		const { value } = e.currentTarget.dataset;
-		setValues({
-			...values,
-			signInType: value,
-		});
+		setSignInType(value);
 	};
 
 	const handleGoBack = e => {
@@ -75,17 +72,20 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 				loginId: values.loginId,
 				password: values.password,
 			});
-		} else if (values.signInType === 'email') {
+		} else if (signInType === 'email') {
 			authDispatch({
 				type: 'SIGNIN',
 				loginId: values.loginId,
 				password: values.password,
 			});
 		}
-		setTimeout(() => {
-			navigate('/');
-		}, 1000);
 	};
+
+	useEffect(() => {
+		if (signInType === 'google') {
+			authDispatch({ type: 'AUTH_GOOGLE' });
+		}
+	}, [signInType, authDispatch]);
 
 	return (
 		<section className={classes.authForm}>
