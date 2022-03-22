@@ -5,7 +5,7 @@ import { logInWithEmail } from '../firebase.config';
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'AUTH_GOOGLE':
-			break;
+			return { ...state, authGoogle: true };
 		case 'AUTH_GITHUB':
 			break;
 		case 'AUTH_EMAIL':
@@ -19,6 +19,7 @@ const reducer = (state, action) => {
 			return { ...state, loginId: action.loginId, regAnonym: true };
 		case 'SIGNIN':
 			logInWithEmail(action.loginId, action.password);
+			return state;
 		case 'SIGNOUT':
 			signOut(firebaseAuth).catch(error => {
 				console.error(error);

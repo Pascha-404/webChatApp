@@ -1,10 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set } from 'firebase/database';
+import { child, getDatabase, ref, set, get } from 'firebase/database';
 import {
 	createUserWithEmailAndPassword,
 	getAuth,
 	signInAnonymously,
 	signInWithEmailAndPassword,
+	signInWithPopup,
+	GoogleAuthProvider,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -25,7 +27,10 @@ const app = initializeApp(firebaseConfig);
 
 // Initializes Firebase Services
 const database = getDatabase(app);
+const dbRef = ref(database);
 const firebaseAuth = getAuth(app);
+firebaseAuth.useDeviceLanguage();
+const googleProvider = new GoogleAuthProvider();
 
 async function registerAnonym(loginId) {
 	try {
@@ -75,4 +80,36 @@ async function logInWithEmail(loginId, password) {
 	}
 }
 
-export { database, firebaseAuth, registerAnonym, registerWithEmail, logInWithEmail };
+async function logInWithGoogle() {
+	try {
+		const res = await signInWithPopup(firebaseAuth, googleProvider);
+		const user = res.user;
+		const userInDb = await get(child(dbRef, `/users/${user.uid}`));
+		if (userInDb.exists()) {
+			return null;
+		} else {
+			await set(ref(database, `/users/${user.uid}`), {
+				uuid: user.uid,
+				displayName: user.displayName,
+				email: user.email,
+				emailVerified: user.emailVerified,
+				photoURL: user.photoURL,
+				isAnonymous: false,
+				contacts: false,
+				groupChats: false,
+				userChats: false,
+			});
+		}
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export {
+	database,
+	firebaseAuth,
+	registerAnonym,
+	registerWithEmail,
+	logInWithEmail,
+	logInWithGoogle,
+};
