@@ -20,13 +20,14 @@ import {
 	ArrowBack,
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthDispatch } from '../../contexts/auth.context';
+import { useAuth, useAuthDispatch } from '../../contexts/auth.context';
 import useStyles from './AuthForm.style';
 
 function AuthForm({ formState, registerEmail, authAnonym }) {
 	const classes = useStyles({ authAnonym });
 	const navigate = useNavigate();
 	const authDispatch = useAuthDispatch();
+	const { error, errorCode } = useAuth();
 	const [values, setValues] = useState({
 		loginId: '',
 		password: '',
@@ -74,7 +75,7 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 			});
 		} else if (signInType === 'email') {
 			authDispatch({
-				type: 'SIGNIN',
+				type: 'SIGNIN_EMAIL',
 				loginId: values.loginId,
 				password: values.password,
 			});
@@ -155,6 +156,7 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 					<TextField
 						label={!authAnonym ? 'E-Mail' : 'Username'}
 						autoFocus
+						error={error}
 						id='outlined-start-adornment'
 						onChange={handleChange('loginId')}
 						className={classes.interactionField}
@@ -166,6 +168,7 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 								<InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
 								<OutlinedInput
 									id='outlined-adornment-password'
+									error={error}
 									type={values.showPassword ? 'text' : 'password'}
 									value={values.password}
 									onChange={handleChange('password')}
