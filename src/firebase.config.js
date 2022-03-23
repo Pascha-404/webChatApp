@@ -73,11 +73,7 @@ async function registerWithEmail(loginId, password) {
 }
 
 async function logInWithEmail(loginId, password) {
-	try {
-		await signInWithEmailAndPassword(firebaseAuth, loginId, password);
-	} catch (error) {
-		console.log(error);
-	}
+	await signInWithEmailAndPassword(firebaseAuth, loginId, password);
 }
 
 async function logInWithGoogle() {
