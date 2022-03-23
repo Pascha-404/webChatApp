@@ -1,7 +1,5 @@
 import { useReducer, useEffect } from 'react';
-import { database, firebaseAuth } from '../firebase.config';
-import { ref, child, get } from 'firebase/database';
-import writeDatabaseData from '../services/api/writeDatabaseData';
+import { firebaseAuth } from '../firebase.config';
 
 const useAuthReducer = (reducer, initialValue) => {
 	const [state, dispatch] = useReducer(reducer, initialValue);
@@ -10,7 +8,7 @@ const useAuthReducer = (reducer, initialValue) => {
 		async function checkIfSignedin() {
 			await firebaseAuth.onAuthStateChanged(user => {
 				if (user) {
-					dispatch({ type: 'SET_STATE_KEY', key: 'uuid', state: user.uid });
+					dispatch({ type: 'SET_STATE', state: { uuid: user.uid } });
 				}
 			});
 		}

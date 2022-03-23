@@ -17,18 +17,16 @@ const reducer = (state, action) => {
 			};
 		case 'AUTH_ANONYM':
 			return { ...state, loginId: action.loginId, regAnonym: true };
-		case 'SIGNIN':
+		case 'SIGNIN_EMAIL':
 			logInWithEmail(action.loginId, action.password);
-			return state;
+			return { ...state, loginId: action.loginId, logInEmail: true };
 		case 'SIGNOUT':
 			signOut(firebaseAuth).catch(error => {
 				console.error(error);
 			});
 			return { ...state, uuid: '' };
 		case 'SET_STATE':
-			return { ...action.state };
-		case 'SET_STATE_KEY':
-			return { ...state, [action.key]: action.state };
+			return { ...state, ...action.state };
 		default:
 			return state;
 	}

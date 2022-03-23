@@ -2,7 +2,12 @@ import React, { createContext, useContext, useEffect } from 'react';
 import useAuthReducer from '../hooks/useAuthReducer';
 import authReducer from '../reducers/auth.reducer.js';
 import { useNavigate } from 'react-router-dom';
-import { logInWithGoogle, registerAnonym, registerWithEmail } from '../firebase.config';
+import {
+	logInWithEmail,
+	logInWithGoogle,
+	registerAnonym,
+	registerWithEmail,
+} from '../firebase.config';
 
 const AuthContext = createContext();
 const AuthDispatch = createContext();
@@ -31,6 +36,9 @@ function AuthProvider({ children }) {
 		regAnonym: false,
 		regEmail: false,
 		authGoogle: false,
+		logInEmail: false,
+		error: false,
+		errorCode: '',
 	});
 
 	useEffect(() => {
@@ -42,16 +50,22 @@ function AuthProvider({ children }) {
 	}, [auth.uuid]);
 
 	useEffect(() => {
-		if (auth.regAnonym === true) {
+		if (auth.regAnonym) {
 			registerAnonym(auth.loginId);
-			dispatch({ type: 'SET_STATE_KEY', key: 'regAnonym', state: false });
-		} else if (auth.regEmail === true) {
+			dispatch({ type: 'SET_STATE', state: { regAnonym: false } });
+		} else if (auth.regEmail) {
 			registerWithEmail(auth.loginId, auth.password);
-			dispatch({ type: 'SET_STATE_KEY', key: 'regEmail', state: false });
-			dispatch({ type: 'SET_STATE_KEY', key: 'password', state: '' });
-		} else if (auth.authGoogle === true) {
+			dispatch({ type: 'SET_STATE', state: { regEmail: false, password: '' } });
+		} else if (auth.authGoogle) {
 			logInWithGoogle();
-			dispatch({ type: 'SET_STATE_KEY', key: 'authGoogle', state: false });
+			dispatch({ type: 'SET_STATE', state: { authGoogle: false } });
+		} else if (auth.logInEmail) {
+			logInWithEmail(auth.loginId, auth.password).catch(er => {
+				dispatch({
+					type: 'SET_STATE',
+					state: { error: true, errorCode: er.code, logInEmail: false },
+				});
+			});
 		}
 	}, [auth]);
 
