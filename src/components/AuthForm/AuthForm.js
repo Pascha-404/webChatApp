@@ -23,8 +23,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useAuthDispatch } from '../../contexts/auth.context';
 import useStyles from './AuthForm.style';
 
-function AuthForm({ formState, registerEmail, authAnonym }) {
-	const classes = useStyles({ authAnonym });
+function AuthForm({ formState, authType }) {
+	const classes = useStyles({ authType });
 	const navigate = useNavigate();
 	const authDispatch = useAuthDispatch();
 	const { error, errorCode } = useAuth();
@@ -34,7 +34,7 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 		rememberMe: false,
 		showPassword: false,
 	});
-	const [signInType, setSignInType] = useState('');
+	const [signInType, setSignInType] = useState(authType);
 
 	const handleChange = prop => event => {
 		if (typeof values[prop] === 'boolean') {
@@ -65,9 +65,9 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 	};
 
 	const handleConfirm = () => {
-		if (authAnonym) {
+		if (signInType === 'authAnonym') {
 			authDispatch({ type: 'AUTH_ANONYM', loginId: values.loginId });
-		} else if (registerEmail) {
+		} else if (signInType === 'regEmail') {
 			authDispatch({
 				type: 'AUTH_EMAIL',
 				loginId: values.loginId,
@@ -143,18 +143,18 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 
 			{formState === 'authForm' && (
 				<React.Fragment>
-					{!registerEmail && !authAnonym && (
+					{signInType !== 'regEmail' && signInType !== 'authAnonym' && (
 						<Typography className={classes.heading}>Sign in with Email</Typography>
 					)}
-					{registerEmail && (
+					{signInType === 'regEmail' && (
 						<Typography className={classes.heading}>Register with Email</Typography>
 					)}
-					{authAnonym && (
+					{signInType === 'authAnonym' && (
 						<Typography className={classes.heading}>Sign in Anonymously</Typography>
 					)}
 
 					<TextField
-						label={!authAnonym ? 'E-Mail' : 'Username'}
+						label={signInType !== 'authAnonym' ? 'E-Mail' : 'Username'}
 						autoFocus
 						error={error}
 						id='outlined-start-adornment'
@@ -162,7 +162,7 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 						className={classes.interactionField}
 					/>
 
-					{!authAnonym && (
+					{signInType !== 'authEmail' && (
 						<React.Fragment>
 							<FormControl className={classes.interactionField} variant='outlined'>
 								<InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
@@ -203,10 +203,10 @@ function AuthForm({ formState, registerEmail, authAnonym }) {
 						className={`${classes.interactionField} confirmBtn`}
 						onClick={handleConfirm}
 						disabled={values.loginId === '' && true}>
-						{registerEmail ? 'Register' : 'Sign In'}
+						{signInType === 'regEmail' ? 'Register' : 'Sign In'}
 					</Button>
 
-					{!registerEmail && (
+					{signInType !== 'regEmail' && (
 						<Typography align='center' type='caption' component='div' gutterBottom>
 							Dont have an account? <Link to='/auth/email/register'>Register here</Link>
 						</Typography>

@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
 			height: '54px',
 			borderRadius: '10px',
 			textAlign: 'center',
-			marginBottom: props => (props.authAnonym ? '4rem' : '1.3125rem'),
+			marginBottom: props => (props.authType === 'authAnonym' ? '4rem' : '1.3125rem'),
 			fontSize: '20px',
 			fontWeight: 700,
 			'&.gitHubBtn': { backgroundColor: '#000', color: '#fff' },
