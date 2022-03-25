@@ -2,6 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
 	authForm: {
+		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
@@ -44,6 +45,10 @@ const useStyles = createUseStyles({
 		},
 	},
 	unstyleLink: { textDecoration: 'none' },
+	errorAlert: {
+		position: 'absolute',
+		top: '-10%',
+	},
 });
 
 export default useStyles;

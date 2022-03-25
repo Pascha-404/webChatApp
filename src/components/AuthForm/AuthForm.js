@@ -10,6 +10,7 @@ import {
 	Typography,
 	Radio,
 	FormControlLabel,
+	Alert,
 } from '@mui/material';
 import {
 	Google,
@@ -61,6 +62,8 @@ function AuthForm({ formState, authType }) {
 	};
 
 	const handleGoBack = e => {
+		authDispatch({ type: 'SET_STATE', state: { error: false, errorCode: '' } });
+		setValues({ ...values, loginId: '', password: '' });
 		navigate(-1);
 	};
 
@@ -202,16 +205,32 @@ function AuthForm({ formState, authType }) {
 						variant='contained'
 						className={`${classes.interactionField} confirmBtn`}
 						onClick={handleConfirm}
-						disabled={values.loginId === '' && true}>
+						disabled={values.loginId === '' || (values.password === '' && true)}>
 						{signInType === 'regEmail' ? 'Register' : 'Sign In'}
 					</Button>
 
 					{signInType !== 'regEmail' && (
 						<Typography align='center' type='caption' component='div' gutterBottom>
-							Dont have an account? <Link to='/auth/email/register'>Register here</Link>
+							Dont have an account?{' '}
+							<Link
+								onClick={() => {
+									setSignInType('regEmail');
+								}}
+								to='/auth/email/register'>
+								Register here
+							</Link>
 						</Typography>
 					)}
 				</React.Fragment>
+			)}
+			{error && (
+				<Alert severity='error' className={classes.errorAlert}>
+					{errorCode === 'auth/email-already-in-use' &&
+						'This E-Mail is already beeing used'}
+					{errorCode === 'auth/invalid-email' ||
+						errorCode === 'auth/wrong-password' ||
+						(errorCode === 'auth/internal-error' && 'E-Mail or password is wrong')}
+				</Alert>
 			)}
 		</section>
 	);
