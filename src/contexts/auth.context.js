@@ -54,18 +54,14 @@ function AuthProvider({ children }) {
 			registerAnonym(auth.loginId);
 			dispatch({ type: 'SET_STATE', state: { regAnonym: false } });
 		} else if (auth.regEmail) {
-			registerWithEmail(auth.loginId, auth.password);
+			registerWithEmail(auth.loginId, auth.password, dispatch);
 			dispatch({ type: 'SET_STATE', state: { regEmail: false, password: '' } });
 		} else if (auth.authGoogle) {
 			logInWithGoogle();
 			dispatch({ type: 'SET_STATE', state: { authGoogle: false } });
 		} else if (auth.logInEmail) {
-			logInWithEmail(auth.loginId, auth.password).catch(er => {
-				dispatch({
-					type: 'SET_STATE',
-					state: { error: true, errorCode: er.code, logInEmail: false },
-				});
-			});
+			logInWithEmail(auth.loginId, auth.password, dispatch);
+			dispatch({ type: 'SET_STATE', state: { logInEmail: false } });
 		}
 	}, [auth]);
 

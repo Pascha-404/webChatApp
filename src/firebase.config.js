@@ -52,7 +52,7 @@ async function registerAnonym(loginId) {
 	}
 }
 
-async function registerWithEmail(loginId, password) {
+async function registerWithEmail(loginId, password, dispatch) {
 	try {
 		const res = await createUserWithEmailAndPassword(firebaseAuth, loginId, password);
 		const user = res.user;
@@ -68,12 +68,19 @@ async function registerWithEmail(loginId, password) {
 			userChats: false,
 		});
 	} catch (error) {
-		console.log(error);
+		dispatch({ type: 'SET_STATE', state: { error: true, errorCode: error.code } });
 	}
 }
 
-async function logInWithEmail(loginId, password) {
-	await signInWithEmailAndPassword(firebaseAuth, loginId, password);
+async function logInWithEmail(loginId, password, dispatch) {
+	try {
+		await signInWithEmailAndPassword(firebaseAuth, loginId, password);
+	} catch (error) {
+		dispatch({
+			type: 'SET_STATE',
+			state: { error: true, errorCode: error.code },
+		});
+	}
 }
 
 async function logInWithGoogle() {
