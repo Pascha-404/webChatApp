@@ -7,6 +7,9 @@ import {
 	signInWithEmailAndPassword,
 	signInWithPopup,
 	GoogleAuthProvider,
+	setPersistence,
+	browserSessionPersistence,
+	browserLocalPersistence,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -32,8 +35,25 @@ const firebaseAuth = getAuth(app);
 firebaseAuth.useDeviceLanguage();
 const googleProvider = new GoogleAuthProvider();
 
+async function setPersistenceSession() {
+	try {
+		await setPersistence(firebaseAuth, browserSessionPersistence);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+async function setPersistenceLocal() {
+	try {
+		await setPersistence(firebaseAuth, browserLocalPersistence);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 async function registerAnonym(loginId) {
 	try {
+		await setPersistenceSession();
 		const res = await signInAnonymously(firebaseAuth);
 		const user = res.user;
 		await set(ref(database, `/users/${user.uid}`), {
@@ -52,8 +72,13 @@ async function registerAnonym(loginId) {
 	}
 }
 
-async function registerWithEmail(loginId, password, dispatch) {
+async function registerWithEmail(loginId, password, rememberMe, dispatch) {
 	try {
+		if (rememberMe) {
+			await setPersistenceLocal();
+		} else {
+			await setPersistenceSession();
+		}
 		const res = await createUserWithEmailAndPassword(firebaseAuth, loginId, password);
 		const user = res.user;
 		await set(ref(database, `/users/${user.uid}`), {
@@ -72,10 +97,17 @@ async function registerWithEmail(loginId, password, dispatch) {
 	}
 }
 
-async function logInWithEmail(loginId, password, dispatch) {
+async function logInWithEmail(loginId, password, rememberMe, dispatch) {
 	try {
+		if (rememberMe) {
+			await setPersistenceLocal();
+		} else {
+			await setPersistenceSession();
+		}
 		await signInWithEmailAndPassword(firebaseAuth, loginId, password);
 	} catch (error) {
+		console.log(error);
+		console.log(`loginId: ${loginId}, password: ${password}`);
 		dispatch({
 			type: 'SET_STATE',
 			state: { error: true, errorCode: error.code },
@@ -85,6 +117,7 @@ async function logInWithEmail(loginId, password, dispatch) {
 
 async function logInWithGoogle() {
 	try {
+		await setPersistenceSession();
 		const res = await signInWithPopup(firebaseAuth, googleProvider);
 		const user = res.user;
 		const userInDb = await get(child(dbRef, `/users/${user.uid}`));
@@ -115,4 +148,6 @@ export {
 	registerWithEmail,
 	logInWithEmail,
 	logInWithGoogle,
+	setPersistenceLocal,
+	setPersistenceSession,
 };
