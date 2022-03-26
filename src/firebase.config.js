@@ -10,6 +10,7 @@ import {
 	setPersistence,
 	browserSessionPersistence,
 	browserLocalPersistence,
+	GithubAuthProvider,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -34,6 +35,7 @@ const dbRef = ref(database);
 const firebaseAuth = getAuth(app);
 firebaseAuth.useDeviceLanguage();
 const googleProvider = new GoogleAuthProvider();
+const githubProvider = new GithubAuthProvider();
 
 async function setPersistenceSession() {
 	try {
@@ -140,6 +142,31 @@ async function logInWithGoogle() {
 		console.log(error);
 	}
 }
+async function logInWithGithub() {
+	try {
+		await setPersistenceSession();
+		const res = await signInWithPopup(firebaseAuth, githubProvider);
+		const user = res.user;
+		const userInDb = await get(child(dbRef, `/users/${user.uid}`));
+		if (userInDb.exists()) {
+			return null;
+		} else {
+			await set(ref(database, `/users/${user.uid}`), {
+				uuid: user.uid,
+				displayName: user.displayName,
+				email: user.email,
+				emailVerified: user.emailVerified,
+				photoURL: user.photoURL,
+				isAnonymous: false,
+				contacts: false,
+				groupChats: false,
+				userChats: false,
+			});
+		}
+	} catch (error) {
+		console.log(error);
+	}
+}
 
 export {
 	database,
@@ -148,6 +175,5 @@ export {
 	registerWithEmail,
 	logInWithEmail,
 	logInWithGoogle,
-	setPersistenceLocal,
-	setPersistenceSession,
+	logInWithGithub,
 };

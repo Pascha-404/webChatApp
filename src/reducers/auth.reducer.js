@@ -6,14 +6,14 @@ const reducer = (state, action) => {
 		case 'AUTH_GOOGLE':
 			return { ...state, authGoogle: true };
 		case 'AUTH_GITHUB':
-			break;
+			return { ...state, authGithub: true };
 		case 'AUTH_EMAIL':
 			return {
 				...state,
 				loginId: action.loginId,
 				password: action.password,
 				regEmail: true,
-				rememberMe: action.rememberMe
+				rememberMe: action.rememberMe,
 			};
 		case 'AUTH_ANONYM':
 			return { ...state, loginId: action.loginId, regAnonym: true };

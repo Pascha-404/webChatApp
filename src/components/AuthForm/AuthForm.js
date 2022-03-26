@@ -90,6 +90,8 @@ function AuthForm({ formState, authType }) {
 	useEffect(() => {
 		if (signInType === 'google') {
 			authDispatch({ type: 'AUTH_GOOGLE' });
+		} else if (signInType === 'github') {
+			authDispatch({ type: 'AUTH_GITHUB' });
 		}
 	}, [signInType, authDispatch]);
 

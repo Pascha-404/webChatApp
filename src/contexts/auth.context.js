@@ -5,10 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import {
 	logInWithEmail,
 	logInWithGoogle,
+	logInWithGithub,
 	registerAnonym,
 	registerWithEmail,
-	setPersistenceLocal,
-	setPersistenceSession,
 } from '../firebase.config';
 
 const AuthContext = createContext();
@@ -38,6 +37,7 @@ function AuthProvider({ children }) {
 		regAnonym: false,
 		regEmail: false,
 		authGoogle: false,
+		authGithub: false,
 		logInEmail: false,
 		rememberMe: false,
 		error: false,
@@ -62,6 +62,9 @@ function AuthProvider({ children }) {
 		} else if (auth.authGoogle) {
 			logInWithGoogle();
 			dispatch({ type: 'SET_STATE', state: { authGoogle: false } });
+		} else if (auth.authGithub) {
+			logInWithGithub();
+			dispatch({ type: 'SET_STATE', state: { authGithub: false } });
 		} else if (auth.logInEmail) {
 			logInWithEmail(auth.loginId, auth.password, auth.rememberMe, dispatch);
 			dispatch({ type: 'SET_STATE', state: { logInEmail: false } });
