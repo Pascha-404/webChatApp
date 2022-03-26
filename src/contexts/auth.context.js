@@ -7,6 +7,8 @@ import {
 	logInWithGoogle,
 	registerAnonym,
 	registerWithEmail,
+	setPersistenceLocal,
+	setPersistenceSession,
 } from '../firebase.config';
 
 const AuthContext = createContext();
@@ -37,6 +39,7 @@ function AuthProvider({ children }) {
 		regEmail: false,
 		authGoogle: false,
 		logInEmail: false,
+		rememberMe: false,
 		error: false,
 		errorCode: '',
 	});
@@ -54,13 +57,13 @@ function AuthProvider({ children }) {
 			registerAnonym(auth.loginId);
 			dispatch({ type: 'SET_STATE', state: { regAnonym: false } });
 		} else if (auth.regEmail) {
-			registerWithEmail(auth.loginId, auth.password, dispatch);
+			registerWithEmail(auth.loginId, auth.password, auth.rememberMe, dispatch);
 			dispatch({ type: 'SET_STATE', state: { regEmail: false, password: '' } });
 		} else if (auth.authGoogle) {
 			logInWithGoogle();
 			dispatch({ type: 'SET_STATE', state: { authGoogle: false } });
 		} else if (auth.logInEmail) {
-			logInWithEmail(auth.loginId, auth.password, dispatch);
+			logInWithEmail(auth.loginId, auth.password, auth.rememberMe, dispatch);
 			dispatch({ type: 'SET_STATE', state: { logInEmail: false } });
 		}
 	}, [auth]);

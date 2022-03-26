@@ -75,12 +75,14 @@ function AuthForm({ formState, authType }) {
 				type: 'AUTH_EMAIL',
 				loginId: values.loginId,
 				password: values.password,
+				rememberMe: values.rememberMe,
 			});
 		} else if (signInType === 'email') {
 			authDispatch({
 				type: 'SIGNIN_EMAIL',
 				loginId: values.loginId,
 				password: values.password,
+				rememberMe: values.rememberMe,
 			});
 		}
 	};
