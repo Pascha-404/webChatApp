@@ -1,6 +1,5 @@
 import { firebaseAuth } from '../firebase.config';
 import { signOut } from 'firebase/auth';
-import { logInWithEmail } from '../firebase.config';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -14,12 +13,18 @@ const reducer = (state, action) => {
 				loginId: action.loginId,
 				password: action.password,
 				regEmail: true,
+				rememberMe: action.rememberMe
 			};
 		case 'AUTH_ANONYM':
 			return { ...state, loginId: action.loginId, regAnonym: true };
 		case 'SIGNIN_EMAIL':
-			logInWithEmail(action.loginId, action.password);
-			return { ...state, loginId: action.loginId, logInEmail: true };
+			return {
+				...state,
+				loginId: action.loginId,
+				password: action.password,
+				logInEmail: true,
+				rememberMe: action.rememberMe,
+			};
 		case 'SIGNOUT':
 			signOut(firebaseAuth).catch(error => {
 				console.error(error);
