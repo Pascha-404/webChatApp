@@ -11,6 +11,7 @@ import {
 	browserSessionPersistence,
 	browserLocalPersistence,
 	GithubAuthProvider,
+	fetchSignInMethodsForEmail,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -164,7 +165,15 @@ async function logInWithGithub() {
 			});
 		}
 	} catch (error) {
-		console.log(error);
+		if (error.code === 'auth/account-exists-with-different-credential') {
+			const { email } = error.customData;
+			const knownSignInMethods = await fetchSignInMethodsForEmail(firebaseAuth, email);
+			if (knownSignInMethods[0] === 'password') {
+				let password = await prompt(`Enter password for ${email}`)
+				logInWithEmail(email, password)
+			}
+		}
+
 	}
 }
 
