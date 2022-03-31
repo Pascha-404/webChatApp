@@ -88,9 +88,9 @@ function AuthForm({ formState, authType }) {
 	};
 
 	useEffect(() => {
-		if (signInType === 'google') {
+		if (signInType === 'authGoogle') {
 			authDispatch({ type: 'AUTH_GOOGLE' });
-		} else if (signInType === 'github') {
+		} else if (signInType === 'authGithub') {
 			authDispatch({ type: 'AUTH_GITHUB' });
 		}
 	}, [signInType, authDispatch]);
@@ -112,7 +112,7 @@ function AuthForm({ formState, authType }) {
 					<Button
 						variant='contained'
 						startIcon={<Google />}
-						data-value={'google'}
+						data-value={'authGoogle'}
 						onClick={handleSigninMethod}
 						className={`${classes.interactionField} googleBtn`}>
 						Sign in with Google
@@ -120,7 +120,7 @@ function AuthForm({ formState, authType }) {
 					<Button
 						variant='contained'
 						startIcon={<GitHub />}
-						data-value={'github'}
+						data-value={'authGithub'}
 						onClick={handleSigninMethod}
 						className={`${classes.interactionField} gitHubBtn`}>
 						Sign in with GitHub
@@ -129,7 +129,7 @@ function AuthForm({ formState, authType }) {
 						<Button
 							variant='contained'
 							startIcon={<Email />}
-							data-value={'email'}
+							data-value={'authEmail'}
 							onClick={handleSigninMethod}
 							className={`${classes.interactionField} emailBtn`}>
 							Sign in with Email
@@ -139,7 +139,7 @@ function AuthForm({ formState, authType }) {
 						<Button
 							variant='contained'
 							startIcon={<VisibilityOff />}
-							data-value={'anonym'}
+							data-value={'authAnonym'}
 							onClick={handleSigninMethod}
 							className={`${classes.interactionField} anonymBtn`}>
 							Sign in Anonymously
@@ -169,7 +169,7 @@ function AuthForm({ formState, authType }) {
 						className={classes.interactionField}
 					/>
 
-					{signInType !== 'authEmail' && (
+					{signInType === 'authEmail' && (
 						<React.Fragment>
 							<FormControl className={classes.interactionField} variant='outlined'>
 								<InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
@@ -209,7 +209,13 @@ function AuthForm({ formState, authType }) {
 						variant='contained'
 						className={`${classes.interactionField} confirmBtn`}
 						onClick={handleConfirm}
-						disabled={values.loginId === '' || (values.password === '' && true)}>
+						disabled={
+							(signInType === 'authAnonym' && values.loginId === '') ||
+							(signInType === 'authEmail' &&
+								values.loginId === '' &&
+								values.password === '' &&
+								true)
+						}>
 						{signInType === 'regEmail' ? 'Register' : 'Sign In'}
 					</Button>
 
