@@ -68,16 +68,16 @@ function AuthForm({ formState, authType }) {
 	};
 
 	const handleConfirm = () => {
-		if (signInType === 'authAnonym') {
+		if (authType === 'authAnonym') {
 			authDispatch({ type: 'AUTH_ANONYM', loginId: values.loginId });
-		} else if (signInType === 'regEmail') {
+		} else if (authType === 'regEmail') {
 			authDispatch({
 				type: 'AUTH_EMAIL',
 				loginId: values.loginId,
 				password: values.password,
 				rememberMe: values.rememberMe,
 			});
-		} else if (signInType === 'email') {
+		} else if (authType === 'email') {
 			authDispatch({
 				type: 'SIGNIN_EMAIL',
 				loginId: values.loginId,
@@ -150,13 +150,13 @@ function AuthForm({ formState, authType }) {
 
 			{formState === 'authForm' && (
 				<React.Fragment>
-					{signInType !== 'regEmail' && signInType !== 'authAnonym' && (
+					{authType !== 'regEmail' && authType !== 'authAnonym' && (
 						<Typography className={classes.heading}>Sign in with Email</Typography>
 					)}
-					{signInType === 'regEmail' && (
+					{authType === 'regEmail' && (
 						<Typography className={classes.heading}>Register with Email</Typography>
 					)}
-					{signInType === 'authAnonym' && (
+					{authType === 'authAnonym' && (
 						<Typography className={classes.heading}>Sign in Anonymously</Typography>
 					)}
 
@@ -169,7 +169,7 @@ function AuthForm({ formState, authType }) {
 						className={classes.interactionField}
 					/>
 
-					{signInType === 'authEmail' && (
+					{(authType === 'email' || authType === 'regEmail') && (
 						<React.Fragment>
 							<FormControl className={classes.interactionField} variant='outlined'>
 								<InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
@@ -210,20 +210,24 @@ function AuthForm({ formState, authType }) {
 						className={`${classes.interactionField} confirmBtn`}
 						onClick={handleConfirm}
 						disabled={
-							(signInType === 'authAnonym' && values.loginId === '') ||
-							(signInType === 'authEmail' &&
-								values.loginId === '' &&
-								values.password === '' &&
-								true)
+							values.loginId === '' ||
+							(authType === 'email' && values.password === '') ||
+							(authType === 'regEmail' && values.password === '')
+								? true
+								: false
 						}>
-						{signInType === 'regEmail' ? 'Register' : 'Sign In'}
+						{authType === 'regEmail' ? 'Register' : 'Sign In'}
 					</Button>
 
-					{signInType !== 'regEmail' && (
+					{authType !== 'regEmail' && (
 						<Typography align='center' type='caption' component='div' gutterBottom>
 							Dont have an account?{' '}
 							<Link
 								onClick={() => {
+									authDispatch({
+										type: 'SET_STATE',
+										state: { error: false, errorCode: '' },
+									});
 									setSignInType('regEmail');
 								}}
 								to='/auth/email/register'>
@@ -237,9 +241,12 @@ function AuthForm({ formState, authType }) {
 				<Alert severity='error' className={classes.errorAlert}>
 					{errorCode === 'auth/email-already-in-use' &&
 						'This E-Mail is already beeing used'}
-					{errorCode === 'auth/invalid-email' ||
+					{(errorCode === 'auth/invalid-email' ||
 						errorCode === 'auth/wrong-password' ||
-						(errorCode === 'auth/internal-error' && 'E-Mail or password is wrong')}
+						errorCode === 'auth/internal-error' ||
+						errorCode === 'auth/user-not-found') &&
+						'E-Mail or password is wrong'}
+					{errorCode === 'auth/weak-password' && 'Password must be at least 6 characters'}
 				</Alert>
 			)}
 		</section>
