@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
 	Grid,
 	Typography,
@@ -11,12 +10,18 @@ import {
 import { CircleOutlined, MailOutlined } from '@mui/icons-material';
 import { Outlet } from 'react-router-dom';
 import PageContent from '../layout/PageContent';
+import Loading from '../Loading';
+
 import useStyles from './AuthPage.style';
+import useLocalStorage from '../../services/localStorage/useLocalStorage';
 
 function AuthPage() {
 	const classes = useStyles();
+	const [isRedirected] = useLocalStorage('webChat_redirect', false);
 	return (
 		<PageContent>
+			{isRedirected && <Loading />}
+
 			<Grid
 				item
 				container
