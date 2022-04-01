@@ -5,12 +5,13 @@ import {
 	getAuth,
 	signInAnonymously,
 	signInWithEmailAndPassword,
-	signInWithPopup,
 	GoogleAuthProvider,
 	setPersistence,
 	browserSessionPersistence,
 	browserLocalPersistence,
 	GithubAuthProvider,
+	signInWithRedirect,
+	getRedirectResult,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -120,25 +121,9 @@ async function logInWithEmail(loginId, password, rememberMe, dispatch) {
 
 async function logInWithGoogle(dispatch) {
 	try {
+		localStorage.setItem('webChat_redirect', true);
 		await setPersistenceSession();
-		const res = await signInWithPopup(firebaseAuth, googleProvider);
-		const user = res.user;
-		const userInDb = await get(child(dbRef, `/users/${user.uid}`));
-		if (userInDb.exists()) {
-			return null;
-		} else {
-			await set(ref(database, `/users/${user.uid}`), {
-				uuid: user.uid,
-				displayName: user.displayName,
-				email: user.email,
-				emailVerified: user.emailVerified,
-				photoURL: user.photoURL,
-				isAnonymous: false,
-				contacts: false,
-				groupChats: false,
-				userChats: false,
-			});
-		}
+		await signInWithRedirect(firebaseAuth, googleProvider);
 	} catch (error) {
 		dispatch({
 			type: 'SET_STATE',
@@ -149,11 +134,25 @@ async function logInWithGoogle(dispatch) {
 
 async function logInWithGithub(dispatch) {
 	try {
+		localStorage.setItem('webChat_redirect', true);
 		await setPersistenceSession();
-		const res = await signInWithPopup(firebaseAuth, githubProvider);
+		await signInWithRedirect(firebaseAuth, githubProvider);
+	} catch (error) {
+		console.log(error);
+		dispatch({
+			type: 'SET_STATE',
+			state: { error: true, errorCode: error.code },
+		});
+	}
+}
+
+async function checkRedirectData() {
+	const res = await getRedirectResult(firebaseAuth);
+	if (res) {
 		const user = res.user;
 		const userInDb = await get(child(dbRef, `/users/${user.uid}`));
 		if (userInDb.exists()) {
+			localStorage.setItem('webChat_redirect', false);
 			return null;
 		} else {
 			await set(ref(database, `/users/${user.uid}`), {
@@ -167,12 +166,8 @@ async function logInWithGithub(dispatch) {
 				groupChats: false,
 				userChats: false,
 			});
+			localStorage.setItem('webChat_redirect', false);
 		}
-	} catch (error) {
-		dispatch({
-			type: 'SET_STATE',
-			state: { error: true, errorCode: error.code },
-		});
 	}
 }
 
@@ -184,4 +179,5 @@ export {
 	logInWithEmail,
 	logInWithGoogle,
 	logInWithGithub,
+	checkRedirectData,
 };

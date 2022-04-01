@@ -8,6 +8,7 @@ import {
 	logInWithGithub,
 	registerAnonym,
 	registerWithEmail,
+	checkRedirectData,
 } from '../firebase.config';
 
 const AuthContext = createContext();
@@ -45,12 +46,17 @@ function AuthProvider({ children }) {
 	});
 
 	useEffect(() => {
+		checkRedirectData();
+	}, []);
+
+	useEffect(() => {
 		if (auth.uuid) {
+			dispatch({ type: 'SET_STATE', state: { loading: false } });
 			navigate('/');
 		} else {
 			console.log('NO USER');
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [auth.uuid]);
 
 	useEffect(() => {
