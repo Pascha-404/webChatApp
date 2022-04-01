@@ -50,26 +50,27 @@ function AuthProvider({ children }) {
 		} else {
 			console.log('NO USER');
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [auth.uuid]);
 
 	useEffect(() => {
 		if (auth.regAnonym) {
-			registerAnonym(auth.loginId);
+			registerAnonym(auth.loginId, dispatch);
 			dispatch({ type: 'SET_STATE', state: { regAnonym: false } });
 		} else if (auth.regEmail) {
 			registerWithEmail(auth.loginId, auth.password, auth.rememberMe, dispatch);
 			dispatch({ type: 'SET_STATE', state: { regEmail: false, password: '' } });
 		} else if (auth.authGoogle) {
-			logInWithGoogle();
+			logInWithGoogle(dispatch);
 			dispatch({ type: 'SET_STATE', state: { authGoogle: false } });
 		} else if (auth.authGithub) {
-			logInWithGithub();
+			logInWithGithub(dispatch);
 			dispatch({ type: 'SET_STATE', state: { authGithub: false } });
 		} else if (auth.logInEmail) {
 			logInWithEmail(auth.loginId, auth.password, auth.rememberMe, dispatch);
 			dispatch({ type: 'SET_STATE', state: { logInEmail: false } });
 		}
-	}, [auth]);
+	}, [auth, dispatch]);
 
 	return (
 		<AuthContext.Provider value={auth}>

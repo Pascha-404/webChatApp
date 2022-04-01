@@ -11,7 +11,6 @@ import {
 	browserSessionPersistence,
 	browserLocalPersistence,
 	GithubAuthProvider,
-	fetchSignInMethodsForEmail,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -54,7 +53,7 @@ async function setPersistenceLocal() {
 	}
 }
 
-async function registerAnonym(loginId) {
+async function registerAnonym(loginId, dispatch) {
 	try {
 		await setPersistenceSession();
 		const res = await signInAnonymously(firebaseAuth);
@@ -71,7 +70,10 @@ async function registerAnonym(loginId) {
 			userChats: false,
 		});
 	} catch (error) {
-		console.log(error);
+		dispatch({
+			type: 'SET_STATE',
+			state: { error: true, errorCode: error.code },
+		});
 	}
 }
 
@@ -109,8 +111,6 @@ async function logInWithEmail(loginId, password, rememberMe, dispatch) {
 		}
 		await signInWithEmailAndPassword(firebaseAuth, loginId, password);
 	} catch (error) {
-		console.log(error);
-		console.log(`loginId: ${loginId}, password: ${password}`);
 		dispatch({
 			type: 'SET_STATE',
 			state: { error: true, errorCode: error.code },
@@ -118,7 +118,7 @@ async function logInWithEmail(loginId, password, rememberMe, dispatch) {
 	}
 }
 
-async function logInWithGoogle() {
+async function logInWithGoogle(dispatch) {
 	try {
 		await setPersistenceSession();
 		const res = await signInWithPopup(firebaseAuth, googleProvider);
@@ -140,10 +140,14 @@ async function logInWithGoogle() {
 			});
 		}
 	} catch (error) {
-		console.log(error);
+		dispatch({
+			type: 'SET_STATE',
+			state: { error: true, errorCode: error.code },
+		});
 	}
 }
-async function logInWithGithub() {
+
+async function logInWithGithub(dispatch) {
 	try {
 		await setPersistenceSession();
 		const res = await signInWithPopup(firebaseAuth, githubProvider);
@@ -165,15 +169,10 @@ async function logInWithGithub() {
 			});
 		}
 	} catch (error) {
-		if (error.code === 'auth/account-exists-with-different-credential') {
-			const { email } = error.customData;
-			const knownSignInMethods = await fetchSignInMethodsForEmail(firebaseAuth, email);
-			if (knownSignInMethods[0] === 'password') {
-				let password = await prompt(`Enter password for ${email}`)
-				logInWithEmail(email, password)
-			}
-		}
-
+		dispatch({
+			type: 'SET_STATE',
+			state: { error: true, errorCode: error.code },
+		});
 	}
 }
 
