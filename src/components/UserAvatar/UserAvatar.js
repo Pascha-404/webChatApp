@@ -7,7 +7,7 @@ function UserAvatar({ size = 3, imgUrl, userName }) {
 	const classes = useStyles({ size });
 	return (
 		<div className={classes.userAvatar}>
-			<Avatar alt={userName} src={imgUrl}/>
+			<Avatar alt={userName} src={imgUrl !== false ? imgUrl : null} />
 		</div>
 	);
 }

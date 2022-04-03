@@ -26,7 +26,7 @@ function Navbar() {
 	return (
 		<Grid item xs={2} sm={1.5} md={1} lg={1}>
 			<nav className={classes.navbar}>
-				<UserAvatar userName={`${user.firstName} ${user.lastName}`} imgUrl={user.pictureLink} />
+				<UserAvatar userName={user.displayName} imgUrl={user.photoURL} />
 				<Tabs
 					className={classes.menuIcons}
 					orientation='vertical'
@@ -54,8 +54,7 @@ function Navbar() {
 						aria-label='Notifications'
 						value={'notifications'}
 					/>
-					<Tab icon={<MoreHorizIcon />} aria-label='options' value={'options'} />
-					<Tab icon={<SettingsIcon />} aria-label='settings' value={'settings'} />
+					<Tab icon={<SettingsIcon />} aria-label='options' value={'options'} />
 				</Tabs>
 			</nav>
 		</Grid>

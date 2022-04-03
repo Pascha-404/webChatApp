@@ -9,7 +9,8 @@ const useStyles = createUseStyles({
         flexGrow: 1,
         overflow: 'hidden',
         '& .MuiGrid-item.MuiGrid-root': {
-            padding: 0
+            padding: 0,
+            height: '100%'
         }
 	},
 });

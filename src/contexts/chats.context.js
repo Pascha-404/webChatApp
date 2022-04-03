@@ -31,6 +31,7 @@ function ChatsProvider({ children }) {
 	const [isFetching, setIsFetching] = useState(true);
 
 	useEffect(() => {
+		setIsFetching(true);
 		const fetchedChats = Object.keys(chatsRef.current).map(async chat => {
 			const getChat = await fetchDatabase(`/userChats/${chat}`);
 			return getChat;
