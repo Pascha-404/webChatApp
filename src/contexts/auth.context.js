@@ -68,7 +68,10 @@ function AuthProvider({ children }) {
 			dispatch({ type: 'SET_STATE', state: { regAnonym: false } });
 		} else if (auth.regEmail) {
 			registerWithEmail(auth.loginId, auth.password, auth.rememberMe, dispatch);
-			dispatch({ type: 'SET_STATE', state: { regEmail: false, password: '' } });
+			dispatch({
+				type: 'SET_STATE',
+				state: { regEmail: false, password: '', error: false, errorCode: '' },
+			});
 		} else if (auth.authGoogle) {
 			logInWithGoogle(dispatch);
 			dispatch({ type: 'SET_STATE', state: { authGoogle: false } });
@@ -77,7 +80,10 @@ function AuthProvider({ children }) {
 			dispatch({ type: 'SET_STATE', state: { authGithub: false } });
 		} else if (auth.logInEmail) {
 			logInWithEmail(auth.loginId, auth.password, auth.rememberMe, dispatch);
-			dispatch({ type: 'SET_STATE', state: { logInEmail: false } });
+			dispatch({
+				type: 'SET_STATE',
+				state: { logInEmail: false, password: '', error: false, errorCode: '' },
+			});
 		}
 	}, [auth, dispatch]);
 
