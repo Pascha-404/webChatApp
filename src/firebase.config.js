@@ -147,27 +147,31 @@ async function logInWithGithub(dispatch) {
 }
 
 async function checkRedirectData(setStoreFunction) {
-	const res = await getRedirectResult(firebaseAuth);
-	if (res) {
-		const user = res.user;
-		const userInDb = await get(child(dbRef, `/users/${user.uid}`));
-		if (userInDb.exists()) {
-			// do nothing
-		} else {
-			await set(ref(database, `/users/${user.uid}`), {
-				uuid: user.uid,
-				displayName: user.displayName,
-				email: user.email,
-				emailVerified: user.emailVerified,
-				photoURL: user.photoURL,
-				isAnonymous: false,
-				contacts: false,
-				groupChats: false,
-				userChats: false,
-			});
+	try {
+		const res = await getRedirectResult(firebaseAuth);
+		if (res) {
+			const user = res.user;
+			const userInDb = await get(child(dbRef, `/users/${user.uid}`));
+			if (userInDb.exists()) {
+				// do nothing
+			} else {
+				await set(ref(database, `/users/${user.uid}`), {
+					uuid: user.uid,
+					displayName: user.displayName,
+					email: user.email,
+					emailVerified: user.emailVerified,
+					photoURL: user.photoURL,
+					isAnonymous: false,
+					contacts: false,
+					groupChats: false,
+					userChats: false,
+				});
+			}
 		}
+		setStoreFunction(false);
+	} catch (error) {
+		setStoreFunction(false);
 	}
-	setStoreFunction(false);
 }
 
 export {
