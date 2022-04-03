@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect } from 'react';
 import useAuthReducer from '../hooks/useAuthReducer';
 import authReducer from '../reducers/auth.reducer.js';
 import { useNavigate } from 'react-router-dom';
+
+import useLocalStorage from '../services/localStorage/useLocalStorage';
 import {
 	logInWithEmail,
 	logInWithGoogle,
@@ -31,6 +33,7 @@ function useAuthDispatch() {
 
 function AuthProvider({ children }) {
 	const navigate = useNavigate();
+	const [isRedirected, setIsRedirected] = useLocalStorage('webChat_redirect', false);
 	const [auth, dispatch] = useAuthReducer(authReducer, {
 		uuid: '',
 		loginId: '',
@@ -46,8 +49,8 @@ function AuthProvider({ children }) {
 	});
 
 	useEffect(() => {
-		checkRedirectData();
-	}, []);
+		checkRedirectData(setIsRedirected);
+	}, [setIsRedirected]);
 
 	useEffect(() => {
 		if (auth.uuid) {
@@ -79,7 +82,7 @@ function AuthProvider({ children }) {
 	}, [auth, dispatch]);
 
 	return (
-		<AuthContext.Provider value={auth}>
+		<AuthContext.Provider value={{ ...auth, isRedirected }}>
 			<AuthDispatch.Provider value={dispatch}>{children}</AuthDispatch.Provider>
 		</AuthContext.Provider>
 	);

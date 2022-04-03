@@ -13,11 +13,11 @@ import PageContent from '../layout/PageContent';
 import Loading from '../Loading';
 
 import useStyles from './AuthPage.style';
-import useLocalStorage from '../../services/localStorage/useLocalStorage';
+import { useAuth } from '../../contexts/auth.context';
 
 function AuthPage() {
 	const classes = useStyles();
-	const [isRedirected] = useLocalStorage('webChat_redirect', false);
+	const { isRedirected } = useAuth();
 	return (
 		<PageContent>
 			{isRedirected && <Loading />}
