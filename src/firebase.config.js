@@ -146,14 +146,13 @@ async function logInWithGithub(dispatch) {
 	}
 }
 
-async function checkRedirectData() {
+async function checkRedirectData(setStoreFunction) {
 	const res = await getRedirectResult(firebaseAuth);
 	if (res) {
 		const user = res.user;
 		const userInDb = await get(child(dbRef, `/users/${user.uid}`));
 		if (userInDb.exists()) {
-			localStorage.setItem('webChat_redirect', false);
-			return null;
+			// do nothing
 		} else {
 			await set(ref(database, `/users/${user.uid}`), {
 				uuid: user.uid,
@@ -166,9 +165,9 @@ async function checkRedirectData() {
 				groupChats: false,
 				userChats: false,
 			});
-			localStorage.setItem('webChat_redirect', false);
 		}
 	}
+	setStoreFunction(false);
 }
 
 export {
