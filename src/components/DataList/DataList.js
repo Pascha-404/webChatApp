@@ -42,10 +42,10 @@ function DataList() {
 			});
 			setGeneratedContent(generatedChats);
 		} else if (dataListContent === 'contacts') {
-			const generatedChats = contacts.map(contact => {
+			const generatedContacts = contacts.map(contact => {
 				return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
 			});
-			setGeneratedContent(generatedChats);
+			setGeneratedContent(generatedContacts);
 		} else if (dataListContent === 'options') {
 			setGeneratedContent(<Options />);
 		}
