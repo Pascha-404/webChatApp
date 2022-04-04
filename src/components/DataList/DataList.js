@@ -13,6 +13,7 @@ import DataCard from '../DataCard';
 
 import useStyles from './DataList.style';
 import Options from '../Options';
+import TabBar from '../TabBar';
 
 function DataList() {
 	const user = useUser();
@@ -53,6 +54,7 @@ function DataList() {
 
 	return (
 		<Grid item sm={4} md={4} className={classes.dataList}>
+			<TabBar />
 			{dataListContent !== 'options' && (
 				<SearchForm className={classes.dataListSearchForm} />
 			)}
