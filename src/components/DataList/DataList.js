@@ -24,7 +24,9 @@ function DataList() {
 	const [generatedContent, setGeneratedContent] = useState();
 
 	useEffect(() => {
-		if (dataListContent === 'inbox') {
+		if (dataListContent === 'home') {
+			setGeneratedContent('');
+		} else if (dataListContent === 'inbox') {
 			const generatedChats = sortByTimestamp(chats, 'descending').map(chat => {
 				const chatPartner = chat.members.filter(member => user.uuid !== member);
 				const contactData = contacts.filter(
@@ -47,14 +49,34 @@ function DataList() {
 				return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
 			});
 			setGeneratedContent(generatedContacts);
+		} else if (dataListContent === 'groups') {
+			setGeneratedContent('');
+		} else if (dataListContent === 'notifications') {
+			setGeneratedContent('');
 		} else if (dataListContent === 'options') {
 			setGeneratedContent(<Options />);
 		}
 	}, [chats, dataListContent, user.uuid, contacts]);
+	console.log(dataListContent);
 
 	return (
 		<Grid item sm={4} md={4} className={classes.dataList}>
-			<TabBar />
+			{dataListContent === 'contacts' && (
+				<TabBar
+					tabs={[
+						{ label: 'Your Contacts', value: 'existingContacts' },
+						{ label: 'Find Contact', value: 'findContacts' },
+					]}
+				/>
+			)}
+			{dataListContent === 'groups' && (
+				<TabBar
+					tabs={[
+						{ label: 'Your Groups', value: 'existingGroups' },
+						{ label: 'Find Group', value: 'findGroups' },
+					]}
+				/>
+			)}
 			{dataListContent !== 'options' && (
 				<SearchForm className={classes.dataListSearchForm} />
 			)}
