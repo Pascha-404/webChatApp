@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext } from 'react';
 import layoutReducer from '../reducers/layout.reducer';
 import useLocalStorageReducer from '../services/localStorage/useLocalStorageReducer';
 

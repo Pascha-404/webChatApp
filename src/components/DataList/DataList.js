@@ -19,7 +19,7 @@ function DataList() {
 	const user = useUser();
 	const chats = useChats();
 	const contacts = useContacts();
-	const { dataListContent } = useLayout();
+	const { dataListContent, dataListTab } = useLayout();
 	const classes = useStyles();
 	const [generatedContent, setGeneratedContent] = useState();
 
@@ -45,10 +45,12 @@ function DataList() {
 			});
 			setGeneratedContent(generatedChats);
 		} else if (dataListContent === 'contacts') {
-			const generatedContacts = contacts.map(contact => {
-				return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
-			});
-			setGeneratedContent(generatedContacts);
+			if (dataListTab === 'existingContacts') {
+				const generatedContacts = contacts.map(contact => {
+					return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
+				});
+				setGeneratedContent(generatedContacts);
+			}
 		} else if (dataListContent === 'groups') {
 			setGeneratedContent('');
 		} else if (dataListContent === 'notifications') {
@@ -56,8 +58,7 @@ function DataList() {
 		} else if (dataListContent === 'options') {
 			setGeneratedContent(<Options />);
 		}
-	}, [chats, dataListContent, user.uuid, contacts]);
-	console.log(dataListContent);
+	}, [chats, dataListContent, user.uuid, contacts, dataListTab]);
 
 	return (
 		<Grid item sm={4} md={4} className={classes.dataList}>

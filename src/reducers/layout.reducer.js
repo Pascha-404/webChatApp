@@ -10,6 +10,8 @@ const reducer = (state, action) => {
 			return { ...state, chatBox: { id: action.id, target: action.target } };
 		case 'SET_DATALISTCONTENT':
 			return { ...state, dataListContent: action.newValue };
+		case 'SET_DATALISTTAB':
+			return {...state, dataListTab: action.state}
 		default:
 			return state;
 	}
