@@ -1,18 +1,20 @@
-import { Box, Tabs, Tab } from '@mui/material';
 import React from 'react';
+import {v4 as uuid} from 'uuid'
+import { Box, Tabs, Tab } from '@mui/material';
 
 import useInputState from '../../hooks/useInputState';
 
 import useStyles from './TabBar.style';
 
-function TabBar() {
+function TabBar({ tabs }) {
 	const classes = useStyles();
-	const { state, handleExplChange } = useInputState('existingContacts');
+	const { state, handleExplChange } = useInputState(tabs[0].value);
 	return (
 		<Box className={classes.tabBar}>
 			<Tabs value={state} onChange={handleExplChange} centered>
-				<Tab label='Your Contacts' value='existingContacts' />
-				<Tab label='Find Contact' value='findContacts' />
+				{tabs.map(tab => {
+					return <Tab label={tab.label} value={tab.value} key={`tab-${uuid()}`} />;
+				})}
 			</Tabs>
 		</Box>
 	);
