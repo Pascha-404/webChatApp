@@ -22,6 +22,7 @@ function useLayoutDispatch() {
 
 const defaultLayout = {
 	dataListContent: 'inbox',
+	dataListTab: { contacts: 'existingContacts', groups: 'existingGroups' },
 	chatBox: { id: '', target: '' },
 };
 

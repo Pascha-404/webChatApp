@@ -11,7 +11,10 @@ const reducer = (state, action) => {
 		case 'SET_DATALISTCONTENT':
 			return { ...state, dataListContent: action.newValue };
 		case 'SET_DATALISTTAB':
-			return {...state, dataListTab: action.state}
+			return {
+				...state,
+				dataListTab: { ...state.dataListTab, [action.tabType]: action.state },
+			};
 		default:
 			return state;
 	}
