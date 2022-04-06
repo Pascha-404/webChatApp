@@ -1,20 +1,23 @@
 import React, { useEffect } from 'react';
-import {v4 as uuid} from 'uuid'
+import { v4 as uuid } from 'uuid';
 import { Box, Tabs, Tab } from '@mui/material';
 
 import useInputState from '../../hooks/useInputState';
 
 import useStyles from './TabBar.style';
-import { useLayoutDispatch } from '../../contexts/layout.context';
+import { useLayout, useLayoutDispatch } from '../../contexts/layout.context';
 
-function TabBar({ tabs }) {
-    const classes = useStyles();
-    const layoutDispatch = useLayoutDispatch();
-    const { state, handleExplChange } = useInputState(tabs[0].value);
-    
-    useEffect(() => {
-    layoutDispatch({type: 'SET_DATALISTTAB', state: state})
-}, [layoutDispatch, state])
+function TabBar({ tabType, tabs }) {
+	const classes = useStyles();
+	const { dataListTab } = useLayout();
+	const layoutDispatch = useLayoutDispatch();
+	const { state, handleExplChange } = useInputState(
+		dataListTab[tabType] || tabs[0].value
+	);
+
+	useEffect(() => {
+		layoutDispatch({ type: 'SET_DATALISTTAB', tabType: tabType, state: state });
+	}, [layoutDispatch, state, tabType]);
 
 	return (
 		<Box className={classes.tabBar}>

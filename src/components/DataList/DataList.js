@@ -64,6 +64,7 @@ function DataList() {
 		<Grid item sm={4} md={4} className={classes.dataList}>
 			{dataListContent === 'contacts' && (
 				<TabBar
+					tabType='contacts'
 					tabs={[
 						{ label: 'Your Contacts', value: 'existingContacts' },
 						{ label: 'Find Contact', value: 'findContacts' },
@@ -72,6 +73,7 @@ function DataList() {
 			)}
 			{dataListContent === 'groups' && (
 				<TabBar
+					tabType='groups'
 					tabs={[
 						{ label: 'Your Groups', value: 'existingGroups' },
 						{ label: 'Find Group', value: 'findGroups' },
