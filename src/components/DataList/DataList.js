@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 
 import sortByTimestamp from '../../utilities/sortByTimestamp';
-import { useContacts } from '../../contexts/contacts.context';
+import { useContacts, useFindContacts } from '../../contexts/contacts.context';
 import { useUser } from '../../contexts/user.context';
 import { useChats } from '../../contexts/chats.context';
 import { useLayout } from '../../contexts/layout.context';
@@ -19,9 +19,10 @@ function DataList() {
 	const user = useUser();
 	const chats = useChats();
 	const contacts = useContacts();
+	const foundContacts = useFindContacts();
 	const { dataListContent, dataListTab } = useLayout();
 	const classes = useStyles();
-	const [generatedContent, setGeneratedContent] = useState();
+	const [generatedContent, setGeneratedContent] = useState([]);
 
 	useEffect(() => {
 		if (dataListContent === 'home') {
@@ -45,8 +46,13 @@ function DataList() {
 			});
 			setGeneratedContent(generatedChats);
 		} else if (dataListContent === 'contacts') {
-			if (dataListTab === 'existingContacts') {
+			if (dataListTab.contacts === 'existingContacts') {
 				const generatedContacts = contacts.map(contact => {
+					return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
+				});
+				setGeneratedContent(generatedContacts);
+			} else if (dataListTab.contacts === 'findContacts') {
+				const generatedContacts = foundContacts.map(contact => {
 					return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
 				});
 				setGeneratedContent(generatedContacts);
@@ -58,7 +64,7 @@ function DataList() {
 		} else if (dataListContent === 'options') {
 			setGeneratedContent(<Options />);
 		}
-	}, [chats, dataListContent, user.uuid, contacts, dataListTab]);
+	}, [chats, dataListContent, user.uuid, contacts, dataListTab, foundContacts]);
 
 	return (
 		<Grid item sm={4} md={4} className={classes.dataList}>
