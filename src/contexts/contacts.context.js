@@ -2,10 +2,12 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 
 import fetchDatabase from '../services/api/fetchDatabase';
+import { useLayout } from './layout.context';
 import { useUser } from './user.context';
 
 const ContactsContext = createContext();
 const ContactsDispatch = createContext();
+const FindContactsContext = createContext();
 
 function useContacts() {
 	const context = useContext(ContactsContext);
@@ -23,9 +25,19 @@ function useContactsDispatch() {
 	return dispatch;
 }
 
+function useFindContacts() {
+	const context = useContext(FindContactsContext);
+	if (context === undefined) {
+		throw new Error('useFindContacts must be used withing a ContactsProvider');
+	}
+	return context;
+}
+
 function ContactsProvider({ children }) {
-	const { contacts } = useUser();
-	const [contactsData, setContactsData] = useState();
+	const { contacts, uuid } = useUser();
+	const { dataListTab } = useLayout();
+	const [foundContactsData, setFoundContactsData] = useState([]);
+	const [contactsData, setContactsData] = useState('');
 	const [isFetching, setIsFetching] = useState(true);
 
 	useEffect(() => {
@@ -35,11 +47,9 @@ function ContactsProvider({ children }) {
 			return fetchDatabase(`/users/${contact}`)
 				.then(data => {
 					const contactObj = {
-						firstName: data.firstName,
-						lastName: data.lastName,
-						nickname: data.nickname,
+						displayName: data.displayName,
 						uuid: data.uuid,
-						pictureLink: data.pictureLink,
+						photoURL: data.photoURL,
 					};
 					return contactObj;
 				})
@@ -49,11 +59,31 @@ function ContactsProvider({ children }) {
 		setIsFetching(false);
 	}, [contacts]);
 
+	useEffect(() => {
+		if (dataListTab.contacts === 'findContacts') {
+			async function findNewContacts(currentUserId) {
+				let contactsArray = [];
+				const fetchedContacts = await fetchDatabase('/users');
+				for (let contact in fetchedContacts) {
+					if (fetchedContacts[contact].uuid !== currentUserId) {
+						const { displayName, photoURL, uuid } = fetchedContacts[contact];
+						const contactObj = { displayName, photoURL, uuid };
+						contactsArray.push(contactObj);
+					}
+				}
+				setFoundContactsData(contactsArray);
+			}
+			findNewContacts(uuid);
+		}
+	}, [dataListTab.contacts, uuid]);
+
 	return (
 		<ContactsContext.Provider value={contactsData}>
-			{!isFetching ? children : <Loading />}
+			<FindContactsContext.Provider value={foundContactsData}>
+				{!isFetching ? children : <Loading />}
+			</FindContactsContext.Provider>
 		</ContactsContext.Provider>
 	);
 }
 
-export { useContacts, useContactsDispatch, ContactsProvider };
+export { useContacts, useContactsDispatch, useFindContacts, ContactsProvider };
