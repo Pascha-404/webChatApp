@@ -20,8 +20,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 	const layoutDispatch = useLayoutDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
-	const isUser = Object.keys(msg)[0] === user.uuid
-	const targetName = target.firstName + ' ' + target.lastName;
+	const isUserMsg = msg && Object.keys(msg)[0] === user.uuid ? true : false;
 
 	async function handleClick() {
 		if (type === 'chat') {
@@ -64,10 +63,14 @@ function DataCard({ target, time, msg, chatId, type }) {
 	return (
 		<Card className={classes.dataCard} onClick={handleClick}>
 			<CardHeader
-				avatar={<UserAvatar userName={targetName} imgUrl={target.pictureLink} />}
-				title={targetName}
+				avatar={<UserAvatar userName={target.displayName} imgUrl={target.photoURL} />}
+				title={target.displayName}
 				subheader={
-					msg && isUser ? `\u27A5 ${Object.values(msg)[0]}` : Object.values(msg)[0]
+					msg
+						? isUserMsg
+							? `\u27A5 ${Object.values(msg)[0]}`
+							: Object.values(msg)[0]
+						: null
 				}
 				action={
 					<IconButton onClick={handleShowOptions}>
