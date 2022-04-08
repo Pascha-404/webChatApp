@@ -16,12 +16,13 @@ function DataCard({ target, time, msg, chatId, type }) {
 	const classes = useStyles({ isActive });
 	const user = useUser();
 	const chats = useChats();
+	const { dataListTab, dataListContent } = useLayout();
 	const chatsDispatch = useChatsDispatch();
 	const layoutDispatch = useLayoutDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const isUserMsg = msg && Object.keys(msg)[0] === user.uuid ? true : false;
-
+	
 	async function handleClick() {
 		if (type === 'chat') {
 			layoutDispatch({ type: 'SET_CHATBOX', id: chatId, target: target.uuid });
@@ -79,26 +80,34 @@ function DataCard({ target, time, msg, chatId, type }) {
 				}
 			/>
 			<Menu open={open} anchorEl={anchorEl} onClose={handleCloseOptions}>
-				<MenuItem
-					onClick={e => {
-						e.stopPropagation();
-						chatsDispatch({
-							type: 'DELETE_CHAT',
-							user: user.uuid,
-							chatPartner: target.uuid,
-							chatId: chatId,
-						});
-						if (chatBox.id === chatId) {
-							layoutDispatch({
-								type: 'SET_CHATBOX',
-								id: '',
-								target: '',
+				{dataListContent === 'chats' && (
+					<MenuItem
+						onClick={e => {
+							e.stopPropagation();
+							chatsDispatch({
+								type: 'DELETE_CHAT',
+								user: user.uuid,
+								chatPartner: target.uuid,
+								chatId: chatId,
 							});
-						}
-						setAnchorEl(null);
-					}}>
-					Delete Chat
-				</MenuItem>
+							if (chatBox.id === chatId) {
+								layoutDispatch({
+									type: 'SET_CHATBOX',
+									id: '',
+									target: '',
+								});
+							}
+							setAnchorEl(null);
+						}}>
+						Delete Chat
+					</MenuItem>
+				)}
+				{dataListContent === 'contacts' && dataListTab.contacts === 'existingContacts' && (
+					<MenuItem>Delete contact</MenuItem>
+				)}
+				{dataListContent === 'contacts' && dataListTab.contacts === 'findContacts' && (
+					<MenuItem>Add to contacts</MenuItem>
+				)}
 			</Menu>
 		</Card>
 	);
