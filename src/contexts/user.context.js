@@ -27,7 +27,6 @@ function useUserDispatch() {
 function UserProvider({ children }) {
 	const { uuid } = useAuth();
 	const [userData, dispatch, isFetching] = useUserReducer(userReducer, uuid, {});
-console.log(userData)
 	return (
 		<UserContext.Provider value={userData}>
 			<UserDispatch.Provider value={dispatch}>

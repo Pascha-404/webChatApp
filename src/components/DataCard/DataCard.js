@@ -7,26 +7,33 @@ import useStyles from './DataCard.style';
 
 import { useLayout, useLayoutDispatch } from '../../contexts/layout.context';
 import { useChats, useChatsDispatch } from '../../contexts/chats.context';
-import { useUser } from '../../contexts/user.context';
+import { useUser, useUserDispatch } from '../../contexts/user.context';
 import addDatabaseChat from '../../services/api/addDatabaseChat';
+import { useContactsDispatch } from '../../contexts/contacts.context';
 
 function DataCard({ target, time, msg, chatId, type }) {
 	const { chatBox } = useLayout();
 	const isActive = chatId === chatBox.id;
 	const classes = useStyles({ isActive });
 	const user = useUser();
+	const userDispatch = useUserDispatch();
 	const chats = useChats();
+	const contactsDispatch = useContactsDispatch();
 	const { dataListTab, dataListContent } = useLayout();
 	const chatsDispatch = useChatsDispatch();
 	const layoutDispatch = useLayoutDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const isUserMsg = msg && Object.keys(msg)[0] === user.uuid ? true : false;
-	
+
 	async function handleClick() {
 		if (type === 'chat') {
 			layoutDispatch({ type: 'SET_CHATBOX', id: chatId, target: target.uuid });
 		} else if (type === 'contact') {
+			if (dataListTab.contacts === 'findContacts') {
+				contactsDispatch({ type: 'ADD_CONTACT', newContact: target });
+				userDispatch({ type: 'ADD_CONTACT', newContact: target });
+			}
 			const checkChats = chats.filter(chat => chat.members.includes(target.uuid));
 			if (checkChats.length === 1) {
 				layoutDispatch({
@@ -102,9 +109,10 @@ function DataCard({ target, time, msg, chatId, type }) {
 						Delete Chat
 					</MenuItem>
 				)}
-				{dataListContent === 'contacts' && dataListTab.contacts === 'existingContacts' && (
-					<MenuItem>Delete contact</MenuItem>
-				)}
+				{dataListContent === 'contacts' &&
+					dataListTab.contacts === 'existingContacts' && (
+						<MenuItem>Delete contact</MenuItem>
+					)}
 				{dataListContent === 'contacts' && dataListTab.contacts === 'findContacts' && (
 					<MenuItem>Add to contacts</MenuItem>
 				)}
