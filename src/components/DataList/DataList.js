@@ -19,7 +19,7 @@ function DataList() {
 	const user = useUser();
 	const chats = useChats();
 	const contacts = useContacts();
-	const foundContacts = useFindContacts();
+	const { foundContacts } = useFindContacts();
 	const { dataListContent, dataListTab } = useLayout();
 	const classes = useStyles();
 	const [generatedContent, setGeneratedContent] = useState([]);

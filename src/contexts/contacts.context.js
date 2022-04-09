@@ -1,15 +1,16 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
 import Loading from '../components/Loading';
 
 import contactReducer from '../reducers/contact.reducer';
+import findContactReducer from '../reducers/findContact.reducer';
 import useContactReducer from '../hooks/useContactReducer';
-import fetchDatabase from '../services/api/fetchDatabase';
-import { useLayout } from './layout.context';
 import { useUser } from './user.context';
+import useFindContactReducer from '../hooks/useFindContactReducer';
 
 const ContactsContext = createContext();
 const ContactsDispatch = createContext();
 const FindContactsContext = createContext();
+const FindContactsDispatch = createContext();
 
 function useContacts() {
 	const context = useContext(ContactsContext);
@@ -34,44 +35,45 @@ function useFindContacts() {
 	}
 	return context;
 }
+function useFindContactsDispatch() {
+	const dispatch = useContext(FindContactsDispatch);
+	if (dispatch === undefined) {
+		throw new Error('useFindContactsDispatch must be used withing a ContactsProvider');
+	}
+	return dispatch;
+}
 
 function ContactsProvider({ children }) {
 	const { contacts, uuid } = useUser();
-	const { dataListTab } = useLayout();
-	const [foundContactsData, setFoundContactsData] = useState([]);
 	const [contactsData, dispatch, isFetching] = useContactReducer(
 		contactReducer,
 		contacts,
 		[]
 	);
-
-	useEffect(() => {
-		if (dataListTab.contacts === 'findContacts') {
-			async function findNewContacts(currentUserId) {
-				let contactsArray = [];
-				const fetchedContacts = await fetchDatabase('/users');
-				for (let contact in fetchedContacts) {
-					if (fetchedContacts[contact].uuid !== currentUserId) {
-						const { displayName, photoURL, uuid } = fetchedContacts[contact];
-						const contactObj = { displayName, photoURL, uuid };
-						contactsArray.push(contactObj);
-					}
-				}
-				setFoundContactsData(contactsArray);
-			}
-			findNewContacts(uuid);
-		}
-	}, [dataListTab.contacts, uuid]);
+	const [foundContactsData, foundContactsDispatch] = useFindContactReducer(
+		findContactReducer,
+		contactsData,
+		uuid,
+		{}
+	);
 
 	return (
 		<ContactsContext.Provider value={contactsData}>
 			<ContactsDispatch.Provider value={dispatch}>
 				<FindContactsContext.Provider value={foundContactsData}>
-					{!isFetching ? children : <Loading />}
+					<FindContactsDispatch.Provider value={foundContactsDispatch}>
+						{!isFetching ? children : <Loading />}
+					</FindContactsDispatch.Provider>
 				</FindContactsContext.Provider>
 			</ContactsDispatch.Provider>
 		</ContactsContext.Provider>
 	);
 }
 
-export { useContacts, useContactsDispatch, useFindContacts, ContactsProvider };
+export {
+	useContacts,
+	useContactsDispatch,
+	useFindContacts,
+	useFindContactsDispatch,
+	ContactsProvider,
+};
