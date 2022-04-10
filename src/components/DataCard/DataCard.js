@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, IconButton, Menu, MenuItem } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
@@ -87,7 +86,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 				}
 			/>
 			<Menu open={open} anchorEl={anchorEl} onClose={handleCloseOptions}>
-				{dataListContent === 'chats' && (
+				{dataListContent === 'inbox' && (
 					<MenuItem
 						onClick={e => {
 							e.stopPropagation();
@@ -109,10 +108,16 @@ function DataCard({ target, time, msg, chatId, type }) {
 						Delete Chat
 					</MenuItem>
 				)}
-				{dataListContent === 'contacts' &&
-					dataListTab.contacts === 'existingContacts' && (
-						<MenuItem>Delete contact</MenuItem>
-					)}
+				{dataListContent === 'contacts' && dataListTab.contacts === 'existingContacts' && (
+					<MenuItem
+						onClick={e => {
+							e.stopPropagation();
+							userDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
+							contactsDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
+						}}>
+						Delete contact
+					</MenuItem>
+				)}
 				{dataListContent === 'contacts' && dataListTab.contacts === 'findContacts' && (
 					<MenuItem>Add to contacts</MenuItem>
 				)}
