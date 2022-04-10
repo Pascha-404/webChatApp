@@ -8,7 +8,10 @@ import { useLayout, useLayoutDispatch } from '../../contexts/layout.context';
 import { useChats, useChatsDispatch } from '../../contexts/chats.context';
 import { useUser, useUserDispatch } from '../../contexts/user.context';
 import addDatabaseChat from '../../services/api/addDatabaseChat';
-import { useContactsDispatch } from '../../contexts/contacts.context';
+import {
+	useContactsDispatch,
+	useFindContactsDispatch,
+} from '../../contexts/contacts.context';
 
 function DataCard({ target, time, msg, chatId, type }) {
 	const { chatBox } = useLayout();
@@ -19,6 +22,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 	const chats = useChats();
 	const contactsDispatch = useContactsDispatch();
 	const { dataListTab, dataListContent } = useLayout();
+	const findContactsDispatch = useFindContactsDispatch();
 	const chatsDispatch = useChatsDispatch();
 	const layoutDispatch = useLayoutDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -119,7 +123,15 @@ function DataCard({ target, time, msg, chatId, type }) {
 					</MenuItem>
 				)}
 				{dataListContent === 'contacts' && dataListTab.contacts === 'findContacts' && (
-					<MenuItem>Add to contacts</MenuItem>
+					<MenuItem
+						onClick={e => {
+							e.stopPropagation();
+							contactsDispatch({ type: 'ADD_CONTACT', newContact: target });
+							userDispatch({ type: 'ADD_CONTACT', newContact: target });
+							findContactsDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
+						}}>
+						Add to contacts
+					</MenuItem>
 				)}
 			</Menu>
 		</Card>

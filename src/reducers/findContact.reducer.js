@@ -3,7 +3,10 @@ const reducer = (state, action) => {
 		case 'SET_STATE':
 			return { refresh: false, foundContacts: action.state };
 		case 'DELETE_CONTACT':
-			return { ...state, contacts: state.filter(user => user.uuid !== action.userId) };
+			return {
+				...state,
+				foundContacts: state.foundContacts.filter(user => user.uuid !== action.contactId),
+			};
 		case 'TOGGLE_REFRESH':
 			return { refresh: !state.refresh, ...state };
 		default:
