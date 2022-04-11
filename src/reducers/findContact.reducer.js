@@ -8,7 +8,7 @@ const reducer = (state, action) => {
 				foundContacts: state.foundContacts.filter(user => user.uuid !== action.contactId),
 			};
 		case 'TOGGLE_REFRESH':
-			return { refresh: !state.refresh, ...state };
+			return { ...state, refresh: !state.refresh };
 		default:
 			return state;
 	}

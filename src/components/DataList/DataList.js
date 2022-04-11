@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
+import { IconButton } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 import sortByTimestamp from '../../utilities/sortByTimestamp';
-import { useContacts, useFindContacts } from '../../contexts/contacts.context';
+import {
+	useContacts,
+	useFindContacts,
+	useFindContactsDispatch,
+} from '../../contexts/contacts.context';
 import { useUser } from '../../contexts/user.context';
 import { useChats } from '../../contexts/chats.context';
 import { useLayout } from '../../contexts/layout.context';
@@ -20,10 +26,15 @@ function DataList() {
 	const user = useUser();
 	const chats = useChats();
 	const contacts = useContacts();
+	const foundContactsDispatch = useFindContactsDispatch();
 	const { foundContacts } = useFindContacts();
 	const { dataListContent, dataListTab } = useLayout();
 	const classes = useStyles();
 	const [generatedContent, setGeneratedContent] = useState([]);
+
+	function handleRefresh() {
+		foundContactsDispatch({ type: 'TOGGLE_REFRESH' });
+	}
 
 	useEffect(() => {
 		async function createContent() {
@@ -99,9 +110,19 @@ function DataList() {
 					]}
 				/>
 			)}
-			{dataListContent !== 'options' && (
-				<SearchForm className={classes.dataListSearchForm} />
-			)}
+			<div className={classes.inputWrapper}>
+				{dataListContent !== 'options' && (
+					<SearchForm className={classes.dataListSearchForm} />
+				)}
+				{dataListTab.contacts === 'findContacts' && (
+					<IconButton
+						aria-label='refresh'
+						className={classes.refreshBtn}
+						onClick={handleRefresh}>
+						<RefreshIcon />
+					</IconButton>
+				)}
+			</div>
 			{dataListContent === 'inbox' && <SortForm />}
 			{generatedContent}
 		</Grid>
