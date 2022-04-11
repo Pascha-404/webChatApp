@@ -14,6 +14,7 @@ import DataCard from '../DataCard';
 import useStyles from './DataList.style';
 import Options from '../Options';
 import TabBar from '../TabBar';
+import { fetchDatabase } from '../../services/api';
 
 function DataList() {
 	const user = useUser();
@@ -25,45 +26,57 @@ function DataList() {
 	const [generatedContent, setGeneratedContent] = useState([]);
 
 	useEffect(() => {
-		if (dataListContent === 'home') {
-			setGeneratedContent('');
-		} else if (dataListContent === 'inbox') {
-			const generatedChats = sortByTimestamp(chats, 'descending').map(chat => {
-				const chatPartner = chat.members.filter(member => user.uuid !== member);
-				const contactData = contacts.filter(
-					contact => String(chatPartner) === contact.uuid
+		async function createContent() {
+			if (dataListContent === 'home') {
+				setGeneratedContent('');
+			} else if (dataListContent === 'inbox') {
+				const generatedChats = await Promise.all(
+					sortByTimestamp(chats, 'descending').map(
+						async ({ members, chatId, lastMsg, timestamp }) => {
+							const chatPartner = members.filter(member => user.uuid !== member);
+							const contactData = contacts.filter(
+								contact => String(chatPartner) === contact.uuid
+							);
+							if (contactData.length <= 0) {
+								const getUser = await fetchDatabase(`/users/${String(chatPartner)}`);
+								const { displayName, photoURL, uuid } = getUser;
+								contactData.push({ displayName, photoURL, uuid });
+							}
+							return (
+								<DataCard
+									key={chatId}
+									chatId={chatId}
+									target={contactData[0]}
+									msg={lastMsg && lastMsg}
+									time={timestamp && timestamp}
+									type={'chat'}
+								/>
+							);
+						}
+					)
 				);
-				return (
-					<DataCard
-						key={chat.chatId}
-						chatId={chat.chatId}
-						target={contactData[0]}
-						msg={chat.lastMsg && chat.lastMsg}
-						time={chat.timestamp && chat.timestamp}
-						type={'chat'}
-					/>
-				);
-			});
-			setGeneratedContent(generatedChats);
-		} else if (dataListContent === 'contacts') {
-			if (dataListTab.contacts === 'existingContacts') {
-				const generatedContacts = contacts.map(contact => {
-					return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
-				});
-				setGeneratedContent(generatedContacts);
-			} else if (dataListTab.contacts === 'findContacts') {
-				const generatedContacts = foundContacts.map(contact => {
-					return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
-				});
-				setGeneratedContent(generatedContacts);
+				setGeneratedContent(generatedChats);
+			} else if (dataListContent === 'contacts') {
+				if (dataListTab.contacts === 'existingContacts') {
+					const generatedContacts = contacts.map(contact => {
+						return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
+					});
+					setGeneratedContent(generatedContacts);
+				} else if (dataListTab.contacts === 'findContacts') {
+					const generatedContacts = foundContacts.map(contact => {
+						return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
+					});
+					setGeneratedContent(generatedContacts);
+				}
+			} else if (dataListContent === 'groups') {
+				setGeneratedContent('');
+			} else if (dataListContent === 'notifications') {
+				setGeneratedContent('');
+			} else if (dataListContent === 'options') {
+				setGeneratedContent(<Options />);
 			}
-		} else if (dataListContent === 'groups') {
-			setGeneratedContent('');
-		} else if (dataListContent === 'notifications') {
-			setGeneratedContent('');
-		} else if (dataListContent === 'options') {
-			setGeneratedContent(<Options />);
 		}
+		createContent();
 	}, [chats, dataListContent, user.uuid, contacts, dataListTab, foundContacts]);
 
 	return (
