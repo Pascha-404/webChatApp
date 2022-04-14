@@ -20,7 +20,6 @@ import DataCard from '../DataCard';
 import useStyles from './DataList.style';
 import Options from '../Options';
 import TabBar from '../TabBar';
-import { fetchDatabase } from '../../services/api';
 
 function DataList() {
 	const user = useUser();
@@ -48,11 +47,6 @@ function DataList() {
 							const contactData = contacts.filter(
 								contact => String(chatPartner) === contact.uuid
 							);
-							if (contactData.length <= 0) {
-								const getUser = await fetchDatabase(`/users/${String(chatPartner)}`);
-								const { displayName, photoURL, uuid } = getUser;
-								contactData.push({ displayName, photoURL, uuid });
-							}
 							return (
 								<DataCard
 									key={chatId}
@@ -69,9 +63,11 @@ function DataList() {
 				setGeneratedContent(generatedChats);
 			} else if (dataListContent === 'contacts') {
 				if (dataListTab.contacts === 'existingContacts') {
-					const generatedContacts = contacts.map(contact => {
-						return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
-					});
+					const generatedContacts = contacts
+						.filter(contact => contact.isFriend === true)
+						.map(contact => {
+							return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
+						});
 					setGeneratedContent(generatedContacts);
 				} else if (dataListTab.contacts === 'findContacts') {
 					const generatedContacts = foundContacts.map(contact => {

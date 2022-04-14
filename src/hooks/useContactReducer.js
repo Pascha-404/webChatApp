@@ -17,6 +17,7 @@ const useContactReducer = (reducer, userContacts, initialValue) => {
 						displayName: data.displayName,
 						uuid: data.uuid,
 						photoURL: data.photoURL,
+						isFriend: true,
 					};
 					return contactObj;
 				})
