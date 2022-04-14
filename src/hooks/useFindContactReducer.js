@@ -17,7 +17,10 @@ const useFindContactReducer = (reducer, knownContacts, uuid, initialValue) => {
 			}
 			const filteredContacts = contactsArray.filter(user => {
 				for (let contact of knownContacts) {
-					if (contact.uuid === undefined || contact.uuid === user.uuid) {
+					if (
+						contact.uuid === undefined ||
+						(contact.uuid === user.uuid && contact.isFriend === true)
+					) {
 						return false;
 					}
 				}
@@ -26,7 +29,7 @@ const useFindContactReducer = (reducer, knownContacts, uuid, initialValue) => {
 			dispatch({ type: 'SET_STATE', state: filteredContacts });
 		}
 		findNewContacts(uuid);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.refresh]);
 
 	return [state, dispatch];
