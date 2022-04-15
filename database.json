@@ -1,37 +1,232 @@
 {
-	"groupChats": {
-		"altf4": true,
-		"techpirates": true
+	"groupChats": "false",
+	"groups": {
+		"altf4": {
+			"displayName": "altf4",
+			"members": {
+				"qc2QzxKSEXSQoRrBoa3DPKkAuFC2": true
+			},
+			"photoURL": false,
+			"uuid": "altf4"
+		},
+		"techpirates": {
+			"displayName": "techpirates",
+			"members": false,
+			"photoURL": false,
+			"uuid": "techpirates"
+		}
 	},
-	"messages": { "0": { "value": 0 } },
+	"messages": {
+		"0": {
+			"value": 0
+		},
+		"id1": {
+			"-MvddyIleRN5OEO7hUG4": {
+				"chatId": "id1",
+				"msg": "Trying send msg",
+				"msgId": "-MvddyIleRN5OEO7hUG4",
+				"msgTimestamp": 1644597601543,
+				"sentBy": "admin"
+			},
+			"-MvjR_NP_pGf6csA5nPC": {
+				"chatId": "id1",
+				"msg": "hey",
+				"msgId": "-MvjR_NP_pGf6csA5nPC",
+				"msgTimestamp": 1644694754862,
+				"sentBy": "admin"
+			},
+			"-MvjSVbUYiCApnSXJQw6": {
+				"chatId": "id1",
+				"msg": "why",
+				"msgId": "-MvjSVbUYiCApnSXJQw6",
+				"msgTimestamp": 1644694997493,
+				"sentBy": "admin"
+			},
+			"-MvjSVifidibQzHW7Ffy": {
+				"chatId": "id1",
+				"msg": "is",
+				"msgId": "-MvjSVifidibQzHW7Ffy",
+				"msgTimestamp": 1644694997953,
+				"sentBy": "admin"
+			},
+			"-MvjSVy8svpxWsO50nB7": {
+				"chatId": "id1",
+				"msg": "that",
+				"msgId": "-MvjSVy8svpxWsO50nB7",
+				"msgTimestamp": 1644694998943,
+				"sentBy": "admin"
+			},
+			"-MvjSkk-gDrnU0YUZbPL": {
+				"chatId": "id1",
+				"msg": "aah",
+				"msgId": "-MvjSkk-gDrnU0YUZbPL",
+				"msgTimestamp": 1644695063574,
+				"sentBy": "admin"
+			},
+			"-MvjTKuMOJBPEjtyoSPw": {
+				"chatId": "id1",
+				"msg": "testing",
+				"msgId": "-MvjTKuMOJBPEjtyoSPw",
+				"msgTimestamp": 1644695215789,
+				"sentBy": "admin"
+			},
+			"-MvjTL5USUp-Mm-H8dgh": {
+				"chatId": "id1",
+				"msg": "1",
+				"msgId": "-MvjTL5USUp-Mm-H8dgh",
+				"msgTimestamp": 1644695216565,
+				"sentBy": "admin"
+			},
+			"-MvjTLL8sGh36hMta3Wc": {
+				"chatId": "id1",
+				"msg": "2",
+				"msgId": "-MvjTLL8sGh36hMta3Wc",
+				"msgTimestamp": 1644695217567,
+				"sentBy": "admin"
+			},
+			"-MvjTLZNf8SA7Mh8yGh6": {
+				"chatId": "id1",
+				"msg": "3",
+				"msgId": "-MvjTLZNf8SA7Mh8yGh6",
+				"msgTimestamp": 1644695218478,
+				"sentBy": "admin"
+			},
+			"-MvyxIiWzKqxO8kPnVTg": {
+				"chatId": "id1",
+				"msg": "🥰",
+				"msgId": "-MvyxIiWzKqxO8kPnVTg",
+				"msgTimestamp": 1644954991540,
+				"sentBy": "admin"
+			}
+		},
+		"id2": {
+			"-Mvde3VgsL2F66XFQPQN": {
+				"chatId": "id2",
+				"msg": "WORKS",
+				"msgId": "-Mvde3VgsL2F66XFQPQN",
+				"msgTimestamp": 1644597626946,
+				"sentBy": "admin"
+			},
+			"-MvdeGCg9F725wXDTis0": {
+				"chatId": "id2",
+				"msg": "more msgs",
+				"msgId": "-MvdeGCg9F725wXDTis0",
+				"msgTimestamp": 1644597678978,
+				"sentBy": "admin"
+			},
+			"-MvdeGvZJ-bIHYypa_FE": {
+				"chatId": "id2",
+				"msg": "and more",
+				"msgId": "-MvdeGvZJ-bIHYypa_FE",
+				"msgTimestamp": 1644597681914,
+				"sentBy": "admin"
+			},
+			"-MvjRW9x2XegtAMwOaA_": {
+				"chatId": "id2",
+				"msg": "testing",
+				"msgId": "-MvjRW9x2XegtAMwOaA_",
+				"msgTimestamp": 1644694737615,
+				"sentBy": "admin"
+			},
+			"-MvjRrTzI4qMpZaMHR1e": {
+				"chatId": "id2",
+				"msg": "thats fun",
+				"msgId": "-MvjRrTzI4qMpZaMHR1e",
+				"msgTimestamp": 1644694829011,
+				"sentBy": "admin"
+			},
+			"-MvjUa_hwJN-uiIOy9Ep": {
+				"chatId": "id2",
+				"msg": "give",
+				"msgId": "-MvjUa_hwJN-uiIOy9Ep",
+				"msgTimestamp": 1644695546239,
+				"sentBy": "admin"
+			},
+			"-MvjUamX9FJP_19-1jfx": {
+				"chatId": "id2",
+				"msg": "code",
+				"msgId": "-MvjUamX9FJP_19-1jfx",
+				"msgTimestamp": 1644695547060,
+				"sentBy": "admin"
+			},
+			"-MvjUb4VlU56bKh0FCZa": {
+				"chatId": "id2",
+				"msg": "please",
+				"msgId": "-MvjUb4VlU56bKh0FCZa",
+				"msgTimestamp": 1644695548274,
+				"sentBy": "admin"
+			},
+			"-MvjUgpE2vTG-qFEiUaP": {
+				"chatId": "id2",
+				"msg": "heyja",
+				"msgId": "-MvjUgpE2vTG-qFEiUaP",
+				"msgTimestamp": 1644695571809,
+				"sentBy": "admin"
+			},
+			"-MvjVLn2T6VF1wg06K1l": {
+				"chatId": "id2",
+				"msg": "works!",
+				"msgId": "-MvjVLn2T6VF1wg06K1l",
+				"msgTimestamp": 1644695743701,
+				"sentBy": "admin"
+			}
+		}
+	},
 	"userChats": {
+		"-N-EUVCX4C_U0jDPTWEB": {
+			"chatId": "-N-EUVCX4C_U0jDPTWEB",
+			"chatTimestamp": 1649527358323,
+			"members": ["qc2QzxKSEXSQoRrBoa3DPKkAuFC2", "defaultContact3"]
+		},
+		"-N-EoDjDRyKCm4bV7KSA": {
+			"chatId": "-N-EoDjDRyKCm4bV7KSA",
+			"chatTimestamp": 1649532791776,
+			"members": ["ResrM9ifISgndtPPiUnnIX7Smic2", "defaultContact1"]
+		},
+		"-N-MRJ2T6YGROD4F41AA": {
+			"chatId": "-N-MRJ2T6YGROD4F41AA",
+			"chatTimestamp": 1649660739826,
+			"members": ["qc2QzxKSEXSQoRrBoa3DPKkAuFC2", "admin"]
+		},
+		"-N-P3kEk3UZQoKfudSu2": {
+			"chatId": "-N-P3kEk3UZQoKfudSu2",
+			"chatTimestamp": 1649704895523,
+			"members": ["qc2QzxKSEXSQoRrBoa3DPKkAuFC2", "defaultContact4"]
+		},
 		"id1": {
 			"chatId": "id1",
 			"chatTimestamp": 1459361875666,
 			"lastMsg": {
-				"admin": "5"
+				"admin": "🥰"
 			},
 			"members": ["admin", "defaultContact3"],
-			"msgTimestamp": 1644338555557
+			"msgTimestamp": 1644954991540
 		},
 		"id2": {
 			"chatId": "id2",
 			"lastMsg": {
-				"admin": "Testing......"
+				"admin": "works!"
 			},
 			"members": ["admin", "defaultContact2"],
-			"msgTimestamp": 1644331854571
-		},
-		"id3": {
-			"chatId": "id3",
-			"lastMsg": {
-				"admin": "alex boy!"
-			},
-			"members": ["admin", "defaultContact1"],
-			"msgTimestamp": 1644339162457
+			"msgTimestamp": 1644695743701
 		}
 	},
 	"users": {
+		"ResrM9ifISgndtPPiUnnIX7Smic2": {
+			"contacts": {
+				"defaultContact1": true
+			},
+			"displayName": "p@p.com",
+			"email": "p@p.com",
+			"emailVerified": false,
+			"groupChats": false,
+			"isAnonymous": false,
+			"photoURL": false,
+			"userChats": {
+				"-N-EoDjDRyKCm4bV7KSA": true
+			},
+			"uuid": "ResrM9ifISgndtPPiUnnIX7Smic2"
+		},
 		"admin": {
 			"contacts": {
 				"defaultContact1": true,
@@ -39,18 +234,18 @@
 				"defaultContact3": true,
 				"defaultContact4": true
 			},
-			"firstName": "Patrick",
+			"displayName": "Patrick Pavliuchik",
 			"groupChats": {
 				"altf4": true,
 				"techpirates": true
 			},
-			"lastName": "Pavliuchik",
-			"nickname": "Pascha",
-			"pictureLink": "https://avatars.githubusercontent.com/u/73493957?v=4",
+			"photoURL": "https://avatars.githubusercontent.com/u/73493957?v=4",
 			"userChats": {
+				"-N-9mPhMjuMhZxvwWCy6": true,
+				"-N-9okle6_ss6VdyEhgJ": true,
+				"-N-MRJ2T6YGROD4F41AA": true,
 				"id1": true,
-				"id2": true,
-				"id3": true
+				"id2": true
 			},
 			"uuid": "admin"
 		},
@@ -61,14 +256,19 @@
 				"defaultContact3": true,
 				"defaultContact4": true
 			},
-			"firstName": "Alexander",
+			"displayName": "Alexander Petersen",
 			"groupChats": {
 				"altf4": true,
 				"techpirates": true
 			},
-			"lastName": "Petersen",
-			"nickname": "goldenbutterfly433",
-			"pictureLink": "https://randomuser.me/api/portraits/thumb/men/59.jpg",
+			"photoURL": "https://randomuser.me/api/portraits/thumb/men/59.jpg",
+			"userChats": {
+				"-N-2UpWDTT0QzBx2Baru": true,
+				"-N-8An7P-qlpjA_y2LZZ": true,
+				"-N-9m7VyTfkwQzbtRUGV": true,
+				"-N-9p39AFiV0DhuV4AOn": true,
+				"-N-EoDjDRyKCm4bV7KSA": true
+			},
 			"uuid": "defaultContact1"
 		},
 		"defaultContact2": {
@@ -78,14 +278,12 @@
 				"defaultContact3": true,
 				"defaultContact4": true
 			},
-			"firstName": "Juliett",
+			"displayName": "Juliett Anderson",
 			"groupChats": {
 				"altf4": true,
 				"techpirates": true
 			},
-			"lastName": "Anderson",
-			"nickname": "Kilroy",
-			"pictureLink": "https://randomuser.me/api/portraits/thumb/women/84.jpg",
+			"photoURL": "https://randomuser.me/api/portraits/thumb/women/84.jpg",
 			"uuid": "defaultContact2"
 		},
 		"defaultContact3": {
@@ -95,15 +293,15 @@
 				"defaultContact2": true,
 				"defaultContact4": true
 			},
-			"firstName": "Milla",
+			"displayName": "Milla Koivisto",
 			"groupChats": {
 				"altf4": true,
 				"techpirates": true
 			},
-			"lastName": "Koivisto",
-			"nickname": "sadgorilla207",
-			"pictureLink": "https://randomuser.me/api/portraits/thumb/women/44.jpg",
+			"photoURL": "https://randomuser.me/api/portraits/thumb/women/44.jpg",
 			"userChats": {
+				"-N-9lQENxSGKxTsUDlzf": true,
+				"-N-EUVCX4C_U0jDPTWEB": true,
 				"id1": true,
 				"id2": true,
 				"id3": true
@@ -117,15 +315,39 @@
 				"defaultContact2": true,
 				"defaultContact3": true
 			},
-			"firstName": "Annick",
+			"displayName": "Annick Pul",
 			"groupChats": {
 				"altf4": true,
 				"techpirates": true
 			},
-			"lastName": "Pul",
-			"nickname": "orangecat859",
-			"pictureLink": "https://randomuser.me/api/portraits/thumb/women/75.jpg",
+			"photoURL": "https://randomuser.me/api/portraits/thumb/women/75.jpg",
+			"userChats": {
+				"-N-P3kEk3UZQoKfudSu2": true
+			},
 			"uuid": "defaultContact4"
+		},
+		"qc2QzxKSEXSQoRrBoa3DPKkAuFC2": {
+			"contacts": {
+				"ResrM9ifISgndtPPiUnnIX7Smic2": false,
+				"admin": false,
+				"defaultContact1": true,
+				"defaultContact2": false,
+				"defaultContact3": true,
+				"defaultContact4": true
+			},
+			"displayName": "Patrick Pavliuchik",
+			"emailVerified": false,
+			"groupChats": {
+				"altf4": true
+			},
+			"isAnonymous": false,
+			"photoURL": "https://avatars.githubusercontent.com/u/73493957?v=4",
+			"userChats": {
+				"-N-EUVCX4C_U0jDPTWEB": true,
+				"-N-MRJ2T6YGROD4F41AA": true,
+				"-N-P3kEk3UZQoKfudSu2": true
+			},
+			"uuid": "qc2QzxKSEXSQoRrBoa3DPKkAuFC2"
 		}
 	}
 }
