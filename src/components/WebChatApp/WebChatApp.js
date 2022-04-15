@@ -1,10 +1,13 @@
 import React from 'react';
 
-import { UserProvider } from '../../contexts/user.context';
-import { LayoutProvider } from '../../contexts/layout.context';
-import { ChatsProvider } from '../../contexts/chats.context';
-import { MessagesProvider } from '../../contexts/messages.context';
-import { ContactsProvider } from '../../contexts/contacts.context';
+import {
+	UserProvider,
+	LayoutProvider,
+	GroupsProvider,
+	ChatsProvider,
+	MessagesProvider,
+	ContactsProvider,
+} from '../../contexts';
 
 import DataList from '../DataList';
 import Navbar from '../layout/Navbar';
@@ -18,12 +21,14 @@ function WebChatApp() {
 				<LayoutProvider>
 					<Navbar />
 					<ContactsProvider>
-						<ChatsProvider>
-							<DataList />
-							<MessagesProvider>
-								<ChatBox />
-							</MessagesProvider>
-						</ChatsProvider>
+						<GroupsProvider>
+							<ChatsProvider>
+								<DataList />
+								<MessagesProvider>
+									<ChatBox />
+								</MessagesProvider>
+							</ChatsProvider>
+						</GroupsProvider>
 					</ContactsProvider>
 				</LayoutProvider>
 			</UserProvider>
