@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, IconButton, Menu, MenuItem } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import UserAvatar from '../UserAvatar';
-import useStyles from './DataCard.style';
 
-import { useLayout, useLayoutDispatch } from '../../contexts/layout.context';
-import { useChats, useChatsDispatch } from '../../contexts/chats.context';
-import { useUser, useUserDispatch } from '../../contexts/user.context';
-import addDatabaseChat from '../../services/api/addDatabaseChat';
 import {
+	useLayout,
+	useLayoutDispatch,
+	useChats,
+	useChatsDispatch,
+	useUser,
+	useUserDispatch,
 	useContactsDispatch,
 	useFindContactsDispatch,
-} from '../../contexts/contacts.context';
+} from '../../contexts';
+import addDatabaseChat from '../../services/api/addDatabaseChat';
+
+import UserAvatar from '../UserAvatar';
+import useStyles from './DataCard.style';
 
 function DataCard({ target, time, msg, chatId, type }) {
 	const { chatBox } = useLayout();
