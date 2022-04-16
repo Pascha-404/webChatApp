@@ -14,6 +14,16 @@ const reducer = (state, action) => {
 				{ path: `/users/${state.uuid}/contacts/${action.contactId}`, value: false },
 			]);
 			return { ...state, contacts: { ...state.contacts, [action.contactId]: false } };
+		case 'ADD_GROUP':
+			updateDatabaseData([
+				{ path: `/users/${state.uuid}/groups/${action.groupId}`, value: true },
+			]);
+			return { ...state, groups: { ...state.groups, [action.groupId]: true } };
+		case 'DELETE_GROUP':
+			updateDatabaseData([
+				{ path: `/users/${state.uuid}/groups/${action.groupId}`, value: false },
+			]);
+			return { ...state, groups: { ...state.groups, [action.groupId]: false } };
 		default:
 			return state;
 	}
