@@ -26,8 +26,8 @@ function useGroupsDispatch() {
 }
 
 function GroupsProvider({ children }) {
-	const { groupChats } = useUser();
-	const [state, dispatch, isFetching] = useGroupReducer(groupReducer, groupChats, []);
+	const { groups } = useUser();
+	const [state, dispatch, isFetching] = useGroupReducer(groupReducer, groups, []);
 	return (
 		<GroupsContext.Provider value={state}>
 			<GroupsDispatch.Provider value={dispatch}>
