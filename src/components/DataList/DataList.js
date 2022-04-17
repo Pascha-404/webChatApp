@@ -6,7 +6,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import sortByTimestamp from '../../utilities/sortByTimestamp';
 import {
 	useUser,
-	useChats,
+	useUserChats,
 	useLayout,
 	useContacts,
 	useFindContacts,
@@ -24,7 +24,7 @@ import TabBar from '../TabBar';
 
 function DataList() {
 	const user = useUser();
-	const chats = useChats();
+	const chats = useUserChats();
 	const groups = useGroups();
 	const contacts = useContacts();
 	const foundContactsDispatch = useFindContactsDispatch();

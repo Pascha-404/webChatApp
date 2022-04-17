@@ -1,26 +1,42 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Loading from '../components/Loading';
-import { useUser } from './user.context';
 import useChatReducer from '../hooks/useChatReducer';
 import chatReducer from '../reducers/chat.reducer';
 import fetchDatabase from '../services/api/fetchDatabase';
-import { useContacts, useContactsDispatch } from './contacts.context';
+import { useContacts, useContactsDispatch, useUser } from './';
 
-const ChatsContext = createContext();
-const ChatsDispatch = createContext();
+const UserChatsContext = createContext();
+const UserChatsDispatch = createContext();
+const GroupChatsContext = createContext();
+const GroupChatsDispatch = createContext();
 
-function useChats() {
-	const context = useContext(ChatsContext);
+function useUserChats() {
+	const context = useContext(UserChatsContext);
 	if (context === undefined) {
-		throw new Error('useChats must be used within a ChatsProvider');
+		throw new Error('useUserChats must be used within a ChatsProvider');
 	}
 	return context;
 }
 
-function useChatsDispatch() {
-	const dispatch = useContext(ChatsDispatch);
+function useUserChatsDispatch() {
+	const dispatch = useContext(UserChatsDispatch);
 	if (dispatch === undefined) {
-		throw new Error('useChatsDispatch must be used within a ChatsProvider');
+		throw new Error('useUserChatsDispatch must be used within a ChatsProvider');
+	}
+	return dispatch;
+}
+function useGroupChats() {
+	const context = useContext(GroupChatsContext);
+	if (context === undefined) {
+		throw new Error('useUserChats must be used within a ChatsProvider');
+	}
+	return context;
+}
+
+function useGroupChatsDispatch() {
+	const dispatch = useContext(GroupChatsDispatch);
+	if (dispatch === undefined) {
+		throw new Error('useUserChatsDispatch must be used within a ChatsProvider');
 	}
 	return dispatch;
 }
@@ -29,8 +45,8 @@ function ChatsProvider({ children }) {
 	const user = useUser();
 	const contacts = useContacts();
 	const contactsDispatch = useContactsDispatch();
-	const [chats, dispatch] = useChatReducer(chatReducer, user.userChats);
-	const chatsRef = useRef(chats);
+	const [userChats, userChatsDispatch] = useChatReducer(chatReducer, user.userChats);
+	const chatsRef = useRef(userChats);
 	const [isFetching, setIsFetching] = useState(true);
 
 	useEffect(() => {
@@ -41,10 +57,10 @@ function ChatsProvider({ children }) {
 		});
 		Promise.all(fetchedChats)
 			.then(results => {
-				dispatch({ type: 'SET_STATE', state: results });
+				userChatsDispatch({ type: 'SET_STATE', state: results });
 			})
 			.catch(error => console.log(error));
-	}, [dispatch]);
+	}, [userChatsDispatch]);
 
 	useEffect(() => {
 		async function getUnknownContactData(userChats) {
@@ -66,19 +82,19 @@ function ChatsProvider({ children }) {
 			}
 			setIsFetching(false);
 		}
-		if (typeof chats[0] === 'object') {
-			getUnknownContactData(chats);
+		if (typeof userChats[0] === 'object') {
+			getUnknownContactData(userChats);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [chats]);
+	}, [userChats]);
 
 	return (
-		<ChatsContext.Provider value={chats}>
-			<ChatsDispatch.Provider value={dispatch}>
+		<UserChatsContext.Provider value={userChats}>
+			<UserChatsDispatch.Provider value={userChatsDispatch}>
 				{!isFetching && children} {isFetching && <Loading />}
-			</ChatsDispatch.Provider>
-		</ChatsContext.Provider>
+			</UserChatsDispatch.Provider>
+		</UserChatsContext.Provider>
 	);
 }
 
-export { ChatsProvider, useChats, useChatsDispatch };
+export { ChatsProvider, useUserChats, useUserChatsDispatch, useGroupChats, useGroupChatsDispatch };

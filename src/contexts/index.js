@@ -1,5 +1,11 @@
 import { AuthProvider, useAuth, useAuthDispatch } from './auth.context';
-import { ChatsProvider, useChats, useChatsDispatch } from './chats.context';
+import {
+	ChatsProvider,
+	useUserChats,
+	useUserChatsDispatch,
+	useGroupChats,
+	useGroupChatsDispatch,
+} from './chats.context';
 import {
 	ContactsProvider,
 	useContacts,
@@ -17,8 +23,10 @@ export {
 	useAuth,
 	useAuthDispatch,
 	ChatsProvider,
-	useChats,
-	useChatsDispatch,
+	useUserChats,
+	useUserChatsDispatch,
+	useGroupChats,
+	useGroupChatsDispatch,
 	ContactsProvider,
 	useContacts,
 	useContactsDispatch,
