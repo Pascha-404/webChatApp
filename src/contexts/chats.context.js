@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import Loading from '../components/Loading';
-import useChatReducer from '../hooks/useChatReducer';
+import useUserChatReducer from '../hooks/useUserChatReducer';
 import chatReducer from '../reducers/chat.reducer';
 import fetchDatabase from '../services/api/fetchDatabase';
 import { useContacts, useContactsDispatch, useUser } from './';
@@ -45,22 +45,12 @@ function ChatsProvider({ children }) {
 	const user = useUser();
 	const contacts = useContacts();
 	const contactsDispatch = useContactsDispatch();
-	const [userChats, userChatsDispatch] = useChatReducer(chatReducer, user.userChats);
-	const chatsRef = useRef(userChats);
 	const [isFetching, setIsFetching] = useState(true);
-
-	useEffect(() => {
-		setIsFetching(true);
-		const fetchedChats = Object.keys(chatsRef.current).map(async chat => {
-			const getChat = await fetchDatabase(`/userChats/${chat}`);
-			return getChat;
-		});
-		Promise.all(fetchedChats)
-			.then(results => {
-				userChatsDispatch({ type: 'SET_STATE', state: results });
-			})
-			.catch(error => console.log(error));
-	}, [userChatsDispatch]);
+	const [userChats, userChatsDispatch] = useUserChatReducer(
+		chatReducer,
+		user.userChats,
+		setIsFetching
+	);
 
 	useEffect(() => {
 		async function getUnknownContactData(userChats) {
@@ -97,4 +87,10 @@ function ChatsProvider({ children }) {
 	);
 }
 
-export { ChatsProvider, useUserChats, useUserChatsDispatch, useGroupChats, useGroupChatsDispatch };
+export {
+	ChatsProvider,
+	useUserChats,
+	useUserChatsDispatch,
+	useGroupChats,
+	useGroupChatsDispatch,
+};
