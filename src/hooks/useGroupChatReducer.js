@@ -8,7 +8,8 @@ const useGroupChatReducer = (reducer, activeGroups, setIsFetching, initialValue)
 		setIsFetching(true);
 		const fetchedChats = activeGroups.map(async group => {
 			const getChat = await fetchDatabase(`/groupChats/${group.chatId}`);
-			return getChat;
+			const chatData = { ...getChat, type: 'groupChat' };
+			return chatData;
 		});
 		Promise.all(fetchedChats)
 			.then(results => {

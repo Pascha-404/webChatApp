@@ -8,7 +8,8 @@ const useUserChatReducer = (reducer, userChats, setIsFetching) => {
 		setIsFetching(true);
 		const fetchedChats = Object.keys(userChats).map(async chat => {
 			const getChat = await fetchDatabase(`/userChats/${chat}`);
-			return getChat;
+			const chatData = { ...getChat, type: 'userChat' };
+			return chatData;
 		});
 		Promise.all(fetchedChats)
 			.then(results => {
