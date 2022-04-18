@@ -15,8 +15,15 @@ const useGroupReducer = (reducer, userGroups, initialValue) => {
 				const fetchedData = await Promise.all(
 					activeGroups.map(async group => {
 						const fetchedGroup = await fetchDatabase(`/groups/${group}`);
-						const { displayName, uuid, photoURL, members } = fetchedGroup;
-						const groupObject = { displayName, uuid, photoURL, members, isMember: true };
+						const { displayName, uuid, photoURL, members, chatId } = fetchedGroup;
+						const groupObject = {
+							displayName,
+							uuid,
+							photoURL,
+							members,
+							chatId,
+							isMember: true,
+						};
 						return groupObject;
 					})
 				);
@@ -27,7 +34,7 @@ const useGroupReducer = (reducer, userGroups, initialValue) => {
 			}
 		}
 		fetchGroupsData();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return [state, dispatch, isFetching];
