@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import Loading from '../components/Loading';
+import useGroupChatReducer from '../hooks/useGroupChatReducer';
 import useUserChatReducer from '../hooks/useUserChatReducer';
-import chatReducer from '../reducers/chat.reducer';
+import { groupChatReducer, userChatReducer } from '../reducers';
 import fetchDatabase from '../services/api/fetchDatabase';
-import { useContacts, useContactsDispatch, useUser } from './';
+import { useContacts, useContactsDispatch, useUser, useGroups } from './';
 
 const UserChatsContext = createContext();
 const UserChatsDispatch = createContext();
@@ -43,13 +44,20 @@ function useGroupChatsDispatch() {
 
 function ChatsProvider({ children }) {
 	const user = useUser();
+	const groups = useGroups();
 	const contacts = useContacts();
 	const contactsDispatch = useContactsDispatch();
 	const [isFetching, setIsFetching] = useState(true);
 	const [userChats, userChatsDispatch] = useUserChatReducer(
-		chatReducer,
+		userChatReducer,
 		user.userChats,
 		setIsFetching
+	);
+	const [groupChats, groupChatsDispatch] = useGroupChatReducer(
+		groupChatReducer,
+		groups,
+		setIsFetching,
+		[]
 	);
 
 	useEffect(() => {
@@ -81,7 +89,11 @@ function ChatsProvider({ children }) {
 	return (
 		<UserChatsContext.Provider value={userChats}>
 			<UserChatsDispatch.Provider value={userChatsDispatch}>
-				{!isFetching && children} {isFetching && <Loading />}
+				<GroupChatsContext.Provider value={groupChats}>
+					<GroupChatsDispatch.Provider value={groupChatsDispatch}>
+						{!isFetching && children} {isFetching && <Loading />}
+					</GroupChatsDispatch.Provider>
+				</GroupChatsContext.Provider>
 			</UserChatsDispatch.Provider>
 		</UserChatsContext.Provider>
 	);
