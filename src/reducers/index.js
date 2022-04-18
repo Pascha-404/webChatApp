@@ -1,5 +1,6 @@
 import authReducer from './auth.reducer';
-import chatReducer from './chat.reducer';
+import userChatReducer from './userChat.reducer';
+import groupChatReducer from './groupChat.reducer'
 import contactReducer from './contact.reducer';
 import findContactReducer from './findContact.reducer';
 import groupReducer from './group.reducer';
@@ -9,7 +10,8 @@ import userReducer from './user.reducer';
 
 export {
 	authReducer,
-	chatReducer,
+	userChatReducer,
+	groupChatReducer,
 	contactReducer,
 	findContactReducer,
 	groupReducer,
