@@ -12,6 +12,7 @@ import {
 	useFindContacts,
 	useFindContactsDispatch,
 	useGroups,
+	useGroupChats,
 } from '../../contexts';
 
 import SearchForm from '../SearchForm';
@@ -24,7 +25,8 @@ import TabBar from '../TabBar';
 
 function DataList() {
 	const user = useUser();
-	const chats = useUserChats();
+	const userChats = useUserChats();
+	const groupChats = useGroupChats();
 	const groups = useGroups();
 	const contacts = useContacts();
 	const foundContactsDispatch = useFindContactsDispatch();
@@ -43,22 +45,36 @@ function DataList() {
 				setGeneratedContent('');
 			} else if (dataListContent === 'inbox') {
 				const generatedChats = await Promise.all(
-					sortByTimestamp(chats, 'descending').map(
-						async ({ members, chatId, lastMsg, timestamp }) => {
-							const chatPartner = members.filter(member => user.uuid !== member);
-							const contactData = contacts.filter(
-								contact => String(chatPartner) === contact.uuid
-							);
-							return (
-								<DataCard
-									key={chatId}
-									chatId={chatId}
-									target={contactData[0]}
-									msg={lastMsg && lastMsg}
-									time={timestamp && timestamp}
-									type={'chat'}
-								/>
-							);
+					sortByTimestamp([userChats, groupChats], 'descending').map(
+						async ({ type, members, chatId, lastMsg, timestamp }) => {
+							if (type === 'userChat') {
+								const chatPartner = members.filter(member => user.uuid !== member);
+								const contactData = contacts.filter(
+									contact => String(chatPartner) === contact.uuid
+								);
+								return (
+									<DataCard
+										key={chatId}
+										chatId={chatId}
+										target={contactData[0]}
+										msg={lastMsg && lastMsg}
+										time={timestamp && timestamp}
+										type={'chat'}
+									/>
+								);
+							} else if (type === 'groupChat') {
+								const targetGroup = groups.filter(group => group.chatId === chatId);
+								return (
+									<DataCard
+										key={chatId}
+										chatId={chatId}
+										target={targetGroup[0]}
+										msg={lastMsg && lastMsg}
+										time={timestamp && timestamp}
+										type={'chat'}
+									/>
+								);
+							}
 						}
 					)
 				);
@@ -91,7 +107,16 @@ function DataList() {
 			}
 		}
 		createContent();
-	}, [chats, dataListContent, user.uuid, contacts, dataListTab, foundContacts, groups]);
+	}, [
+		userChats,
+		dataListContent,
+		user.uuid,
+		contacts,
+		dataListTab,
+		foundContacts,
+		groups,
+		groupChats,
+	]);
 
 	return (
 		<Grid item sm={4} md={4} className={classes.dataList}>
