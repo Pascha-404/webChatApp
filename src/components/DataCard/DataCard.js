@@ -5,48 +5,56 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
 	useLayout,
 	useLayoutDispatch,
-	useChats,
-	useChatsDispatch,
+	useUserChats,
+	useUserChatsDispatch,
 	useUser,
 	useUserDispatch,
 	useContactsDispatch,
 	useFindContactsDispatch,
+	useGroupChats,
 } from '../../contexts';
 import addDatabaseChat from '../../services/api/addDatabaseChat';
 
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
-function DataCard({ target, time, msg, chatId, type }) {
+function DataCard({ target, time, msg, chatId, cardType }) {
 	const { chatBox } = useLayout();
 	const isActive = chatId === chatBox.id;
 	const classes = useStyles({ isActive });
 	const user = useUser();
 	const userDispatch = useUserDispatch();
-	const chats = useChats();
+	const userChats = useUserChats();
+	const groupChats = useGroupChats();
 	const contactsDispatch = useContactsDispatch();
 	const { dataListTab, dataListContent } = useLayout();
 	const findContactsDispatch = useFindContactsDispatch();
-	const chatsDispatch = useChatsDispatch();
+	const userChatsDispatch = useUserChatsDispatch();
 	const layoutDispatch = useLayoutDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const isUserMsg = msg && Object.keys(msg)[0] === user.uuid ? true : false;
 
 	async function handleClick() {
-		if (type === 'chat') {
-			layoutDispatch({ type: 'SET_CHATBOX', id: chatId, target: target.uuid });
-		} else if (type === 'contact') {
+		if (cardType === 'userChat') {
+			layoutDispatch({
+				type: 'SET_CHATBOX',
+				id: chatId,
+				target: target.uuid,
+				targetType: cardType,
+			});
+		} else if (cardType === 'contact') {
 			if (dataListTab.contacts === 'findContacts') {
 				contactsDispatch({ type: 'ADD_CONTACT', newContact: target });
 				userDispatch({ type: 'ADD_CONTACT', newContact: target });
 			}
-			const checkChats = chats.filter(chat => chat.members.includes(target.uuid));
+			const checkChats = userChats.filter(chat => chat.members.includes(target.uuid));
 			if (checkChats.length === 1) {
 				layoutDispatch({
 					type: 'SET_CHATBOX',
 					id: checkChats[0].chatId,
 					target: target.uuid,
+					targetType: cardType,
 				});
 				layoutDispatch({ type: 'SHOW_INBOX' });
 			} else if (checkChats.length === 0) {
@@ -54,14 +62,26 @@ function DataCard({ target, time, msg, chatId, type }) {
 					user: user.uuid,
 					target: target.uuid,
 				});
-				chatsDispatch({ type: 'CREATE_CHAT', newChat: createdChat });
+				userChatsDispatch({ type: 'CREATE_CHAT', newChat: createdChat });
 				layoutDispatch({ type: 'SHOW_INBOX' });
 				layoutDispatch({
 					type: 'SET_CHATBOX',
 					id: createdChat.chatId,
 					target: target.uuid,
+					targetType: cardType,
 				});
 			}
+		} else if (cardType === 'groupChat') {
+			if (dataListTab.groups === 'findGroups') {
+				console.log('find groups');
+			}
+			layoutDispatch({
+				type: 'SET_CHATBOX',
+				id: chatId,
+				target: target.uuid,
+				targetType: cardType,
+			});
+			layoutDispatch({ type: 'SHOW_INBOX' });
 		}
 	}
 
@@ -98,7 +118,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 					<MenuItem
 						onClick={e => {
 							e.stopPropagation();
-							chatsDispatch({
+							userChatsDispatch({
 								type: 'DELETE_CHAT',
 								user: user.uuid,
 								chatPartner: target.uuid,
@@ -109,6 +129,7 @@ function DataCard({ target, time, msg, chatId, type }) {
 									type: 'SET_CHATBOX',
 									id: '',
 									target: '',
+									targetType: '',
 								});
 							}
 							setAnchorEl(null);
