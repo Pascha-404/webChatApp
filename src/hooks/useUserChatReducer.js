@@ -16,6 +16,7 @@ const useUserChatReducer = (reducer, userChats, setIsFetching) => {
 				dispatch({ type: 'SET_STATE', state: results });
 			})
 			.catch(error => console.log(error));
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
 
 	return [state, dispatch];
