@@ -71,7 +71,7 @@ function DataList() {
 										target={targetGroup[0]}
 										msg={lastMsg && lastMsg}
 										time={timestamp && timestamp}
-										type={'chat'}
+										type={'group'}
 									/>
 								);
 							}
