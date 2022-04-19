@@ -59,7 +59,7 @@ function DataList() {
 										target={contactData[0]}
 										msg={lastMsg && lastMsg}
 										time={timestamp && timestamp}
-										type={'chat'}
+										cardType={'userChat'}
 									/>
 								);
 							} else if (type === 'groupChat') {
@@ -71,7 +71,7 @@ function DataList() {
 										target={targetGroup[0]}
 										msg={lastMsg && lastMsg}
 										time={timestamp && timestamp}
-										type={'group'}
+										cardType={'groupChat'}
 									/>
 								);
 							}
@@ -84,19 +84,21 @@ function DataList() {
 					const generatedContacts = contacts
 						.filter(contact => contact.isFriend === true)
 						.map(contact => {
-							return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
+							return (
+								<DataCard cardType={'contact'} key={contact.uuid} target={contact} />
+							);
 						});
 					setGeneratedContent(generatedContacts);
 				} else if (dataListTab.contacts === 'findContacts') {
 					const generatedContacts = foundContacts.map(contact => {
-						return <DataCard type={'contact'} key={contact.uuid} target={contact} />;
+						return <DataCard cardType={'contact'} key={contact.uuid} target={contact} />;
 					});
 					setGeneratedContent(generatedContacts);
 				}
 			} else if (dataListContent === 'groups') {
 				if (dataListTab.groups === 'existingGroups') {
 					const generatedGroups = groups.map(group => {
-						return <DataCard type='contact' key={group.uuid} target={group} />;
+						return <DataCard cardType='contact' key={group.uuid} target={group} />;
 					});
 					setGeneratedContent(generatedGroups);
 				}
