@@ -54,7 +54,7 @@ function DataCard({ target, time, msg, chatId, cardType }) {
 					type: 'SET_CHATBOX',
 					id: checkChats[0].chatId,
 					target: target.uuid,
-					targetType: cardType,
+					targetType: 'userChat',
 				});
 				layoutDispatch({ type: 'SHOW_INBOX' });
 			} else if (checkChats.length === 0) {
@@ -68,13 +68,10 @@ function DataCard({ target, time, msg, chatId, cardType }) {
 					type: 'SET_CHATBOX',
 					id: createdChat.chatId,
 					target: target.uuid,
-					targetType: cardType,
+					targetType: 'userChat',
 				});
 			}
 		} else if (cardType === 'groupChat') {
-			if (dataListTab.groups === 'findGroups') {
-				console.log('find groups');
-			}
 			layoutDispatch({
 				type: 'SET_CHATBOX',
 				id: chatId,
@@ -82,6 +79,20 @@ function DataCard({ target, time, msg, chatId, cardType }) {
 				targetType: cardType,
 			});
 			layoutDispatch({ type: 'SHOW_INBOX' });
+		} else if (cardType === 'group') {
+			if (dataListTab.groups === 'findGroups') {
+				console.log('find groups');
+			}
+			const checkChats = groupChats.filter(chat => chat.chatId === target.chatId);
+			if (checkChats.length === 1) {
+				layoutDispatch({
+					type: 'SET_CHATBOX',
+					id: checkChats[0].chatId,
+					target: target.uuid,
+					targetType: 'groupChat',
+				});
+				layoutDispatch({ type: 'SHOW_INBOX' });
+			}
 		}
 	}
 
