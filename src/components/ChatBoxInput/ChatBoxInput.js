@@ -5,10 +5,12 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import SendIcon from '@mui/icons-material/Send';
 import { Picker } from 'emoji-mart';
 
-import { useUserChatsDispatch } from '../../contexts/chats.context';
-import { useMessagesDispatch } from '../../contexts/messages.context';
-import { useLayout } from '../../contexts/layout.context';
-import { useUser } from '../../contexts/user.context';
+import {
+	useUserChatsDispatch,
+	useMessagesDispatch,
+	useLayout,
+	useUser,
+} from '../../contexts';
 import useToggleState from '../../hooks/useToggleState';
 import useInputState from '../../hooks/useInputState';
 
@@ -24,6 +26,33 @@ function ChatBoxInput() {
 	const { uuid } = useUser();
 	const { chatBox } = useLayout();
 
+	const handleSubmit = chatType => e => {
+		e.preventDefault();
+		switch (chatType) {
+			case 'userChat':
+				messagesDispatch({
+					type: 'ADD_MSG',
+					msg: state,
+					chatId: chatBox.id,
+					userId: uuid,
+				});
+				chatsDispatch({
+					type: 'UPDATE_CHAT',
+					chatId: chatBox.id,
+					sentBy: uuid,
+					msg: state,
+				});
+				reset();
+				break;
+			case 'groupChat':
+				console.log('ITS A GROUPCHAT!');
+				break;
+			default:
+				console.log('Unknown type!');
+				break;
+		}
+	};
+
 	return (
 		<section className={classes.chatBoxInput}>
 			<div className={classes.contentWrapper}>
@@ -33,22 +62,7 @@ function ChatBoxInput() {
 				<form
 					id='chatBoxForm'
 					className={classes.chatBoxForm}
-					onSubmit={e => {
-						e.preventDefault();
-						messagesDispatch({
-							type: 'ADD_MSG',
-							msg: state,
-							chatId: chatBox.id,
-							userId: uuid,
-						});
-						chatsDispatch({
-							type: 'UPDATE_CHAT',
-							chatId: chatBox.id,
-							sentBy: uuid,
-							msg: state,
-						});
-						reset();
-					}}>
+					onSubmit={handleSubmit(chatBox.targetType)}>
 					<FormControl className={classes.textInput}>
 						<InputBase
 							placeholder={'Type a Message here...'}
