@@ -169,6 +169,24 @@ function DataCard({ target, time, msg, chatId, cardType }) {
 						Add to contacts
 					</MenuItem>
 				)}
+				{dataListContent === 'groups' && dataListTab.groups === 'existingGroups' && (
+					<MenuItem
+						onClick={e => {
+							e.stopPropagation();
+							console.log('LEAVE GROUP!!!');
+						}}>
+						Leave Group
+					</MenuItem>
+				)}
+				{dataListContent === 'groups' && dataListTab.groups === 'findGroups' && (
+					<MenuItem
+						onClick={e => {
+							e.stopPropagation();
+							console.log('JOINING GROUP!!!')
+						}}>
+						Join Group
+					</MenuItem>
+				)}
 			</Menu>
 		</Card>
 	);
