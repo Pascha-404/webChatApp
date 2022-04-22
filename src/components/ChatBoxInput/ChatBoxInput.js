@@ -10,6 +10,7 @@ import {
 	useMessagesDispatch,
 	useLayout,
 	useUser,
+	useGroupChatsDispatch,
 } from '../../contexts';
 import useToggleState from '../../hooks/useToggleState';
 import useInputState from '../../hooks/useInputState';
@@ -22,7 +23,8 @@ function ChatBoxInput() {
 	const [showPicker, togglePicker] = useToggleState(false);
 	const classes = useStyles({ showPicker });
 	const messagesDispatch = useMessagesDispatch();
-	const chatsDispatch = useUserChatsDispatch();
+	const userChatsDispatch = useUserChatsDispatch();
+	const groupChatsDispatch = useGroupChatsDispatch();
 	const { uuid } = useUser();
 	const { chatBox } = useLayout();
 
@@ -35,8 +37,9 @@ function ChatBoxInput() {
 					msg: state,
 					chatId: chatBox.id,
 					userId: uuid,
+					chatType: 'userChat',
 				});
-				chatsDispatch({
+				userChatsDispatch({
 					type: 'UPDATE_CHAT',
 					chatId: chatBox.id,
 					sentBy: uuid,
@@ -45,7 +48,20 @@ function ChatBoxInput() {
 				reset();
 				break;
 			case 'groupChat':
-				console.log('ITS A GROUPCHAT!');
+				messagesDispatch({
+					type: 'ADD_MSG',
+					msg: state,
+					chatId: chatBox.id,
+					userId: uuid,
+					chatType: 'groupChat',
+				});
+				groupChatsDispatch({
+					type: 'UPDATE_CHAT',
+					chatId: chatBox.id,
+					sentBy: uuid,
+					msg: state,
+				});
+				reset();
 				break;
 			default:
 				console.log('Unknown type!');
