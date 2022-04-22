@@ -4,12 +4,11 @@ import ChatBoxInput from '../ChatBoxInput';
 import ChatBoxHeader from '../ChatBoxHeader/ChatBoxHeader';
 import ChatBubble from '../ChatBubble/ChatBubble';
 
+import { formatISO9075 } from 'date-fns';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
-import { useUser } from '../../contexts/user.context';
-import { useLayout } from '../../contexts/layout.context';
+import { useUser, useLayout, useMessages } from '../../contexts';
 
 import useStyles from './ChatBox.style';
-import { useMessages } from '../../contexts/messages.context';
 
 function ChatBox() {
 	const { chatBox } = useLayout();
@@ -22,15 +21,15 @@ function ChatBox() {
 	useEffect(() => {
 		if (messages !== null) {
 			const msgBubbles = Object.keys(messages)
-				.sort((x, y) => messages[x].timestamp - messages[y].timestamp)
+				.sort((x, y) => messages[x].msgTimestamp - messages[y].msgTimestamp)
 				.map(msgObject => {
-					const { msgId, msg, sentBy, timestamp } = messages[msgObject];
+					const { msgId, msg, sentBy, msgTimestamp } = messages[msgObject];
 					return (
 						<ChatBubble
 							key={msgId}
 							msg={msg}
 							isMe={sentBy === uuid && true}
-							time={timestamp}
+							time={formatISO9075(msgTimestamp, { representation: 'time' }).slice(0, 5)}
 						/>
 					);
 				});
