@@ -13,7 +13,13 @@ import {
 	useFindContacts,
 	useFindContactsDispatch,
 } from './contacts.context';
-import { GroupsProvider, useGroups, useGroupsDispatch } from './groups.context';
+import {
+	GroupsProvider,
+	useGroups,
+	useGroupsDispatch,
+	useFindGroups,
+	useFindGroupsDispatch,
+} from './groups.context';
 import { LayoutProvider, useLayout, useLayoutDispatch } from './layout.context';
 import { MessagesProvider, useMessages, useMessagesDispatch } from './messages.context';
 import { UserProvider, useUser, useUserDispatch } from './user.context';
@@ -35,6 +41,8 @@ export {
 	GroupsProvider,
 	useGroups,
 	useGroupsDispatch,
+	useFindGroups,
+	useFindGroupsDispatch,
 	LayoutProvider,
 	useLayout,
 	useLayoutDispatch,
