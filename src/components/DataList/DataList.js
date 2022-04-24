@@ -13,6 +13,7 @@ import {
 	useFindContactsDispatch,
 	useGroups,
 	useGroupChats,
+	useFindGroups,
 } from '../../contexts';
 
 import SearchForm from '../SearchForm';
@@ -28,12 +29,16 @@ function DataList() {
 	const userChats = useUserChats();
 	const groupChats = useGroupChats();
 	const groups = useGroups();
+	const { foundGroups } = useFindGroups();
 	const contacts = useContacts();
 	const foundContactsDispatch = useFindContactsDispatch();
 	const { foundContacts } = useFindContacts();
 	const { dataListContent, dataListTab } = useLayout();
 	const classes = useStyles();
 	const [generatedContent, setGeneratedContent] = useState([]);
+	const hasRefreshBtn =
+		(dataListContent === 'contacts' && dataListTab.contacts === 'findContacts') ||
+		(dataListContent === 'groups' && dataListTab.groups === 'findGroups');
 
 	function handleRefresh() {
 		foundContactsDispatch({ type: 'TOGGLE_REFRESH' });
@@ -101,6 +106,11 @@ function DataList() {
 						return <DataCard cardType='group' key={group.uuid} target={group} />;
 					});
 					setGeneratedContent(generatedGroups);
+				} else if (dataListTab.groups === 'findGroups') {
+					const generatedGroups = foundGroups.map(group => {
+						return <DataCard cardType='group' key={group.uuid} target={group} />;
+					});
+					setGeneratedContent(generatedGroups);
 				}
 			} else if (dataListContent === 'notifications') {
 				setGeneratedContent('');
@@ -144,7 +154,7 @@ function DataList() {
 				{dataListContent !== 'options' && (
 					<SearchForm className={classes.dataListSearchForm} />
 				)}
-				{dataListTab.contacts === 'findContacts' && (
+				{hasRefreshBtn && (
 					<IconButton
 						aria-label='refresh'
 						className={classes.refreshBtn}
