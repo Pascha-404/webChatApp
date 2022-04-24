@@ -49,7 +49,7 @@ function GroupsProvider({ children }) {
 	const [foundGroupsData, foundGroupsDispatch] = useFindGroupReducer(
 		findGroupReducer,
 		groupsData,
-		{refresh: false}
+		{ refresh: false, foundGroups: [] }
 	);
 	return (
 		<GroupsContext.Provider value={groupsData}>

@@ -54,7 +54,7 @@ function ContactsProvider({ children }) {
 		findContactReducer,
 		contactsData,
 		uuid,
-		{}
+		{ refresh: false, foundContacts: [] }
 	);
 
 	return (
