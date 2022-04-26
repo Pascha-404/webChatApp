@@ -9,6 +9,8 @@ const reducer = (state, action) => {
 			};
 		case 'TOGGLE_REFRESH':
 			return { ...state, refresh: !state.refresh };
+		case 'ADD_GROUP':
+			return { ...state, foundGroups: [...state.foundGroups, action.group] };
 		default:
 			return state;
 	}

@@ -11,6 +11,8 @@ const reducer = (state, action) => {
 				chatPartner: action.chatPartner,
 			});
 			return state.filter(chat => action.chatId !== chat.chatId);
+		case 'LEAVE_CHAT':
+			return state.filter(chat => action.chatId !== chat.chatId);
 		case 'CREATE_CHAT':
 			return [action.newChat, ...state];
 
