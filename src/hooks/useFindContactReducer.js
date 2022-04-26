@@ -30,7 +30,7 @@ const useFindContactReducer = (reducer, knownContacts, uuid, initialValue) => {
 		}
 		findNewContacts(uuid);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [state.refresh]);
+	}, [state.refresh, knownContacts]);
 
 	return [state, dispatch];
 };

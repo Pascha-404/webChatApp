@@ -20,7 +20,7 @@ const useFindGroupReducer = (reducer, knownGroups, initialValue) => {
 		}
 		findNewGroups();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [state.refresh]);
+	}, [state.refresh, knownGroups]);
 
 	return [state, dispatch];
 };
