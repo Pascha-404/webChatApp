@@ -12,20 +12,26 @@ import {
 	useContactsDispatch,
 	useFindContactsDispatch,
 	useGroupChats,
+	useGroupsDispatch,
+	useFindGroupsDispatch,
+	useGroupChatsDispatch,
 } from '../../contexts';
 import addDatabaseChat from '../../services/api/addDatabaseChat';
 
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
-function DataCard({ target, time, msg, chatId, cardType }) {
+function DataCard({ target, msg, chatId, cardType }) {
 	const { chatBox } = useLayout();
 	const isActive = chatId === chatBox.id;
 	const classes = useStyles({ isActive });
 	const user = useUser();
 	const userDispatch = useUserDispatch();
 	const userChats = useUserChats();
+	const groupsDispatch = useGroupsDispatch();
+	const findGroupsDispatch = useFindGroupsDispatch();
 	const groupChats = useGroupChats();
+	const groupChatsDispatch = useGroupChatsDispatch();
 	const contactsDispatch = useContactsDispatch();
 	const { dataListTab, dataListContent } = useLayout();
 	const findContactsDispatch = useFindContactsDispatch();
@@ -96,6 +102,46 @@ function DataCard({ target, time, msg, chatId, cardType }) {
 		}
 	}
 
+	const handleMenuClick = type => e => {
+		e.stopPropagation();
+		switch (type) {
+			case 'DELETE_CHAT':
+				userChatsDispatch({
+					type: 'DELETE_CHAT',
+					user: user.uuid,
+					chatPartner: target.uuid,
+					chatId: chatId,
+				});
+				if (chatBox.id === chatId) {
+					layoutDispatch({
+						type: 'SET_CHATBOX',
+						id: '',
+						target: '',
+						targetType: '',
+					});
+				}
+				setAnchorEl(null);
+				break;
+			case 'DELETE_CONTACT':
+				userDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
+				contactsDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
+				break;
+			case 'ADD_CONTACT':
+				contactsDispatch({ type: 'ADD_CONTACT', newContact: target });
+				userDispatch({ type: 'ADD_CONTACT', newContact: target });
+				findContactsDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
+				break;
+			case 'LEAVE_GROUP':
+				userDispatch({ type: 'LEAVE_GROUP', groupId: target.uuid });
+				groupsDispatch({ type: 'LEAVE_GROUP', groupId: target.uuid });
+				findGroupsDispatch({ type: 'ADD_GROUP', group: target });
+				groupChatsDispatch({ type: 'LEAVE_CHAT', chatId: target.chatId})
+				break;
+			default:
+				throw new Error('Unknown Switch Type');
+		}
+	};
+
 	function handleShowOptions(e) {
 		e.stopPropagation();
 		setAnchorEl(e.currentTarget);
@@ -124,65 +170,35 @@ function DataCard({ target, time, msg, chatId, cardType }) {
 					</IconButton>
 				}
 			/>
+
 			<Menu open={open} anchorEl={anchorEl} onClose={handleCloseOptions}>
 				{dataListContent === 'inbox' && (
-					<MenuItem
-						onClick={e => {
-							e.stopPropagation();
-							userChatsDispatch({
-								type: 'DELETE_CHAT',
-								user: user.uuid,
-								chatPartner: target.uuid,
-								chatId: chatId,
-							});
-							if (chatBox.id === chatId) {
-								layoutDispatch({
-									type: 'SET_CHATBOX',
-									id: '',
-									target: '',
-									targetType: '',
-								});
-							}
-							setAnchorEl(null);
-						}}>
-						Delete Chat
-					</MenuItem>
+					<MenuItem onClick={handleMenuClick('DELETE_CHAT')}>Delete Chat</MenuItem>
 				)}
-				{dataListContent === 'contacts' && dataListTab.contacts === 'existingContacts' && (
-					<MenuItem
-						onClick={e => {
-							e.stopPropagation();
-							userDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
-							contactsDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
-						}}>
-						Delete contact
-					</MenuItem>
-				)}
+
+				{dataListContent === 'contacts' &&
+					dataListTab.contacts === 'existingContacts' && (
+						<MenuItem onClick={handleMenuClick('DELETE_CONTACT')}>
+							Delete contact
+						</MenuItem>
+					)}
+
 				{dataListContent === 'contacts' && dataListTab.contacts === 'findContacts' && (
-					<MenuItem
-						onClick={e => {
-							e.stopPropagation();
-							contactsDispatch({ type: 'ADD_CONTACT', newContact: target });
-							userDispatch({ type: 'ADD_CONTACT', newContact: target });
-							findContactsDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
-						}}>
-						Add to contacts
-					</MenuItem>
+					<MenuItem onClick={handleMenuClick('ADD_CONTACT')}>Add to contacts</MenuItem>
 				)}
+
 				{dataListContent === 'groups' && dataListTab.groups === 'existingGroups' && (
 					<MenuItem
-						onClick={e => {
-							e.stopPropagation();
-							console.log('LEAVE GROUP!!!');
-						}}>
+						onClick={handleMenuClick('LEAVE_GROUP')}>
 						Leave Group
 					</MenuItem>
 				)}
+
 				{dataListContent === 'groups' && dataListTab.groups === 'findGroups' && (
 					<MenuItem
 						onClick={e => {
 							e.stopPropagation();
-							console.log('JOINING GROUP!!!')
+							console.log('JOINING GROUP!!!');
 						}}>
 						Join Group
 					</MenuItem>
