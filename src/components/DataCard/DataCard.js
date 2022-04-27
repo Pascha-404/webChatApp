@@ -135,7 +135,13 @@ function DataCard({ target, msg, chatId, cardType }) {
 				userDispatch({ type: 'LEAVE_GROUP', groupId: target.uuid });
 				groupsDispatch({ type: 'LEAVE_GROUP', groupId: target.uuid });
 				findGroupsDispatch({ type: 'ADD_GROUP', group: target });
-				groupChatsDispatch({ type: 'LEAVE_CHAT', chatId: target.chatId})
+				groupChatsDispatch({ type: 'LEAVE_CHAT', chatId: target.chatId });
+				break;
+			case 'JOIN_GROUP':
+				userDispatch({ type: 'JOIN_GROUP', groupId: target.uuid });
+				groupsDispatch({ type: 'JOIN_GROUP', newGroup: target });
+				findGroupsDispatch({ type: 'DELETE_GROUP', groupId: target.uuid });
+
 				break;
 			default:
 				throw new Error('Unknown Switch Type');
@@ -188,20 +194,11 @@ function DataCard({ target, msg, chatId, cardType }) {
 				)}
 
 				{dataListContent === 'groups' && dataListTab.groups === 'existingGroups' && (
-					<MenuItem
-						onClick={handleMenuClick('LEAVE_GROUP')}>
-						Leave Group
-					</MenuItem>
+					<MenuItem onClick={handleMenuClick('LEAVE_GROUP')}>Leave Group</MenuItem>
 				)}
 
 				{dataListContent === 'groups' && dataListTab.groups === 'findGroups' && (
-					<MenuItem
-						onClick={e => {
-							e.stopPropagation();
-							console.log('JOINING GROUP!!!');
-						}}>
-						Join Group
-					</MenuItem>
+					<MenuItem onClick={handleMenuClick('JOIN_GROUP')}>Join Group</MenuItem>
 				)}
 			</Menu>
 		</Card>
