@@ -14,6 +14,7 @@ import {
 	useGroups,
 	useGroupChats,
 	useFindGroups,
+	useFindGroupsDispatch,
 } from '../../contexts';
 
 import SearchForm from '../SearchForm';
@@ -30,6 +31,7 @@ function DataList() {
 	const groupChats = useGroupChats();
 	const groups = useGroups();
 	const { foundGroups } = useFindGroups();
+	const foundGroupsDispatch = useFindGroupsDispatch();
 	const contacts = useContacts();
 	const foundContactsDispatch = useFindContactsDispatch();
 	const { foundContacts } = useFindContacts();
@@ -41,7 +43,11 @@ function DataList() {
 		(dataListContent === 'groups' && dataListTab.groups === 'findGroups');
 
 	function handleRefresh() {
-		foundContactsDispatch({ type: 'TOGGLE_REFRESH' });
+		if (dataListContent === 'contacts') {
+			foundContactsDispatch({ type: 'TOGGLE_REFRESH' });
+		} else if (dataListContent === 'groups') {
+			foundGroupsDispatch({ type: 'TOGGLE_REFRESH' });
+		}
 	}
 
 	useEffect(() => {
