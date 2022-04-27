@@ -4,6 +4,8 @@ const reducer = (state, action) => {
 			return action.state;
 		case 'LEAVE_GROUP':
 			return state.filter(group => group.uuid !== action.groupId);
+		case 'JOIN_GROUP':
+			return [action.newGroup, ...state]
 		default:
 			return state;
 	}
