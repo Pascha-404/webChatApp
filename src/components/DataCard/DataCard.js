@@ -138,6 +138,14 @@ function DataCard({ target, msg, chatId, cardType }) {
 				groupsDispatch({ type: 'LEAVE_GROUP', groupId: target.uuid });
 				findGroupsDispatch({ type: 'ADD_GROUP', group: target });
 				groupChatsDispatch({ type: 'LEAVE_CHAT', chatId: target.chatId });
+				if (chatBox.id === chatId) {
+					layoutDispatch({
+						type: 'SET_CHATBOX',
+						id: '',
+						target: '',
+						targetType: '',
+					});
+				}
 				break;
 			case 'JOIN_GROUP':
 				userDispatch({ type: 'JOIN_GROUP', groupId: target.uuid });
