@@ -57,7 +57,7 @@ function DataList() {
 			} else if (dataListContent === 'inbox') {
 				const generatedChats = await Promise.all(
 					sortByTimestamp([userChats, groupChats], 'descending').map(
-						async ({ type, members, chatId, lastMsg, timestamp }) => {
+						async ({ type, members, chatId, lastMsg }) => {
 							if (type === 'userChat') {
 								const chatPartner = members.filter(member => user.uuid !== member);
 								const contactData = contacts.filter(
@@ -69,7 +69,6 @@ function DataList() {
 										chatId={chatId}
 										target={contactData[0]}
 										msg={lastMsg && lastMsg}
-										time={timestamp && timestamp}
 										cardType={'userChat'}
 									/>
 								);
@@ -81,7 +80,6 @@ function DataList() {
 										chatId={chatId}
 										target={targetGroup[0]}
 										msg={lastMsg && lastMsg}
-										time={timestamp && timestamp}
 										cardType={'groupChat'}
 									/>
 								);
