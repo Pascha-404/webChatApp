@@ -40,6 +40,8 @@ function DataCard({ target, msg, chatId, cardType }) {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const isUserMsg = msg && Object.keys(msg)[0] === user.uuid ? true : false;
+	const isGroupChat = dataListContent === 'inbox' && cardType === 'groupChat';
+	const isUserChat = dataListContent === 'inbox' && cardType === 'userChat';
 
 	async function handleClick() {
 		if (cardType === 'userChat') {
@@ -178,7 +180,7 @@ function DataCard({ target, msg, chatId, cardType }) {
 			/>
 
 			<Menu open={open} anchorEl={anchorEl} onClose={handleCloseOptions}>
-				{dataListContent === 'inbox' && (
+				{isUserChat && (
 					<MenuItem onClick={handleMenuClick('DELETE_CHAT')}>Delete Chat</MenuItem>
 				)}
 
@@ -193,7 +195,8 @@ function DataCard({ target, msg, chatId, cardType }) {
 					<MenuItem onClick={handleMenuClick('ADD_CONTACT')}>Add to contacts</MenuItem>
 				)}
 
-				{dataListContent === 'groups' && dataListTab.groups === 'existingGroups' && (
+				{(isGroupChat ||
+					(dataListContent === 'groups' && dataListTab.groups === 'existingGroups')) && (
 					<MenuItem onClick={handleMenuClick('LEAVE_GROUP')}>Leave Group</MenuItem>
 				)}
 
