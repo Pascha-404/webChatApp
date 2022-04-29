@@ -43,66 +43,73 @@ function DataCard({ target, msg, chatId, cardType }) {
 	const isGroupChat = dataListContent === 'inbox' && cardType === 'groupChat';
 	const isUserChat = dataListContent === 'inbox' && cardType === 'userChat';
 
-	async function handleClick() {
-		if (cardType === 'userChat') {
-			layoutDispatch({
-				type: 'SET_CHATBOX',
-				id: chatId,
-				target: target.uuid,
-				targetType: cardType,
-			});
-		} else if (cardType === 'contact') {
-			if (dataListTab.contacts === 'findContacts') {
-				contactsDispatch({ type: 'ADD_CONTACT', newContact: target });
-				userDispatch({ type: 'ADD_CONTACT', newContact: target });
-			}
-			const checkChats = userChats.filter(chat => chat.members.includes(target.uuid));
-			if (checkChats.length === 1) {
+	const handleCardClick = cardType => () => {
+		switch (cardType) {
+			case 'userChat':
 				layoutDispatch({
 					type: 'SET_CHATBOX',
-					id: checkChats[0].chatId,
+					id: chatId,
 					target: target.uuid,
-					targetType: 'userChat',
+					targetType: cardType,
 				});
-				layoutDispatch({ type: 'SHOW_INBOX' });
-			} else if (checkChats.length === 0) {
-				const createdChat = await addDatabaseChat({
-					user: user.uuid,
-					target: target.uuid,
-				});
-				userChatsDispatch({ type: 'CREATE_CHAT', newChat: createdChat });
-				layoutDispatch({ type: 'SHOW_INBOX' });
+				break;
+			case 'contact':
+				if (dataListTab.contacts === 'findContacts') {
+					contactsDispatch({ type: 'ADD_CONTACT', newContact: target });
+					userDispatch({ type: 'ADD_CONTACT', newContact: target });
+				}
+				const checkChats = userChats.filter(chat => chat.members.includes(target.uuid));
+				if (checkChats.length === 1) {
+					layoutDispatch({
+						type: 'SET_CHATBOX',
+						id: checkChats[0].chatId,
+						target: target.uuid,
+						targetType: 'userChat',
+					});
+					layoutDispatch({ type: 'SHOW_INBOX' });
+				} else if (checkChats.length === 0) {
+					const createdChat = addDatabaseChat({
+						user: user.uuid,
+						target: target.uuid,
+					});
+					userChatsDispatch({ type: 'CREATE_CHAT', newChat: createdChat });
+					layoutDispatch({ type: 'SHOW_INBOX' });
+					layoutDispatch({
+						type: 'SET_CHATBOX',
+						id: createdChat.chatId,
+						target: target.uuid,
+						targetType: 'userChat',
+					});
+				}
+				break;
+			case 'groupChat':
 				layoutDispatch({
 					type: 'SET_CHATBOX',
-					id: createdChat.chatId,
+					id: chatId,
 					target: target.uuid,
-					targetType: 'userChat',
-				});
-			}
-		} else if (cardType === 'groupChat') {
-			layoutDispatch({
-				type: 'SET_CHATBOX',
-				id: chatId,
-				target: target.uuid,
-				targetType: cardType,
-			});
-			layoutDispatch({ type: 'SHOW_INBOX' });
-		} else if (cardType === 'group') {
-			if (dataListTab.groups === 'findGroups') {
-				console.log('find groups');
-			}
-			const checkChats = groupChats.filter(chat => chat.chatId === target.chatId);
-			if (checkChats.length === 1) {
-				layoutDispatch({
-					type: 'SET_CHATBOX',
-					id: checkChats[0].chatId,
-					target: target.uuid,
-					targetType: 'groupChat',
+					targetType: cardType,
 				});
 				layoutDispatch({ type: 'SHOW_INBOX' });
-			}
+				break;
+			case 'group':
+				if (dataListTab.groups === 'findGroups') {
+					console.log('find groups');
+				}
+				const checkGroupChats = groupChats.filter(chat => chat.chatId === target.chatId);
+				if (checkGroupChats.length === 1) {
+					layoutDispatch({
+						type: 'SET_CHATBOX',
+						id: checkGroupChats[0].chatId,
+						target: target.uuid,
+						targetType: 'groupChat',
+					});
+					layoutDispatch({ type: 'SHOW_INBOX' });
+				}
+				break;
+			default:
+				throw new Error('No switch case for provided cardType');
 		}
-	}
+	};
 
 	const handleMenuClick = type => e => {
 		e.stopPropagation();
@@ -169,7 +176,7 @@ function DataCard({ target, msg, chatId, cardType }) {
 	}
 
 	return (
-		<Card className={classes.dataCard} onClick={handleClick}>
+		<Card className={classes.dataCard} onClick={handleCardClick(cardType)}>
 			<CardHeader
 				avatar={<UserAvatar userName={target.displayName} imgUrl={target.photoURL} />}
 				title={target.displayName}
