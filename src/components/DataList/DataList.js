@@ -132,6 +132,7 @@ function DataList() {
 		foundContacts,
 		groups,
 		groupChats,
+		foundGroups,
 	]);
 
 	return (
