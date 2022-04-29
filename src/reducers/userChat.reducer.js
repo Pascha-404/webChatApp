@@ -12,7 +12,7 @@ const reducer = (state, action) => {
 			});
 			return state.filter(chat => action.chatId !== chat.chatId);
 		case 'CREATE_CHAT':
-			return [action.newChat, ...state];
+			return [{ ...action.newChat, type: 'userChat' }, ...state];
 
 		case 'UPDATE_CHAT':
 			const updatedChat = state.filter(chat => action.chatId === chat.chatId);
