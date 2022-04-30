@@ -26,7 +26,7 @@ const useContactReducer = (reducer, userContacts, initialValue) => {
 		Promise.all(fetchedData).then(data => dispatch({ type: 'SET_STATE', state: data }));
 		setIsFetching(false);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [userContacts]);
 
 	return [state, dispatch, isFetching];
 };

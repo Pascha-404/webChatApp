@@ -16,7 +16,7 @@ import {
 	useFindGroupsDispatch,
 	useGroupChatsDispatch,
 } from '../../contexts';
-import addDatabaseChat from '../../services/api/addDatabaseChat';
+import { addDatabaseChat } from '../../services/api';
 
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
@@ -137,7 +137,7 @@ function DataCard({ target, msg, chatId, cardType }) {
 				break;
 			case 'ADD_CONTACT':
 				contactsDispatch({ type: 'ADD_CONTACT', newContact: target });
-				userDispatch({ type: 'ADD_CONTACT', newContact: target });
+				userDispatch({ type: 'ADD_CONTACT', contactId: target.uuid });
 				findContactsDispatch({ type: 'DELETE_CONTACT', contactId: target.uuid });
 				break;
 			case 'LEAVE_GROUP':

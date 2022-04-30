@@ -6,9 +6,9 @@ const reducer = (state, action) => {
 			return action.state;
 		case 'ADD_CONTACT':
 			updateDatabaseData([
-				{ path: `/users/${state.uuid}/contacts/${action.newContact.uuid}`, value: true },
+				{ path: `/users/${state.uuid}/contacts/${action.contactId}`, value: true },
 			]);
-			return { ...state, contacts: { ...state.contacts, [action.newContact]: true } };
+			return { ...state, contacts: { ...state.contacts, [action.contactId]: true } };
 		case 'DELETE_CONTACT':
 			updateDatabaseData([
 				{ path: `/users/${state.uuid}/contacts/${action.contactId}`, value: false },
