@@ -18,7 +18,7 @@ const useStyles = createUseStyles({
 	inputWrapper: {
 		position: 'relative',
 	},
-	refreshBtn: {
+	inputBtn: {
 		'&.MuiIconButton-root': { position: 'absolute', right: '1rem', top: '0.3rem' },
 	},
 });

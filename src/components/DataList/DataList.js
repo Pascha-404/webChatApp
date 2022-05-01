@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { IconButton } from '@mui/material';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import {
+	Refresh as RefreshIcon,
+	AddCircleOutline as AddCircleOutlineIcon,
+} from '@mui/icons-material';
 
 import sortByTimestamp from '../../utilities/sortByTimestamp';
 import {
@@ -41,6 +44,8 @@ function DataList() {
 	const hasRefreshBtn =
 		(dataListContent === 'contacts' && dataListTab.contacts === 'findContacts') ||
 		(dataListContent === 'groups' && dataListTab.groups === 'findGroups');
+	const hasAddGroupBtn =
+		dataListContent === 'groups' && dataListTab.groups === 'existingGroups';
 
 	function handleRefresh() {
 		if (dataListContent === 'contacts') {
@@ -48,6 +53,10 @@ function DataList() {
 		} else if (dataListContent === 'groups') {
 			foundGroupsDispatch({ type: 'TOGGLE_REFRESH' });
 		}
+	}
+
+	function handleAddGroup() {
+		console.log('add group');
 	}
 
 	useEffect(() => {
@@ -162,9 +171,17 @@ function DataList() {
 				{hasRefreshBtn && (
 					<IconButton
 						aria-label='refresh'
-						className={classes.refreshBtn}
+						className={classes.inputBtn}
 						onClick={handleRefresh}>
 						<RefreshIcon />
+					</IconButton>
+				)}
+				{hasAddGroupBtn && (
+					<IconButton
+						aria-label='add group'
+						className={classes.inputBtn}
+						onClick={handleAddGroup}>
+						<AddCircleOutlineIcon />
 					</IconButton>
 				)}
 			</div>
