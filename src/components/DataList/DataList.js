@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import {
 	Refresh as RefreshIcon,
 	AddCircleOutline as AddCircleOutlineIcon,
@@ -169,20 +169,24 @@ function DataList() {
 					<SearchForm className={classes.dataListSearchForm} />
 				)}
 				{hasRefreshBtn && (
-					<IconButton
-						aria-label='refresh'
-						className={classes.inputBtn}
-						onClick={handleRefresh}>
-						<RefreshIcon />
-					</IconButton>
+					<Tooltip title='Refresh list'>
+						<IconButton
+							aria-label='refresh'
+							className={classes.inputBtn}
+							onClick={handleRefresh}>
+							<RefreshIcon />
+						</IconButton>
+					</Tooltip>
 				)}
 				{hasAddGroupBtn && (
-					<IconButton
-						aria-label='add group'
-						className={classes.inputBtn}
-						onClick={handleAddGroup}>
-						<AddCircleOutlineIcon />
-					</IconButton>
+					<Tooltip title='Create group'>
+						<IconButton
+							aria-label='add group'
+							className={classes.inputBtn}
+							onClick={handleAddGroup}>
+							<AddCircleOutlineIcon />
+						</IconButton>
+					</Tooltip>
 				)}
 			</div>
 			{dataListContent === 'inbox' && <SortForm />}
