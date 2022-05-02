@@ -6,6 +6,8 @@ const reducer = (state, action) => {
 			return { ...state, dataListContent: 'contacts' };
 		case 'SHOW_GROUPS':
 			return { ...state, dataListContent: 'groups' };
+		case 'SHOW_GROUPDIALOG':
+			return { ...state, groupDialog: action.value };
 		case 'SET_CHATBOX':
 			return {
 				...state,
