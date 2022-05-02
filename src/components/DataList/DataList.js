@@ -18,8 +18,10 @@ import {
 	useGroupChats,
 	useFindGroups,
 	useFindGroupsDispatch,
+	useLayoutDispatch,
 } from '../../contexts';
 
+import GroupFormDialog from '../GroupFormDialog';
 import SearchForm from '../SearchForm';
 import SortForm from '../SortForm/SortForm';
 import DataCard from '../DataCard';
@@ -39,7 +41,9 @@ function DataList() {
 	const foundContactsDispatch = useFindContactsDispatch();
 	const { foundContacts } = useFindContacts();
 	const { dataListContent, dataListTab } = useLayout();
+	const layoutDispatch = useLayoutDispatch();
 	const classes = useStyles();
+	const [isGroupDialog, setIsGroupDialog] = useState(false)
 	const [generatedContent, setGeneratedContent] = useState([]);
 	const hasRefreshBtn =
 		(dataListContent === 'contacts' && dataListTab.contacts === 'findContacts') ||
@@ -55,8 +59,8 @@ function DataList() {
 		}
 	}
 
-	function handleAddGroup() {
-		console.log('add group');
+	function handleOpenGroupDialog() {
+		layoutDispatch({type: 'SHOW_GROUPDIALOG', value: true})
 	}
 
 	useEffect(() => {
@@ -124,7 +128,7 @@ function DataList() {
 						return <DataCard cardType='group' key={group.uuid} target={group} />;
 					});
 					setGeneratedContent(generatedGroups);
-				}
+				} 
 			} else if (dataListContent === 'notifications') {
 				setGeneratedContent('');
 			} else if (dataListContent === 'options') {
@@ -146,6 +150,7 @@ function DataList() {
 
 	return (
 		<Grid item sm={4} md={4} className={classes.dataList}>
+			<GroupFormDialog />
 			{dataListContent === 'contacts' && (
 				<TabBar
 					tabType='contacts'
@@ -183,7 +188,7 @@ function DataList() {
 						<IconButton
 							aria-label='add group'
 							className={classes.inputBtn}
-							onClick={handleAddGroup}>
+							onClick={handleOpenGroupDialog}>
 							<AddCircleOutlineIcon />
 						</IconButton>
 					</Tooltip>
