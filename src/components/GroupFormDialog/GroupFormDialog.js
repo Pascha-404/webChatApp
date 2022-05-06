@@ -15,6 +15,8 @@ import {
 	FormHelperText,
 } from '@mui/material';
 
+import UserAvatar from '../UserAvatar';
+
 import { useContacts, useLayout, useLayoutDispatch } from '../../contexts';
 
 function GroupFormDialog() {
@@ -27,9 +29,12 @@ function GroupFormDialog() {
 		layoutDispatch({ type: 'SHOW_GROUPDIALOG', value: false });
 	}
 
-	function handleChange(e) {
-		setMembers({ ...members, [e.target.name]: e.target.checked });
-	}
+	const handleChange = targetedMember => e => {
+		const memberIndex = members.findIndex(member => member.uuid === targetedMember.uuid);
+		let modifiedMembers = members;
+		modifiedMembers[memberIndex].isChecked = e.target.checked;
+		setMembers([...modifiedMembers]);
+	};
 
 	useEffect(() => {
 		let isActive = true;
@@ -65,17 +70,38 @@ function GroupFormDialog() {
 				/>
 				<FormControl sx={{ m: 3 }} component='fieldset' variant='standard'>
 					<FormLabel component='legend'>Add Members</FormLabel>
-          <FormGroup>
-            {members.map(member => <FormControlLabel key={member.uuid}
-							control={<Checkbox checked={member.isChecked} onChange={handleChange} name={member.uuid} />}
-							label={member.displayName}
-						/>)}
+					<FormGroup>
+						{members.map(member => (
+							<FormControlLabel
+								key={member.uuid}
+								control={
+									<div
+										style={{
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+										}}>
+										<Checkbox
+											checked={member.isChecked}
+											onChange={handleChange(member)}
+											name={member.uuid}
+										/>
+										<UserAvatar
+											size={2}
+											userName={member.displayName}
+											photoURL={member.photoURL}
+										/>
+									</div>
+								}
+								label={member.displayName}
+							/>
+						))}
 					</FormGroup>
 				</FormControl>
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={handleCloseDialog}>Cancel</Button>
-				<Button onClick={handleCloseDialog}>Create</Button>
+				<Button onClick={handleCloseDialog}>Submit</Button>
 			</DialogActions>
 		</Dialog>
 	);
