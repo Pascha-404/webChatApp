@@ -43,7 +43,6 @@ function DataList() {
 	const { dataListContent, dataListTab } = useLayout();
 	const layoutDispatch = useLayoutDispatch();
 	const classes = useStyles();
-	const [isGroupDialog, setIsGroupDialog] = useState(false)
 	const [generatedContent, setGeneratedContent] = useState([]);
 	const hasRefreshBtn =
 		(dataListContent === 'contacts' && dataListTab.contacts === 'findContacts') ||
@@ -60,7 +59,7 @@ function DataList() {
 	}
 
 	function handleOpenGroupDialog() {
-		layoutDispatch({type: 'SHOW_GROUPDIALOG', value: true})
+		layoutDispatch({ type: 'SHOW_GROUPDIALOG', value: true });
 	}
 
 	useEffect(() => {
@@ -128,7 +127,7 @@ function DataList() {
 						return <DataCard cardType='group' key={group.uuid} target={group} />;
 					});
 					setGeneratedContent(generatedGroups);
-				} 
+				}
 			} else if (dataListContent === 'notifications') {
 				setGeneratedContent('');
 			} else if (dataListContent === 'options') {
