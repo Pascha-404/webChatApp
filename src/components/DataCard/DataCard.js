@@ -178,7 +178,7 @@ function DataCard({ target, msg, chatId, cardType }) {
 	return (
 		<Card className={classes.dataCard} onClick={handleCardClick(cardType)}>
 			<CardHeader
-				avatar={<UserAvatar userName={target.displayName} imgUrl={target.photoURL} />}
+				avatar={<UserAvatar userName={target.displayName} photoURL={target.photoURL} />}
 				title={target.displayName}
 				subheader={
 					msg

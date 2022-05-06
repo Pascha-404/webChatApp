@@ -25,7 +25,7 @@ function ChatBoxHeader() {
 		<Card className={classes.chatBoxHeader}>
 			<CardHeader
 				className={classes.chatBoxData}
-				avatar={<UserAvatar imgUrl={target[0].photoURL} size={4} />}
+				avatar={<UserAvatar photoURL={target[0].photoURL} size={4} />}
 				title={target[0].displayName}
 				subheader={'Offline ☉ Last Seen 3 Hours Ago'}
 				action={
