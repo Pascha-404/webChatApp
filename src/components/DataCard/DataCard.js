@@ -21,7 +21,7 @@ import { addDatabaseChat } from '../../services/api';
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
-function DataCard({ target, msg, chatId, cardType }) {
+function DataCard({ target, msg, chatId, cardType, isAdmin }) {
 	const { chatBox } = useLayout();
 	const isActive = chatId === chatBox.id;
 	const classes = useStyles({ isActive });
@@ -160,6 +160,9 @@ function DataCard({ target, msg, chatId, cardType }) {
 				findGroupsDispatch({ type: 'DELETE_GROUP', groupId: target.uuid });
 
 				break;
+			case 'DELETE_GROUP':
+				console.log('DELETE GROUP')
+				break;
 			default:
 				throw new Error('Unknown Switch Type');
 		}
@@ -215,6 +218,9 @@ function DataCard({ target, msg, chatId, cardType }) {
 					<MenuItem onClick={handleMenuClick('LEAVE_GROUP')}>Leave Group</MenuItem>
 				)}
 
+				{(isGroupChat || dataListContent) && isAdmin && (
+					<MenuItem onClick={handleMenuClick('DELETE_GROUP')}>Delete Group</MenuItem>
+				)}
 				{dataListContent === 'groups' && dataListTab.groups === 'findGroups' && (
 					<MenuItem onClick={handleMenuClick('JOIN_GROUP')}>Join Group</MenuItem>
 				)}

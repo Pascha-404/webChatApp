@@ -119,12 +119,26 @@ function DataList() {
 			} else if (dataListContent === 'groups') {
 				if (dataListTab.groups === 'existingGroups') {
 					const generatedGroups = groups.map(group => {
-						return <DataCard cardType='group' key={group.uuid} target={group} />;
+						return (
+							<DataCard
+								cardType='group'
+								isAdmin={group.isAdmin.includes(user.uuid)}
+								key={group.uuid}
+								target={group}
+							/>
+						);
 					});
 					setGeneratedContent(generatedGroups);
 				} else if (dataListTab.groups === 'findGroups') {
 					const generatedGroups = foundGroups.map(group => {
-						return <DataCard cardType='group' key={group.uuid} target={group} />;
+						return (
+							<DataCard
+								cardType='group'
+								isAdmin={group.isAdmin.includes(user.uuid)}
+								key={group.uuid}
+								target={group}
+							/>
+						);
 					});
 					setGeneratedContent(generatedGroups);
 				}
