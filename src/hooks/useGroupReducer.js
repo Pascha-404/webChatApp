@@ -15,13 +15,8 @@ const useGroupReducer = (reducer, userGroups, initialValue) => {
 				const fetchedData = await Promise.all(
 					activeGroups.map(async group => {
 						const fetchedGroup = await fetchDatabase(`/groups/${group}`);
-						const { displayName, uuid, photoURL, members, chatId } = fetchedGroup;
 						const groupObject = {
-							displayName,
-							uuid,
-							photoURL,
-							members,
-							chatId,
+							...fetchedGroup,
 							isMember: true,
 						};
 						return groupObject;
