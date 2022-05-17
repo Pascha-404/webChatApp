@@ -10,7 +10,11 @@ const useFindGroupReducer = (reducer, knownGroups, initialValue) => {
 
 			const filteredGroups = Object.values(fetchedGroups).filter(fetchedGroup => {
 				for (let group of knownGroups) {
-					if (group.uuid === undefined || group.uuid === fetchedGroup.uuid) {
+					if (
+						group.uuid === undefined ||
+						group.uuid === fetchedGroup.uuid ||
+						fetchedGroup.isDeleted
+					) {
 						return false;
 					}
 				}
