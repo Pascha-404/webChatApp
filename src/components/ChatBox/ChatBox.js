@@ -6,7 +6,7 @@ import ChatBubble from '../ChatBubble/ChatBubble';
 
 import { formatISO9075 } from 'date-fns';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
-import { useUser, useLayout, useMessages } from '../../contexts';
+import { useUser, useLayout, useMessages, useGroups } from '../../contexts';
 
 import useStyles from './ChatBox.style';
 
@@ -15,8 +15,10 @@ function ChatBox() {
 	const classes = useStyles();
 	const { uuid } = useUser();
 	const messages = useMessages();
+	const groups = useGroups();
 	const [scrollTargetRef] = useScrollIntoView('instant');
 	const [generatedContent, setGeneratedContent] = useState();
+	const [isDeletedGroup, setIsDeletedGroup] = useState(false);
 
 	useEffect(() => {
 		if (messages !== null) {
@@ -39,16 +41,32 @@ function ChatBox() {
 		}
 	}, [messages, uuid]);
 
+	useEffect(() => {
+		if (chatBox.targetType === 'groupChat') {
+			const targetGroup = groups.filter(group => group.uuid === chatBox.target);
+			if (targetGroup[0].isDeleted) {
+				setIsDeletedGroup(true);
+			} else {
+				setIsDeletedGroup(false);
+			}
+		} else {
+			setIsDeletedGroup(false);
+		}
+	}, [chatBox.id, chatBox.targetType]);
+
 	if (chatBox.id) {
 		return (
 			<Grid item xs={5.7} sm={6.5} md={7} className={classes.chatBox}>
 				<ChatBoxHeader />
 				<section className={classes.msgWrapper}>
 					{generatedContent}
+					{isDeletedGroup && (
+						<p className={classes.disabledInfo}>This group was deleted</p>
+					)}
 					<div ref={scrollTargetRef} id='scrollTargetChatBox' />
 				</section>
 
-				<ChatBoxInput />
+				<ChatBoxInput disabled={isDeletedGroup} />
 			</Grid>
 		);
 	}
