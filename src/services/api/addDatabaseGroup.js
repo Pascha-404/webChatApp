@@ -12,9 +12,10 @@ function addDatabaseGroup({ userId, members, groupName }) {
 		uuid: newGroupKey,
 		chatId: newGroupChatKey,
 		members: { [userId]: true },
-        msgTimestamp: null,
-        photoURL: false,
-        isAdmin: [userId]
+		msgTimestamp: null,
+		photoURL: false,
+		isDeleted: false,
+		isAdmin: [userId],
 	};
 
 	const groupChatData = {
@@ -40,8 +41,7 @@ function addDatabaseGroup({ userId, members, groupName }) {
 		});
 	}
 
-
-	updateDatabaseData(updateArray)
+	updateDatabaseData(updateArray);
 	return groupData;
 }
 
