@@ -12,20 +12,25 @@ import {
 	FormLabel,
 	FormControlLabel,
 	Checkbox,
-	FormHelperText,
 } from '@mui/material';
 
 import UserAvatar from '../UserAvatar';
 
-import { useContacts, useGroupsDispatch, useLayout, useLayoutDispatch, useUser } from '../../contexts';
+import {
+	useContacts,
+	useGroupsDispatch,
+	useLayout,
+	useLayoutDispatch,
+	useUser,
+} from '../../contexts';
 import useInputState from '../../hooks/useInputState';
 import addDatabaseGroup from '../../services/api/addDatabaseGroup';
 
 function GroupFormDialog() {
 	const { groupDialog } = useLayout();
 	const { uuid } = useUser();
-  const contacts = useContacts();
-  const groupsDispatch = useGroupsDispatch();
+	const contacts = useContacts();
+	const groupsDispatch = useGroupsDispatch();
 	const layoutDispatch = useLayoutDispatch();
 	const [members, setMembers] = useState([]);
 	const [getMembers, setGetMembers] = useState(true);
@@ -49,8 +54,8 @@ function GroupFormDialog() {
 			userId: uuid,
 			members: addedMembers,
 			groupName: state,
-    });
-    groupsDispatch({type: 'JOIN_GROUP', newGroup: groupData})
+		});
+		groupsDispatch({ type: 'JOIN_GROUP', newGroup: groupData });
 		reset();
 		setGetMembers(true);
 		handleCloseDialog();
