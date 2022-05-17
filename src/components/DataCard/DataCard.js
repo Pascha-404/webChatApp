@@ -161,7 +161,7 @@ function DataCard({ target, msg, chatId, cardType, isAdmin }) {
 
 				break;
 			case 'DELETE_GROUP':
-				console.log('DELETE GROUP')
+				groupsDispatch({ type: 'DELETE_GROUP', group: target });
 				break;
 			default:
 				throw new Error('Unknown Switch Type');
