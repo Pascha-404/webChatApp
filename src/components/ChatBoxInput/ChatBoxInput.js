@@ -2,6 +2,7 @@ import React from 'react';
 import { InputBase, IconButton, FormControl } from '@mui/material';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import SendIcon from '@mui/icons-material/Send';
 import { Picker } from 'emoji-mart';
 
@@ -18,7 +19,7 @@ import useInputState from '../../hooks/useInputState';
 import 'emoji-mart/css/emoji-mart.css';
 import useStyles from './ChatBoxInput.style';
 
-function ChatBoxInput() {
+function ChatBoxInput({ disabled }) {
 	const { state, handleChange, handleAddToState, reset } = useInputState('');
 	const [showPicker, togglePicker] = useToggleState(false);
 	const classes = useStyles({ showPicker });
@@ -72,7 +73,7 @@ function ChatBoxInput() {
 	return (
 		<section className={classes.chatBoxInput}>
 			<div className={classes.contentWrapper}>
-				<IconButton className={classes.attachIcon}>
+				<IconButton disabled={disabled} className={classes.attachIcon}>
 					<AttachFileIcon />
 				</IconButton>
 				<form
@@ -81,25 +82,31 @@ function ChatBoxInput() {
 					onSubmit={handleSubmit(chatBox.targetType)}>
 					<FormControl className={classes.textInput}>
 						<InputBase
-							placeholder={'Type a Message here...'}
+							placeholder={
+								!disabled
+									? 'Type a Message here...'
+									: "You can't write into this group..."
+							}
 							inputProps={{ 'aria-label': 'Search' }}
 							value={state}
 							onChange={handleChange}
 							autoFocus
+							disabled={disabled}
 						/>
 					</FormControl>
 				</form>
 
 				<div className={classes.iconWrapper}>
-					<IconButton onClick={togglePicker}>
+					<IconButton disabled={disabled} onClick={togglePicker}>
 						<EmojiEmotionsIcon className={classes.emojiIcon} />
 					</IconButton>
 
 					<IconButton
 						className={classes.sendIconWrapper}
 						type='submit'
-						form='chatBoxForm'>
-						<SendIcon />
+						form='chatBoxForm'
+						disabled={disabled}>
+						{!disabled ? <SendIcon /> : <DoNotDisturbIcon />}
 					</IconButton>
 				</div>
 			</div>
