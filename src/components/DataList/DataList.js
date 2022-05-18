@@ -148,7 +148,13 @@ function DataList() {
 				setGeneratedContent(<Options />);
 			}
 		}
-		createContent();
+		let isActive = true;
+		if (isActive) {
+			createContent();
+		}
+		return () => {
+			isActive = false;
+		};
 	}, [
 		userChats,
 		dataListContent,

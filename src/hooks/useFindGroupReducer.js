@@ -9,12 +9,11 @@ const useFindGroupReducer = (reducer, knownGroups, initialValue) => {
 			const fetchedGroups = await fetchDatabase('/groups');
 
 			const filteredGroups = Object.values(fetchedGroups).filter(fetchedGroup => {
+				if (fetchedGroup.isDeleted) {
+					return false;
+				}
 				for (let group of knownGroups) {
-					if (
-						group.uuid === undefined ||
-						group.uuid === fetchedGroup.uuid ||
-						fetchedGroup.isDeleted
-					) {
+					if (group.uuid === undefined || group.uuid === fetchedGroup.uuid) {
 						return false;
 					}
 				}
@@ -22,7 +21,13 @@ const useFindGroupReducer = (reducer, knownGroups, initialValue) => {
 			});
 			dispatch({ type: 'SET_STATE', state: filteredGroups });
 		}
-		findNewGroups();
+		let isActive = true;
+		if (isActive) {
+			findNewGroups();
+		}
+		return () => {
+			isActive = false;
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.refresh, knownGroups]);
 
