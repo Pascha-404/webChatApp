@@ -12,8 +12,14 @@ const useStyles = createUseStyles({
 		overflowY: 'scroll',
 		'&::-webkit-scrollbar': {
 			width: '0px',
-			height: '0px'
+			height: '0px',
 		},
+	},
+	inputWrapper: {
+		position: 'relative',
+	},
+	inputBtn: {
+		'&.MuiIconButton-root': { position: 'absolute', right: '1rem', top: '0.3rem' },
 	},
 });
 

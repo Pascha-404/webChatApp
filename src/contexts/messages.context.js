@@ -30,7 +30,8 @@ function MessagesProvider({ children }) {
 	const [messages, dispatch] = useMessageReducer(messageReducer, {});
 	const [isFetching, setIsFetching] = useState(false);
 	useEffect(() => {
-		if (chatBox.id) {
+		let isActive = true;
+		if (chatBox.id && isActive) {
 			setIsFetching(true);
 			fetchDatabase(`/messages/${chatBox.id}`)
 				.then(data => {
@@ -43,6 +44,9 @@ function MessagesProvider({ children }) {
 
 			setIsFetching(false);
 		}
+		return () => {
+			isActive = false;
+		};
 	}, [chatBox.id, dispatch]);
 
 	if (chatBox.id) {
@@ -54,7 +58,8 @@ function MessagesProvider({ children }) {
 				</MessagesDispatch.Provider>
 			</MessagesContext.Provider>
 		);
-	} return null
+	}
+	return null;
 }
 
 export { MessagesProvider, useMessages, useMessagesDispatch };

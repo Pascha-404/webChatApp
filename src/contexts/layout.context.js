@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext } from 'react';
 import layoutReducer from '../reducers/layout.reducer';
 import useLocalStorageReducer from '../services/localStorage/useLocalStorageReducer';
 
@@ -22,7 +22,9 @@ function useLayoutDispatch() {
 
 const defaultLayout = {
 	dataListContent: 'inbox',
-	chatBox: { id: '', target: '' },
+	dataListTab: { contacts: 'existingContacts', groups: 'existingGroups' },
+	groupDialog: false,
+	chatBox: { id: '', target: '', targetType: '' },
 };
 
 function LayoutProvider({ children }) {

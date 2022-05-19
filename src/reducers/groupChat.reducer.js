@@ -1,4 +1,3 @@
-import addDatabaseChat from '../services/api/addDatabaseChat';
 import deleteDatabaseChat from '../services/api/deleteDatabaseChat';
 
 const reducer = (state, action) => {
@@ -12,9 +11,11 @@ const reducer = (state, action) => {
 				chatPartner: action.chatPartner,
 			});
 			return state.filter(chat => action.chatId !== chat.chatId);
+		case 'LEAVE_CHAT':
+			return state.filter(chat => action.chatId !== chat.chatId);
 		case 'CREATE_CHAT':
 			return [action.newChat, ...state];
-		
+
 		case 'UPDATE_CHAT':
 			const updatedChat = state.filter(chat => action.chatId === chat.chatId);
 			updatedChat[0].lastMsg = { [action.sentBy]: action.msg };

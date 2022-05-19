@@ -1,11 +1,16 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
 import Loading from '../components/Loading';
 
-import fetchDatabase from '../services/api/fetchDatabase';
+import contactReducer from '../reducers/contact.reducer';
+import findContactReducer from '../reducers/findContact.reducer';
+import useContactReducer from '../hooks/useContactReducer';
 import { useUser } from './user.context';
+import useFindContactReducer from '../hooks/useFindContactReducer';
 
 const ContactsContext = createContext();
 const ContactsDispatch = createContext();
+const FindContactsContext = createContext();
+const FindContactsDispatch = createContext();
 
 function useContacts() {
 	const context = useContext(ContactsContext);
@@ -23,37 +28,52 @@ function useContactsDispatch() {
 	return dispatch;
 }
 
-function ContactsProvider({ children }) {
-	const { contacts } = useUser();
-	const [contactsData, setContactsData] = useState();
-	const [isFetching, setIsFetching] = useState(true);
+function useFindContacts() {
+	const context = useContext(FindContactsContext);
+	if (context === undefined) {
+		throw new Error('useFindContacts must be used withing a ContactsProvider');
+	}
+	return context;
+}
+function useFindContactsDispatch() {
+	const dispatch = useContext(FindContactsDispatch);
+	if (dispatch === undefined) {
+		throw new Error('useFindContactsDispatch must be used withing a ContactsProvider');
+	}
+	return dispatch;
+}
 
-	useEffect(() => {
-		setIsFetching(true);
-		const activeContacts = Object.keys(contacts).filter(key => contacts[key] === true);
-		const fetchedData = activeContacts.map(contact => {
-			return fetchDatabase(`/users/${contact}`)
-				.then(data => {
-					const contactObj = {
-						firstName: data.firstName,
-						lastName: data.lastName,
-						nickname: data.nickname,
-						uuid: data.uuid,
-						pictureLink: data.pictureLink,
-					};
-					return contactObj;
-				})
-				.catch(error => console.log(error));
-		});
-		Promise.all(fetchedData).then(data => setContactsData(data));
-		setIsFetching(false);
-	}, [contacts]);
+function ContactsProvider({ children }) {
+	const { contacts, uuid } = useUser();
+	const [contactsData, dispatch, isFetching] = useContactReducer(
+		contactReducer,
+		contacts,
+		[]
+	);
+	const [foundContactsData, foundContactsDispatch] = useFindContactReducer(
+		findContactReducer,
+		contactsData,
+		uuid,
+		{ refresh: false, foundContacts: [] }
+	);
 
 	return (
 		<ContactsContext.Provider value={contactsData}>
-			{!isFetching ? children : <Loading />}
+			<ContactsDispatch.Provider value={dispatch}>
+				<FindContactsContext.Provider value={foundContactsData}>
+					<FindContactsDispatch.Provider value={foundContactsDispatch}>
+						{!isFetching ? children : <Loading />}
+					</FindContactsDispatch.Provider>
+				</FindContactsContext.Provider>
+			</ContactsDispatch.Provider>
 		</ContactsContext.Provider>
 	);
 }
 
-export { useContacts, useContactsDispatch, ContactsProvider };
+export {
+	useContacts,
+	useContactsDispatch,
+	useFindContacts,
+	useFindContactsDispatch,
+	ContactsProvider,
+};

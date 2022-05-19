@@ -6,10 +6,20 @@ const reducer = (state, action) => {
 			return { ...state, dataListContent: 'contacts' };
 		case 'SHOW_GROUPS':
 			return { ...state, dataListContent: 'groups' };
+		case 'SHOW_GROUPDIALOG':
+			return { ...state, groupDialog: action.value };
 		case 'SET_CHATBOX':
-			return { ...state, chatBox: { id: action.id, target: action.target } };
+			return {
+				...state,
+				chatBox: { id: action.id, target: action.target, targetType: action.targetType },
+			};
 		case 'SET_DATALISTCONTENT':
 			return { ...state, dataListContent: action.newValue };
+		case 'SET_DATALISTTAB':
+			return {
+				...state,
+				dataListTab: { ...state.dataListTab, [action.tabType]: action.state },
+			};
 		default:
 			return state;
 	}

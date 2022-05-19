@@ -26,6 +26,7 @@ const useStyles = createUseStyles({
 			height: '100%',
 			backgroundColor: '#F1EDED',
 			borderRadius: '24px 0 0 24px',
+			'&.Mui-disabled': { backgroundColor: '#F1EDED' },
 			'& svg': { transform: 'rotate(45deg)' },
 		},
 	},
@@ -56,6 +57,7 @@ const useStyles = createUseStyles({
 			color: '#fff',
 			backgroundColor: 'red',
 			transition: 'transform 200ms ease-out',
+			'&.Mui-disabled': { backgroundColor: 'red', color: 'white' },
 			'&:hover': {
 				backgroundColor: 'red',
 				transform: 'scale(1.4) rotate(-40deg)',

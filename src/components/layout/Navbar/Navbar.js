@@ -26,7 +26,7 @@ function Navbar() {
 	return (
 		<Grid item xs={2} sm={1.5} md={1} lg={1}>
 			<nav className={classes.navbar}>
-				<UserAvatar userName={user.displayName} imgUrl={user.photoURL} />
+				<UserAvatar userName={user.displayName} photoURL={user.photoURL} />
 				<Tabs
 					className={classes.menuIcons}
 					orientation='vertical'

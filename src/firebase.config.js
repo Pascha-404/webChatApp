@@ -165,6 +165,7 @@ async function checkRedirectData(setStoreFunction) {
 					contacts: false,
 					groupChats: false,
 					userChats: false,
+					groups: false,
 				});
 			}
 		}
