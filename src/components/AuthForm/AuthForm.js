@@ -83,6 +83,11 @@ function AuthForm({ formState, authType }) {
 		navigate(-1);
 	};
 
+	/* 
+	Handler for the confirm button in the anonymous authentication,
+	register via email or login via email. Takes needed state (loginId, password and/or rememberMe)
+	and calls in the auth context the needed dispatch type.
+	*/
 	const handleConfirm = () => {
 		if (authType === 'authAnonym') {
 			authDispatch({ type: 'AUTH_ANONYM', loginId: values.loginId });
@@ -103,6 +108,10 @@ function AuthForm({ formState, authType }) {
 		}
 	};
 
+	/* 
+	Checks if signInType changes to google or github type.
+	If true a redirect to the provider gets triggered to authenticate.
+	*/
 	useEffect(() => {
 		if (signInType === 'authGoogle') {
 			authDispatch({ type: 'AUTH_GOOGLE' });
@@ -113,15 +122,18 @@ function AuthForm({ formState, authType }) {
 
 	return (
 		<section className={classes.authForm}>
-			{formState !== 'authType' && (
-				<IconButton
-					size='medium'
-					aria-label='go back'
-					onClick={handleGoBack}
-					className={classes.backBtn}>
-					<ArrowBack fontSize='inherit' />
-				</IconButton>
-			)}
+			{
+				// Render goBack button just if authType is chosen
+				formState !== 'authType' && (
+					<IconButton
+						size='medium'
+						aria-label='go back'
+						onClick={handleGoBack}
+						className={classes.backBtn}>
+						<ArrowBack fontSize='inherit' />
+					</IconButton>
+				)
+			}
 			{formState === 'authType' && (
 				<React.Fragment>
 					<Typography className={classes.heading}>Sign in to start messaging</Typography>
@@ -225,6 +237,7 @@ function AuthForm({ formState, authType }) {
 						variant='contained'
 						className={`${classes.interactionField} confirmBtn`}
 						onClick={handleConfirm}
+						// Disable button if no loginId or password was provided
 						disabled={
 							values.loginId === '' ||
 							(authType === 'email' && values.password === '') ||
@@ -253,18 +266,25 @@ function AuthForm({ formState, authType }) {
 					)}
 				</React.Fragment>
 			)}
-			{error && (
-				<Alert severity='error' className={classes.errorAlert}>
-					{errorCode === 'auth/email-already-in-use' &&
-						'This E-Mail is already beeing used'}
-					{(errorCode === 'auth/invalid-email' ||
-						errorCode === 'auth/wrong-password' ||
-						errorCode === 'auth/internal-error' ||
-						errorCode === 'auth/user-not-found') &&
-						'E-Mail or password is wrong'}
-					{errorCode === 'auth/weak-password' && 'Password must be at least 6 characters'}
-				</Alert>
-			)}
+			{
+				/* 
+				Set a errorMessage based on the error state
+				If wrong password or user not found display a unspecific message for security reasons
+				*/
+				error && (
+					<Alert severity='error' className={classes.errorAlert}>
+						{errorCode === 'auth/email-already-in-use' &&
+							'This E-Mail is already beeing used'}
+						{(errorCode === 'auth/invalid-email' ||
+							errorCode === 'auth/wrong-password' ||
+							errorCode === 'auth/internal-error' ||
+							errorCode === 'auth/user-not-found') &&
+							'E-Mail or password is wrong'}
+						{errorCode === 'auth/weak-password' &&
+							'Password must be at least 6 characters'}
+					</Alert>
+				)
+			}
 		</section>
 	);
 }
