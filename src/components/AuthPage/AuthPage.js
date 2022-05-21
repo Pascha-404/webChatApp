@@ -15,12 +15,18 @@ import Loading from '../Loading';
 import useStyles from './AuthPage.style';
 import { useAuth } from '../../contexts/auth.context';
 
+/* 
+AuthPage component/page which is rendered if there is no authenticated user.
+*/
 function AuthPage() {
 	const classes = useStyles();
 	const { isRedirected } = useAuth();
 	return (
 		<PageContent>
-			{isRedirected && <Loading />}
+			
+			{
+				// Display Backdrop if redirected from auth provider
+				isRedirected && <Loading />}
 
 			<Grid
 				item
@@ -76,6 +82,7 @@ function AuthPage() {
 				alignItems='center'
 				sm={6}
 				className={classes.formSide}>
+				{/* Outlet for Component defined in Route.js file */}
 				<Outlet />
 			</Grid>
 		</PageContent>
