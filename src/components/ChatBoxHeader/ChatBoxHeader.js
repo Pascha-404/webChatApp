@@ -6,6 +6,10 @@ import UserAvatar from '../UserAvatar';
 import useStyles from './ChatBoxHeader.styles';
 import { useGroups, useContacts, useLayout } from '../../contexts';
 
+/* 
+Takes layout and user/group context. Checks in layout which type of chat is
+active and returns the needed target to display it's values in the header.
+*/
 function pickContextData(layout, userContext, groupContext) {
 	if (layout.targetType === 'userChat') {
 		return userContext.filter(contact => layout.target === contact.uuid);
@@ -14,6 +18,7 @@ function pickContextData(layout, userContext, groupContext) {
 	}
 }
 
+// Header Component for ChatBox
 function ChatBoxHeader() {
 	const { chatBox } = useLayout();
 	const contacts = useContacts();
