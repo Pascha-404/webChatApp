@@ -19,6 +19,12 @@ import useInputState from '../../hooks/useInputState';
 import 'emoji-mart/css/emoji-mart.css';
 import useStyles from './ChatBoxInput.style';
 
+/* 
+ChatBoxInput component for ChatBox.
+Gets disabled prop through ChatBox.
+If true changes icon of send button, replaces placeholder in textfield 
+and disables everthing clickable.
+*/
 function ChatBoxInput({ disabled }) {
 	const { state, handleChange, handleAddToState, reset } = useInputState('');
 	const [showPicker, togglePicker] = useToggleState(false);
@@ -29,6 +35,7 @@ function ChatBoxInput({ disabled }) {
 	const { uuid } = useUser();
 	const { chatBox } = useLayout();
 
+	// Handles submit dynamic depending on chatType (triggers different dispatches)
 	const handleSubmit = chatType => e => {
 		e.preventDefault();
 		switch (chatType) {
@@ -111,19 +118,22 @@ function ChatBoxInput({ disabled }) {
 				</div>
 			</div>
 
-			{showPicker && (
-				<div className={classes.emojiPicker}>
-					<Picker
-						showPreview={false}
-						showSkinTones={false}
-						set={'apple'}
-						theme='dark'
-						onSelect={emojiObj => {
-							handleAddToState(emojiObj.native);
-						}}
-					/>
-				</div>
-			)}
+			{
+				// Component for adding emojis to state
+				showPicker && (
+					<div className={classes.emojiPicker}>
+						<Picker
+							showPreview={false}
+							showSkinTones={false}
+							set={'apple'}
+							theme='dark'
+							onSelect={emojiObj => {
+								handleAddToState(emojiObj.native);
+							}}
+						/>
+					</div>
+				)
+			}
 		</section>
 	);
 }
