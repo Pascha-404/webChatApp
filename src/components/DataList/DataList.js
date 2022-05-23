@@ -30,6 +30,11 @@ import useStyles from './DataList.style';
 import Options from '../Options';
 import TabBar from '../TabBar';
 
+/* 
+DataList component displayed in the middle of the mainpage.
+Contains mainly DataCard components but also displays options, sort and search forms
+together with different tabs to find new contacts/groups.
+*/
 function DataList() {
 	const user = useUser();
 	const userChats = useUserChats();
@@ -44,12 +49,15 @@ function DataList() {
 	const layoutDispatch = useLayoutDispatch();
 	const classes = useStyles();
 	const [generatedContent, setGeneratedContent] = useState([]);
+	// hasRefreshBtn = true if in contacts/groups menu in the "find" tab
 	const hasRefreshBtn =
 		(dataListContent === 'contacts' && dataListTab.contacts === 'findContacts') ||
 		(dataListContent === 'groups' && dataListTab.groups === 'findGroups');
+	// hasAddGroupBtn = true if in groups menu in "your groups" tab
 	const hasAddGroupBtn =
 		dataListContent === 'groups' && dataListTab.groups === 'existingGroups';
 
+	// handler for triggering refresh in useEffect() of contacts our groups context.
 	function handleRefresh() {
 		if (dataListContent === 'contacts') {
 			foundContactsDispatch({ type: 'TOGGLE_REFRESH' });
@@ -58,10 +66,15 @@ function DataList() {
 		}
 	}
 
+	// handler for opening the groupDialog(creating a group)
 	function handleOpenGroupDialog() {
 		layoutDispatch({ type: 'SHOW_GROUPDIALOG', value: true });
 	}
 
+	/* 
+	Checks state of dataListContent and generates content based on the value.
+	The generated content gets then displayed in the component.
+	*/
 	useEffect(() => {
 		async function createContent() {
 			if (dataListContent === 'home') {
