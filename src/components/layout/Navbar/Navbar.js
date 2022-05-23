@@ -17,6 +17,7 @@ import UserAvatar from '../../UserAvatar';
 
 import useStyles from './Navbar.style';
 
+// Simple Navbar component to navigate through the app
 function Navbar() {
 	const layoutDispatch = useLayoutDispatch();
 	const layout = useLayout();
