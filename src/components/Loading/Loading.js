@@ -2,6 +2,7 @@ import React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
+// Simple component to display a overlay with a loading backdrop
 function Loading() {
 	return (
 		<Backdrop
