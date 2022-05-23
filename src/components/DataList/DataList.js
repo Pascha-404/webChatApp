@@ -57,7 +57,7 @@ function DataList() {
 	const hasAddGroupBtn =
 		dataListContent === 'groups' && dataListTab.groups === 'existingGroups';
 
-	// handler for triggering refresh in useEffect() of contacts our groups context.
+	// Handler for triggering refresh in useEffect() of contacts our groups context.
 	function handleRefresh() {
 		if (dataListContent === 'contacts') {
 			foundContactsDispatch({ type: 'TOGGLE_REFRESH' });
@@ -66,7 +66,7 @@ function DataList() {
 		}
 	}
 
-	// handler for opening the groupDialog(creating a group)
+	// Handler for opening the groupDialog(creating a group)
 	function handleOpenGroupDialog() {
 		layoutDispatch({ type: 'SHOW_GROUPDIALOG', value: true });
 	}
