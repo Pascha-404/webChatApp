@@ -4,6 +4,7 @@ import { Grid } from '@mui/material';
 
 import useStyles from './PageContent.style';
 
+// Component to apply basic styling to pages
 function PageContent({ children }) {
 	const classes = useStyles();
 	return (
