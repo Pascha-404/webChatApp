@@ -6,11 +6,16 @@ import { useAuthDispatch } from '../../contexts/auth.context';
 
 import useStyles from './Options.style';
 
+/* 
+Component to display App Options.
+Change DisplayName, Avatar Photo or LogOut from here.
+*/
 function Options() {
 	const authDispatch = useAuthDispatch();
 	const navigate = useNavigate();
 	const classes = useStyles();
 
+	// Handler for signOut and navigate back to AuthPage.
 	function handleSignout() {
 		authDispatch({ type: 'SIGNOUT' });
 		navigate('/auth');
