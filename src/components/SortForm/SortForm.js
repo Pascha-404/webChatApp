@@ -3,6 +3,10 @@ import { FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/mate
 
 import useStyles from './SortForm.style';
 
+/* 
+SortForm Component to sort contacts, messages, groups, ... 
+Work in progress on that.
+*/
 function SortForm() {
 	const classes = useStyles();
 	return (
