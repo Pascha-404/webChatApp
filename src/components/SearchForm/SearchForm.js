@@ -4,6 +4,10 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import useStyles from './SearchForm.style';
 
+/* 
+SearchForm Component to search/filter contacts, messages, groups, ... 
+Work in progress on that.
+*/
 function SearchForm() {
 	const classes = useStyles();
 	return (
