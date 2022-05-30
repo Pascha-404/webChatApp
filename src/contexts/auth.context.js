@@ -16,6 +16,7 @@ import {
 const AuthContext = createContext();
 const AuthDispatch = createContext();
 
+// Function to simplify the use of AuthContext in components.
 function useAuth() {
 	const context = useContext(AuthContext);
 	if (context === undefined) {
@@ -23,6 +24,8 @@ function useAuth() {
 	}
 	return context;
 }
+
+// Function to simplify the use of AuthDispatch in components.
 function useAuthDispatch() {
 	const dispatch = useContext(AuthDispatch);
 	if (dispatch === undefined) {
@@ -31,6 +34,10 @@ function useAuthDispatch() {
 	return dispatch;
 }
 
+/* 
+Authentication Provider to handle context for the auth process and state.
+Has a isRedirected state which is saved in localStorage to handle redirects from authProviders.
+*/
 function AuthProvider({ children }) {
 	const navigate = useNavigate();
 	const [isRedirected, setIsRedirected] = useLocalStorage('webChat_redirect', false);
@@ -48,10 +55,17 @@ function AuthProvider({ children }) {
 		errorCode: '',
 	});
 
+	 /* 
+	 uses checkRedirectData from firebase.config.js file. 
+	 Checks after redirect the incoming userData.
+	 If User exists in DB => just reset isRedirected value.
+	 If user !exists in DB => create User in DB and reset isRedirected value. 
+	 */
 	useEffect(() => {
 		checkRedirectData(setIsRedirected);
 	}, [setIsRedirected]);
 
+	// Checks if context has a uuid. If true => navigate to mainpage
 	useEffect(() => {
 		if (auth.uuid) {
 			dispatch({ type: 'SET_STATE', state: { loading: false } });
@@ -62,6 +76,11 @@ function AuthProvider({ children }) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [auth.uuid]);
 
+	/* 
+	Listens for changes in state of auth methods.
+	If true => executes the method with provided data from state to authenticate and resets the state.
+	Methods are provided through firebase.config.js file.
+	*/
 	useEffect(() => {
 		if (auth.regAnonym) {
 			registerAnonym(auth.loginId, dispatch);
