@@ -11,6 +11,7 @@ const UserChatsDispatch = createContext();
 const GroupChatsContext = createContext();
 const GroupChatsDispatch = createContext();
 
+// Function to simplify the use of UserChatsContext in components.
 function useUserChats() {
 	const context = useContext(UserChatsContext);
 	if (context === undefined) {
@@ -19,6 +20,7 @@ function useUserChats() {
 	return context;
 }
 
+// Function to simplify the use of UserChatsDispatch in components.
 function useUserChatsDispatch() {
 	const dispatch = useContext(UserChatsDispatch);
 	if (dispatch === undefined) {
@@ -26,6 +28,8 @@ function useUserChatsDispatch() {
 	}
 	return dispatch;
 }
+
+// Function to simplify the use of GroupChatsContext in components.
 function useGroupChats() {
 	const context = useContext(GroupChatsContext);
 	if (context === undefined) {
@@ -34,6 +38,7 @@ function useGroupChats() {
 	return context;
 }
 
+// Function to simplify the use of GroupChatsDispatch in components.
 function useGroupChatsDispatch() {
 	const dispatch = useContext(GroupChatsDispatch);
 	if (dispatch === undefined) {
@@ -42,6 +47,10 @@ function useGroupChatsDispatch() {
 	return dispatch;
 }
 
+/* 
+Chats Provider to handle context for Group- and Userchats.
+Fetches in use*ChatReducer() group and userChats, based on userContext.
+*/
 function ChatsProvider({ children }) {
 	const user = useUser();
 	const groups = useGroups();
@@ -60,7 +69,13 @@ function ChatsProvider({ children }) {
 		[]
 	);
 
+	// Checks if there are userChats and executes getUnknownContactData
 	useEffect(() => {
+		/* 
+		getUnknowContactData filters out userChats with users which are not in contacts.
+		Unknown users gets then fetched and added to contacts context with the key of "isFriend": false.
+		This data is needed for displaying DataCards and ChatBoxHeader.
+		*/
 		async function getUnknownContactData(userChats) {
 			setIsFetching(true);
 			let chatPartner = userChats.map(chat => {
