@@ -12,6 +12,7 @@ const ContactsDispatch = createContext();
 const FindContactsContext = createContext();
 const FindContactsDispatch = createContext();
 
+// Function to simplify the use of ContactsContext in components.
 function useContacts() {
 	const context = useContext(ContactsContext);
 	if (context === undefined) {
@@ -20,6 +21,7 @@ function useContacts() {
 	return context;
 }
 
+// Function to simplify the use of ContactsDispatch in components.
 function useContactsDispatch() {
 	const dispatch = useContext(ContactsDispatch);
 	if (dispatch === undefined) {
@@ -28,6 +30,7 @@ function useContactsDispatch() {
 	return dispatch;
 }
 
+// Function to simplify the use of FindContactsContext in components.
 function useFindContacts() {
 	const context = useContext(FindContactsContext);
 	if (context === undefined) {
@@ -35,6 +38,8 @@ function useFindContacts() {
 	}
 	return context;
 }
+
+// Function to simplify the use of FindContactsDispatch in components.
 function useFindContactsDispatch() {
 	const dispatch = useContext(FindContactsDispatch);
 	if (dispatch === undefined) {
@@ -43,6 +48,11 @@ function useFindContactsDispatch() {
 	return dispatch;
 }
 
+/* 
+Contacts Provider to handle Context for Contacts and finding Contacts/Users.
+Fetches contactsData based on the provided information through userContext.
+foundContactsData fetches a list of all Users, excluding already known Contacts.
+*/
 function ContactsProvider({ children }) {
 	const { contacts, uuid } = useUser();
 	const [contactsData, dispatch, isFetching] = useContactReducer(
