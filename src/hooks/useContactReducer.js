@@ -5,6 +5,11 @@ const useContactReducer = (reducer, userContacts, initialValue) => {
 	const [state, dispatch] = useReducer(reducer, initialValue);
 	const [isFetching, setIsFetching] = useState(true);
 
+	/* 
+	Filters provided userContacts(Object with userId's as keys and boolean value) where value = true (is friend).
+	Then fetch contact, create contactObj with fetchedData and add "isFriend" key with "true" boolean. 
+	Resolve finally all promises and set newly created array of contactObjects as state.
+	*/
 	useEffect(() => {
 		setIsFetching(true);
 		const activeContacts = Object.keys(userContacts).filter(
