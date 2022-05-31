@@ -9,6 +9,7 @@ import Loading from '../components/Loading';
 const MessagesContext = createContext();
 const MessagesDispatch = createContext();
 
+// Function to simplify the use of MessagesContext in components.
 function useMessages() {
 	const context = useContext(MessagesContext);
 	if (context === undefined) {
@@ -17,6 +18,7 @@ function useMessages() {
 	return context;
 }
 
+// Function to simplify the use of MessagesDispatch in components.
 function useMessagesDispatch() {
 	const dispatch = useContext(MessagesDispatch);
 	if (dispatch === undefined) {
@@ -25,10 +27,16 @@ function useMessagesDispatch() {
 	return dispatch;
 }
 
+/* 
+Messages Provider to handle Context for Messages.
+Fetches messages for the currently active/viewed chat in the chatBox(data provided through layoutContext).
+*/
 function MessagesProvider({ children }) {
 	const { chatBox } = useLayout();
 	const [messages, dispatch] = useMessageReducer(messageReducer, {});
 	const [isFetching, setIsFetching] = useState(false);
+
+	// Checks if chatBox is active(has chatId/changed chatId), fetches all messages for that chat and sets it as context state.
 	useEffect(() => {
 		let isActive = true;
 		if (chatBox.id && isActive) {
