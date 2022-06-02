@@ -4,7 +4,8 @@ import fetchDatabase from '../services/api/fetchDatabase';
 const useMessageReducer = (reducer, chatBox, setIsFetching, initialVal) => {
 	const [state, dispatch] = useReducer(reducer, initialVal);
 
-	// Checks if chatBox is active(has chatId/changed chatId), fetches all messages for that chat and sets it as context state.
+	// Checks if chatBox is active(has chatId/changed chatId), 
+	// fetches all messages for that chat and sets it as context state.
 	useEffect(() => {
 		let isActive = true;
 		if (chatBox.id && isActive) {
@@ -23,6 +24,7 @@ const useMessageReducer = (reducer, chatBox, setIsFetching, initialVal) => {
 		return () => {
 			isActive = false;
 		};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [chatBox.id, dispatch]);
 
 	return [state, dispatch];
