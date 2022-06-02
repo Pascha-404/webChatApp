@@ -33,29 +33,13 @@ Fetches messages for the currently active/viewed chat in the chatBox(data provid
 */
 function MessagesProvider({ children }) {
 	const { chatBox } = useLayout();
-	const [messages, dispatch] = useMessageReducer(messageReducer, {});
 	const [isFetching, setIsFetching] = useState(false);
-
-	// Checks if chatBox is active(has chatId/changed chatId), fetches all messages for that chat and sets it as context state.
-	useEffect(() => {
-		let isActive = true;
-		if (chatBox.id && isActive) {
-			setIsFetching(true);
-			fetchDatabase(`/messages/${chatBox.id}`)
-				.then(data => {
-					if (!data) {
-						data = {};
-					}
-					dispatch({ type: 'SET_STATE', payload: data });
-				})
-				.catch(error => console.log(error));
-
-			setIsFetching(false);
-		}
-		return () => {
-			isActive = false;
-		};
-	}, [chatBox.id, dispatch]);
+	const [messages, dispatch] = useMessageReducer(
+		messageReducer,
+		chatBox,
+		setIsFetching,
+		{}
+	);
 
 	if (chatBox.id) {
 		return (
