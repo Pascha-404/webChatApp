@@ -5,6 +5,11 @@ const useGroupReducer = (reducer, userGroups, initialValue) => {
 	const [state, dispatch] = useReducer(reducer, initialValue);
 	const [isFetching, setIsFetching] = useState(true);
 
+	/* 
+	Filters provided userGroups(Object with userId's as keys and boolean value) where value = true (is member).
+	Then fetch group, create groupObject with fetchedData and add "isMember" key with "true" boolean. 
+	Resolve finally all promises and set newly created array of groupObjects as state.
+	*/
 	useEffect(() => {
 		async function fetchGroupsData() {
 			try {
