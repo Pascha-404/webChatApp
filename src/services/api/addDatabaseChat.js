@@ -2,7 +2,7 @@ import { database } from '../../firebase.config';
 import { ref, push, update, child } from 'firebase/database';
 
 function addDatabaseChat(paramsObj) {
-	// Get a key for a new Post.
+	// Get a key for a new Chat.
 	const newChatKey = push(child(ref(database), '/userChats')).key;
 
 	const chatData = {
@@ -13,7 +13,8 @@ function addDatabaseChat(paramsObj) {
 		msgTimestamp: null,
 	};
 
-	// Write the nmessage data simultaneously in the messages of the userChat list and the user's post list.
+	// Create a newChat in the Database with chatData.
+	// Add chatId to both chat participants (user and target) profile with a value of true.
 	const updates = {};
 	updates[`/userChats/${newChatKey}`] = chatData;
 	updates[`/users/${paramsObj.user}/userChats/${newChatKey}`] = true;
