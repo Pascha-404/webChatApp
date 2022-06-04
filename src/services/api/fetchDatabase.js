@@ -1,6 +1,7 @@
 import { database } from '../../firebase.config';
 import { ref, child, get } from 'firebase/database';
 
+// Fetches data from provided path and returns snapshot of that data.
 const fetchDatabase = path => {
 	const dbRef = ref(database);
 
