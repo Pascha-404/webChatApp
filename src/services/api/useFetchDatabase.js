@@ -5,6 +5,8 @@ import { ref, onValue } from 'firebase/database';
 const useFetchDatabase = path => {
 	const [state, setState] = useState({});
 	const [isFetching, setIsFetching] = useState(true);
+
+	// Fetches Database for provided path and sets state with responding data.
 	useEffect(() => {
 		const fetchData = () => {
 			setIsFetching(true);
