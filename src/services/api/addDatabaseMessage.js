@@ -1,6 +1,8 @@
 import { database } from '../../firebase.config';
 import { ref, push, update, child } from 'firebase/database';
 
+// Function needs a chatType property of 'userChat' or 'groupChat'.
+// chatType defines where in Database the data is added.
 function addDatabaseMessage(chatType, paramsObj) {
 	// Get a key for a new Post.
 	const newMsgKey = push(child(ref(database), '/messages/' + paramsObj.chatId)).key;
@@ -13,7 +15,8 @@ function addDatabaseMessage(chatType, paramsObj) {
 		msgId: newMsgKey,
 	};
 
-	// Write the nmessage data simultaneously in the messages of the userChat list and the user's post list.
+	// Add messageData to messages object in Database.
+	// Update chatroom data for lastMessage.
 	const updates = {};
 	updates[`/messages/${paramsObj.chatId}/${newMsgKey}`] = messageData;
 	if (chatType === 'userChat') {
