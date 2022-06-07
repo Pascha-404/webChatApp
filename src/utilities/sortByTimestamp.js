@@ -1,3 +1,5 @@
+// Combines all arrays in arrayOfArrays and sorts them by the value of msgTimestamp or chatTimestamp key.
+// Sorts by default in ascending order.
 function sortByTimestamp(arrayOfArrays, order = 'ascending') {
 	const flattenedArray = arrayOfArrays.flat();
 	if (order === 'ascending') {
