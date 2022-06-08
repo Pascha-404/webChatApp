@@ -10,6 +10,7 @@ function Routing() {
 	return (
 		<AuthProvider>
 			<Routes>
+				{/* Protected Route => Route can just pass if there is a authUser in authContext */}
 				<Route
 					path='/'
 					element={
@@ -19,6 +20,7 @@ function Routing() {
 					}
 				/>
 				<Route path='auth' element={<AuthPage />}>
+					{/* element property appears through Outlet component in AuthPage */}
 					<Route index element={<AuthForm formState='authType' />} />
 					<Route
 						path='email'
