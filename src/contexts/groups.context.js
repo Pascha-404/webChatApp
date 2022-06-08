@@ -12,6 +12,7 @@ const GroupsDispatch = createContext();
 const FindGroupsContext = createContext();
 const FindGroupsDispatch = createContext();
 
+// Function to simplify the use of GroupsContext in components.
 function useGroups() {
 	const context = useContext(GroupsContext);
 	if (context === undefined) {
@@ -20,6 +21,7 @@ function useGroups() {
 	return context;
 }
 
+// Function to simplify the use of GroupsDispatch in components.
 function useGroupsDispatch() {
 	const dispatch = useContext(GroupsDispatch);
 	if (dispatch === undefined) {
@@ -27,6 +29,8 @@ function useGroupsDispatch() {
 	}
 	return dispatch;
 }
+
+// Function to simplify the use of FindGroupsContext in components.
 function useFindGroups() {
 	const context = useContext(FindGroupsContext);
 	if (context === undefined) {
@@ -35,6 +39,7 @@ function useFindGroups() {
 	return context;
 }
 
+// Function to simplify the use of FindGroupsDispatch in components.
 function useFindGroupsDispatch() {
 	const dispatch = useContext(FindGroupsDispatch);
 	if (dispatch === undefined) {
@@ -43,6 +48,11 @@ function useFindGroupsDispatch() {
 	return dispatch;
 }
 
+/* 
+Groups Provider to handle Context for Groups and finding Groups.
+Fetches groupsData based on the provided information through userContext.
+foundGroupsData fetches a list of all Groups, excluding already known Groups.
+*/
 function GroupsProvider({ children }) {
 	const { groups } = useUser();
 	const [groupsData, dispatch, isFetching] = useGroupReducer(groupReducer, groups, []);

@@ -4,6 +4,11 @@ import { fetchDatabase } from '../services/api';
 const useGroupChatReducer = (reducer, activeGroups, setIsFetching, initialValue) => {
 	const [state, dispatch] = useReducer(reducer, initialValue);
 
+	/* 
+	Maps through activeGroups (groups user is a member of), to fetch the connected
+	Chatroom. Adds for every chat a "type": "groupChat".
+	After every groupChat was fetched resolves all Promises and sets the state.
+	*/
 	useEffect(() => {
 		setIsFetching(true);
 		const fetchedChats = activeGroups.map(async group => {

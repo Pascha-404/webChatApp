@@ -1,5 +1,10 @@
 import { useRef, useEffect } from 'react';
 
+/* 
+useScrollIntoView returns a elementRef that needs to be attached to the element that
+should be scrolled into view. The function takes 1 property (scrollBehavior),
+which is by default 'instant'. There is also 'smooth' which can be used.
+*/
 const useScrollIntoView = (scrollBehavior = 'instant') => {
 	const elementRef = useRef();
 
@@ -15,7 +20,9 @@ const useScrollIntoView = (scrollBehavior = 'instant') => {
 			);
 		}
 	};
-
+	// First checks if localStorage entry for layout exists.
+	// If true grab data and check if chatBox.id has a value.
+	// If true scroll to the elementRef we have placed.
 	useEffect(() => {
 		if (localStorage.hasOwnProperty('webChat_layout')) {
 			const layoutLocalStore = JSON.parse(localStorage.getItem('webChat_layout'));

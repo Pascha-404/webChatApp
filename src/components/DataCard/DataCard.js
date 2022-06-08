@@ -21,8 +21,15 @@ import { addDatabaseChat } from '../../services/api';
 import UserAvatar from '../UserAvatar';
 import useStyles from './DataCard.style';
 
+/* 
+DataCard component for DataList.
+Used to display Contacts, Chats and Groups.
+Gets props through maping different contexts data in DataList.
+*/
 function DataCard({ target, msg, chatId, cardType, isAdmin }) {
 	const { chatBox } = useLayout();
+	// isActive = true if current DataCard is a displayed chat in the ChatBox.
+	// used to highlight the styling of that card.
 	const isActive = chatId === chatBox.id;
 	const classes = useStyles({ isActive });
 	const user = useUser();
@@ -39,10 +46,17 @@ function DataCard({ target, msg, chatId, cardType, isAdmin }) {
 	const layoutDispatch = useLayoutDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
+	// isUserMsg = true if DataCard has msg prop (userChat || groupChat) + last msg is written by the user.
 	const isUserMsg = msg && Object.keys(msg)[0] === user.uuid ? true : false;
 	const isGroupChat = dataListContent === 'inbox' && cardType === 'groupChat';
 	const isUserChat = dataListContent === 'inbox' && cardType === 'userChat';
 
+	/* 
+	Handler for clicking on the card. Uses provided cardType prop.
+	If userChat, group or groupChat sets the chatBox to open the chat.
+	If contact => check if there is already a chat with that contact ? open that chat : create and open.
+	If in findGroup/User tab => join group and open chat || add contact, create chat and open it.
+	*/
 	const handleCardClick = cardType => () => {
 		switch (cardType) {
 			case 'userChat':
@@ -111,6 +125,23 @@ function DataCard({ target, msg, chatId, cardType, isAdmin }) {
 		}
 	};
 
+	// Handler for opening the menu(arrowDown icon).
+	function handleShowOptions(e) {
+		e.stopPropagation();
+		setAnchorEl(e.currentTarget);
+	}
+
+	// Handler for closing the menu(arrowDown icon).
+	function handleCloseOptions(e) {
+		e.stopPropagation();
+		setAnchorEl(null);
+	}
+
+	/* 
+	Handler for clicking on the menu options.
+	Provides cases for deleting chats, contacts and groups.
+	Adding contacts, joining groups and leaving them (without delete).
+	*/
 	const handleMenuClick = type => e => {
 		e.stopPropagation();
 		switch (type) {
@@ -168,22 +199,13 @@ function DataCard({ target, msg, chatId, cardType, isAdmin }) {
 		}
 	};
 
-	function handleShowOptions(e) {
-		e.stopPropagation();
-		setAnchorEl(e.currentTarget);
-	}
-
-	function handleCloseOptions(e) {
-		e.stopPropagation();
-		setAnchorEl(null);
-	}
-
 	return (
 		<Card className={classes.dataCard} onClick={handleCardClick(cardType)}>
 			<CardHeader
 				avatar={<UserAvatar userName={target.displayName} photoURL={target.photoURL} />}
 				title={target.displayName}
 				subheader={
+					// if component has msg prop and msg is by user display a small icon.
 					msg
 						? isUserMsg
 							? `\u27A5 ${Object.values(msg)[0]}`
@@ -197,6 +219,10 @@ function DataCard({ target, msg, chatId, cardType, isAdmin }) {
 				}
 			/>
 
+			{/* 
+			Display different options for the DataCard depending on where in the app you are.
+			Inbox, Contacts, Groups and the "find" tabs.
+			*/}
 			<Menu open={open} anchorEl={anchorEl} onClose={handleCloseOptions}>
 				{isUserChat && (
 					<MenuItem onClick={handleMenuClick('DELETE_CHAT')}>Delete Chat</MenuItem>

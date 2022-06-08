@@ -4,6 +4,12 @@ import { fetchDatabase } from '../services/api';
 const useFindGroupReducer = (reducer, knownGroups, initialValue) => {
 	const [state, dispatch] = useReducer(reducer, initialValue);
 
+	/* 
+	findNewGroups first fetches all users from the database.
+	As next step the fetchedGroups gets filtered by groups the user is already
+	a member of, and groups with a "isDeleted": "true".
+	Finally the state is set.
+	*/
 	useEffect(() => {
 		async function findNewGroups() {
 			const fetchedGroups = await fetchDatabase('/groups');

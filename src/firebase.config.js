@@ -14,6 +14,7 @@ import {
 	getRedirectResult,
 } from 'firebase/auth';
 
+// Sensitive data provided through .env file.
 const firebaseConfig = {
 	apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
 	authDomain: process.env.REACT_APP_FIREBASE_PROJECT_ID + '.firebaseapp.com',
@@ -34,10 +35,13 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const dbRef = ref(database);
 const firebaseAuth = getAuth(app);
+// Uses language of device for authentication process.
 firebaseAuth.useDeviceLanguage();
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
+// Sets authentication persistence to 'session'.
+// If session is closed the user needs to authenticate again on next visit.
 async function setPersistenceSession() {
 	try {
 		await setPersistence(firebaseAuth, browserSessionPersistence);
@@ -46,6 +50,8 @@ async function setPersistenceSession() {
 	}
 }
 
+// Sets authentication persistence to 'local'.
+// User just needs to authenticate again if he logged out before.
 async function setPersistenceLocal() {
 	try {
 		await setPersistence(firebaseAuth, browserLocalPersistence);
@@ -54,6 +60,8 @@ async function setPersistenceLocal() {
 	}
 }
 
+// Registers the user anonym and creates a new user in database with provided loginId.
+// Persists for one session, can't reenter that account after session was closed.
 async function registerAnonym(loginId, dispatch) {
 	try {
 		await setPersistenceSession();
@@ -78,6 +86,8 @@ async function registerAnonym(loginId, dispatch) {
 	}
 }
 
+// Registers the user with email and password. Creates a new user in database.
+// If rememberMe was clicked/choosen the login persists till user logged out.
 async function registerWithEmail(loginId, password, rememberMe, dispatch) {
 	try {
 		if (rememberMe) {
@@ -103,6 +113,8 @@ async function registerWithEmail(loginId, password, rememberMe, dispatch) {
 	}
 }
 
+// Login with provided credentials in already existing user account.
+// If rememberMe was clicked/choosen the login persists till user logged out.
 async function logInWithEmail(loginId, password, rememberMe, dispatch) {
 	try {
 		if (rememberMe) {
@@ -119,6 +131,9 @@ async function logInWithEmail(loginId, password, rememberMe, dispatch) {
 	}
 }
 
+// Login with google account. Navigates to google authentication page.
+// Sets webChat_redirect in localstorage to true => Checks if user exists in DB. (checkRedirectData function below)
+// Login persists for the session.
 async function logInWithGoogle(dispatch) {
 	try {
 		localStorage.setItem('webChat_redirect', true);
@@ -132,6 +147,9 @@ async function logInWithGoogle(dispatch) {
 	}
 }
 
+// Login with github account. Navigates to github authentication page.
+// Sets webChat_redirect in localstorage to true => Checks if user exists in DB. (checkRedirectData function below)
+// Login persists for the session.
 async function logInWithGithub(dispatch) {
 	try {
 		localStorage.setItem('webChat_redirect', true);
@@ -146,6 +164,11 @@ async function logInWithGithub(dispatch) {
 	}
 }
 
+/* 
+	 Checks after redirect the incoming userData. (Redirect from google or github)
+	 If User exists in DB => just reset isRedirected value.
+	 If user !exists in DB => create User in DB and reset isRedirected value. 
+	 */
 async function checkRedirectData(setStoreFunction) {
 	try {
 		const res = await getRedirectResult(firebaseAuth);

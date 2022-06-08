@@ -9,6 +9,7 @@ import Loading from '../components/Loading';
 const UserContext = createContext();
 const UserDispatch = createContext();
 
+// Function to simplify the use of UserContext in components.
 function useUser() {
 	const context = useContext(UserContext);
 	if (context === undefined) {
@@ -16,6 +17,8 @@ function useUser() {
 	}
 	return context;
 }
+
+// Function to simplify the use of UserDispatch in components.
 function useUserDispatch() {
 	const dispatch = useContext(UserDispatch);
 	if (dispatch === undefined) {
@@ -24,6 +27,10 @@ function useUserDispatch() {
 	return dispatch;
 }
 
+/* 
+User Provider to handle Context for the currently autheticated User.
+Fetches userData based on the provided uuid through authContext.
+*/
 function UserProvider({ children }) {
 	const { uuid } = useAuth();
 	const [userData, dispatch, isFetching] = useUserReducer(userReducer, uuid, {});

@@ -5,6 +5,11 @@ const useUserReducer = (reducer, userId, initialValue) => {
 	const [state, dispatch] = useReducer(reducer, initialValue);
 	const [isFetching, setIsFetching] = useState(true);
 
+	/* 
+	Fetches the currently authenticated userData from the Database.
+	userId is provided through authContext.
+	Sets fetched data as state.
+	*/
 	useEffect(() => {
 		setIsFetching(true);
 		async function getUserData() {

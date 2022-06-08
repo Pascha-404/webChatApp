@@ -26,6 +26,10 @@ import {
 import useInputState from '../../hooks/useInputState';
 import addDatabaseGroup from '../../services/api/addDatabaseGroup';
 
+/* 
+GroupFormDialog component gets (if opened) overlayed over the page
+and shows a form to create a new group.
+*/
 function GroupFormDialog() {
 	const { groupDialog } = useLayout();
 	const { uuid } = useUser();
@@ -36,10 +40,13 @@ function GroupFormDialog() {
 	const [getMembers, setGetMembers] = useState(true);
 	const { state, handleChange, reset } = useInputState('');
 
+	// Handler for closing the dialog/component
 	function handleCloseDialog() {
 		layoutDispatch({ type: 'SHOW_GROUPDIALOG', value: false });
 	}
 
+	// Handles checking/unchecking Checkbox for inivting members to the group.
+	// Finds index of targetedMember, creates and modifies a new array and sets the members state to that.
 	const handleChangeChecked = targetedMember => e => {
 		const memberIndex = members.findIndex(member => member.uuid === targetedMember.uuid);
 		let modifiedMembers = members;
@@ -47,6 +54,11 @@ function GroupFormDialog() {
 		setMembers([...modifiedMembers]);
 	};
 
+	/* 
+	Handler for submiting the new created group.
+	Creates the new group in the database, updates own groupState to join that group,
+	resets all inputs and closes the dialog.
+	 */
 	function handleSubmit(e) {
 		e.preventDefault();
 		const addedMembers = members.filter(member => member.isChecked);
@@ -61,6 +73,8 @@ function GroupFormDialog() {
 		handleCloseDialog();
 	}
 
+	// If true creats a list of possible members for the process of creating a new group.
+	// List contains only known contacts. Adds a extra isChecked key to handle invite status.
 	useEffect(() => {
 		if (getMembers) {
 			const createList = contacts

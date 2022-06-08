@@ -24,6 +24,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useAuthDispatch } from '../../contexts/auth.context';
 import useStyles from './AuthForm.style';
 
+/* 
+Form Component which is displayed on the right side of the loginPage.
+Gets formState and authType props through path which is declared in Routes.js file.
+*/
 function AuthForm({ formState, authType }) {
 	const classes = useStyles({ authType });
 	const navigate = useNavigate();
@@ -37,6 +41,11 @@ function AuthForm({ formState, authType }) {
 	});
 	const [signInType, setSignInType] = useState(authType);
 
+	/* 
+	Checks if given property(key) in 'values' state has a boolean value
+	If true it gets changed to the opposite of what it is right now
+	If false it is a string value and gets replaced with the event target value
+	*/
 	const handleChange = prop => event => {
 		if (typeof values[prop] === 'boolean') {
 			setValues({ ...values, [prop]: !values[prop] });
@@ -45,6 +54,7 @@ function AuthForm({ formState, authType }) {
 		}
 	};
 
+	// Handler for the visibility of the typed in password
 	const handleClickShowPassword = () => {
 		setValues({
 			...values,
@@ -56,17 +66,28 @@ function AuthForm({ formState, authType }) {
 		event.preventDefault();
 	};
 
+	// Handler for setting the state to the given data-value prop of each authType button
 	const handleSigninMethod = e => {
 		const { value } = e.currentTarget.dataset;
 		setSignInType(value);
 	};
 
+	/* 
+	Handler for the goBack arrow button
+	Navigates back to last path and resets loginId + password in state 
+	Resets error state in the auth context
+	*/
 	const handleGoBack = e => {
 		authDispatch({ type: 'SET_STATE', state: { error: false, errorCode: '' } });
 		setValues({ ...values, loginId: '', password: '' });
 		navigate(-1);
 	};
 
+	/* 
+	Handler for the confirm button in the anonymous authentication,
+	register via email or login via email. Takes needed state (loginId, password and/or rememberMe)
+	and calls in the auth context the needed dispatch type.
+	*/
 	const handleConfirm = () => {
 		if (authType === 'authAnonym') {
 			authDispatch({ type: 'AUTH_ANONYM', loginId: values.loginId });
@@ -87,6 +108,10 @@ function AuthForm({ formState, authType }) {
 		}
 	};
 
+	/* 
+	Checks if signInType changes to google or github type.
+	If true a redirect to the provider gets triggered to authenticate.
+	*/
 	useEffect(() => {
 		if (signInType === 'authGoogle') {
 			authDispatch({ type: 'AUTH_GOOGLE' });
@@ -97,15 +122,18 @@ function AuthForm({ formState, authType }) {
 
 	return (
 		<section className={classes.authForm}>
-			{formState !== 'authType' && (
-				<IconButton
-					size='medium'
-					aria-label='go back'
-					onClick={handleGoBack}
-					className={classes.backBtn}>
-					<ArrowBack fontSize='inherit' />
-				</IconButton>
-			)}
+			{
+				// Render goBack button just if authType is chosen
+				formState !== 'authType' && (
+					<IconButton
+						size='medium'
+						aria-label='go back'
+						onClick={handleGoBack}
+						className={classes.backBtn}>
+						<ArrowBack fontSize='inherit' />
+					</IconButton>
+				)
+			}
 			{formState === 'authType' && (
 				<React.Fragment>
 					<Typography className={classes.heading}>Sign in to start messaging</Typography>
@@ -209,6 +237,7 @@ function AuthForm({ formState, authType }) {
 						variant='contained'
 						className={`${classes.interactionField} confirmBtn`}
 						onClick={handleConfirm}
+						// Disable button if no loginId or password was provided
 						disabled={
 							values.loginId === '' ||
 							(authType === 'email' && values.password === '') ||
@@ -237,18 +266,25 @@ function AuthForm({ formState, authType }) {
 					)}
 				</React.Fragment>
 			)}
-			{error && (
-				<Alert severity='error' className={classes.errorAlert}>
-					{errorCode === 'auth/email-already-in-use' &&
-						'This E-Mail is already beeing used'}
-					{(errorCode === 'auth/invalid-email' ||
-						errorCode === 'auth/wrong-password' ||
-						errorCode === 'auth/internal-error' ||
-						errorCode === 'auth/user-not-found') &&
-						'E-Mail or password is wrong'}
-					{errorCode === 'auth/weak-password' && 'Password must be at least 6 characters'}
-				</Alert>
-			)}
+			{
+				/* 
+				Set a errorMessage based on the error state
+				If wrong password or user not found display a unspecific message for security reasons
+				*/
+				error && (
+					<Alert severity='error' className={classes.errorAlert}>
+						{errorCode === 'auth/email-already-in-use' &&
+							'This E-Mail is already beeing used'}
+						{(errorCode === 'auth/invalid-email' ||
+							errorCode === 'auth/wrong-password' ||
+							errorCode === 'auth/internal-error' ||
+							errorCode === 'auth/user-not-found') &&
+							'E-Mail or password is wrong'}
+						{errorCode === 'auth/weak-password' &&
+							'Password must be at least 6 characters'}
+					</Alert>
+				)
+			}
 		</section>
 	);
 }

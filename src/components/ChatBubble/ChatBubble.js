@@ -1,6 +1,7 @@
 import React from 'react';
 import useStyles from './ChatBubble.style';
 
+// Simple component to display chatMessages
 function ChatBubble(props) {
 	const classes = useStyles(props);
 	const { msg, time } = props;
